@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../src/output.css" rel="stylesheet">
+    <style>
+        /* Optional: Smooth transition between forms */
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css');
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900 font-sans">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div
+                    class="w-8 h-8 bg-red-700 rounded-full flex items-center justify-center font-bold text-white text-xl">
+                    RS</div>
+                <span class="text-2xl font-bold text-gray-900">RS Medstar Pharmacy</span>
+            </div>
+            <div>
+                <a href="../index.html" class="text-base font-medium text-red-600 hover:text-gray-700 mr-5"><i class="fa-solid fa-house"></i></a>
+                <a href="#" class="text-base font-medium text-gray-600 hover:text-red-700">Need Help?</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 md:py-24 flex items-center justify-center min-h-[calc(100vh-140px)]">
+        <div
+            class="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row border border-gray-100">
+
+            <div class="w-full md:w-2/5 bg-red-700 p-10 md:p-16 text-white flex flex-col justify-center">
+                <div class="flex items-center justify-center md:justify-start gap-4 mb-8">
+                    <div class="w-20 h-20 bg-white p-2 rounded-2xl shadow-inner ">
+                        <img src="../assets/image/rs-logo.png" alt="RS Pharmacy Logo"
+                            class="w-full h-full object-contain">
+                    </div>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight tracking-tight">Your Health, Our
+                    Priority.</h2>
+                <p class="text-red-100 text-lg mb-8 leading-relaxed">Log in or create an account to manage your
+                    prescriptions, book appointments, and explore wellness solutions.</p>
+                <div class="mt-auto pt-10 border-t border-red-600/50">
+                    <p class="text-sm text-red-200">Trusted Pharmaceutical Care Since [Year]</p>
+                </div>
+            </div>
+
+            <div class="w-full md:w-3/5 p-10 md:p-16">
+
+                <div class="flex items-center gap-6 mb-12 border-b border-gray-200">
+                    <button id="loginTab"
+                        class="cursor-pointer pb-3 text-lg font-semibold text-red-700 border-b-2 border-red-700 focus:outline-none"
+                        onclick="showForm('login')">Login</button>
+                    <button id="signupTab"
+                        class="cursor-pointer pb-3 text-lg font-medium text-gray-500 hover:text-red-600 focus:outline-none"
+                        onclick="showForm('signup')">Create Account</button>
+                </div>
+
+                <form id="loginForm" class="fade-in space-y-6">
+                    <h3 class="text-3xl font-bold text-gray-950 mb-8">Welcome Back</h3>
+
+                    <div>
+                        <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-1.5">Email
+                            Address</label>
+                        <input type="email" id="loginEmail" name="email" required placeholder="you@email.com"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-200 focus:border-red-500 transition duration-150">
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="loginPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                            <a href="#" class="text-sm font-medium text-red-700 hover:text-red-800">Forgot Password?</a>
+                        </div>
+                        <input type="password" id="loginPassword" name="password" required placeholder="••••••••"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-200 focus:border-red-500 transition duration-150">
+                    </div>
+
+                    <div class="flex items-center">
+                        <input type="checkbox" id="rememberMe" name="remember"
+                            class="w-4 h-4 text-red-700 border-gray-300 rounded focus:ring-red-500">
+                        <label for="rememberMe" class="ml-2 block text-sm text-gray-700">Remember for 30 days</label>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-red-700 text-white font-semibold py-3.5 px-6 rounded-xl hover:bg-red-800 transition duration-150 text-lg shadow-sm">
+                        Sign In
+                    </button>
+                </form>
+
+                <!-- CREATE ACC -->
+                <form id="signupForm" class="fade-in space-y-6 hidden">
+                    <h3 class=" text-3xl font-bold text-gray-950 mb-8">Create Your Account</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1.5">First
+                                Name</label>
+                            <input type="text" id="firstName" name="firstName" required placeholder="John"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-200 focus:border-red-500 transition duration-150">
+                        </div>
+                        <div>
+                            <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1.5">Last
+                                Name</label>
+                            <input type="text" id="lastName" name="lastName" required placeholder="Doe"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-200 focus:border-red-500 transition duration-150">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="signupEmail" class="block text-sm font-medium text-gray-700 mb-1.5">Email
+                            Address</label>
+                        <input type="email" id="signupEmail" name="email" required placeholder="john.doe@email.com"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-200 focus:border-red-500 transition duration-150">
+                    </div>
+
+                    <div>
+                        <label for="signupPassword" class="block text-sm font-medium text-gray-700 mb-1.5">Create
+                            Password</label>
+                        <input type="password" id="signupPassword" name="password" required
+                            placeholder="At least 8 characters"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-200 focus:border-red-500 transition duration-150">
+                        <p class="text-xs text-gray-500 mt-1">Must contain 8+ characters, one uppercase letter, and one
+                            number.</p>
+                    </div>
+
+                    <div class="flex items-start mt-4">
+                        <input type="checkbox" id="terms" name="terms" required
+                            class="w-4 h-4 mt-0.5 text-red-700 border-gray-300 rounded focus:ring-red-500">
+                        <label for="terms" class="ml-2 block text-sm text-gray-600 leading-relaxed">I agree to the <a
+                                id="tos" href="#" class="text-red-700 font-medium hover:text-red-800">Terms of
+                                Service</a> and <a id="pp" href="#"
+                                class="text-red-700 font-medium hover:text-red-800">Privacy Policy</a>.</label>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-red-700 text-white font-semibold py-3.5 px-6 rounded-xl hover:bg-red-800 transition duration-150 text-lg shadow-sm">
+                        Create Account
+                    </button>
+                </form>
+
+                <div class="mt-12 pt-10 border-t border-gray-200 text-center">
+                    <p class="text-sm text-gray-600 mb-6">Or continue with</p>
+                    <div class="flex items-center justify-center gap-4">
+                        <button
+                            class="flex items-center justify-center gap-3 px-6 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition duration-150 w-full max-w-xs">
+                            <img src="https://authjs.dev/img/providers/google.svg" alt="Google Logo" class="w-5 h-5">
+                            <span class="text-sm font-medium text-gray-700">Google</span>
+                        </button>
+                        <button
+                            class="flex items-center justify-center gap-3 px-6 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition duration-150 w-full max-w-xs">
+                            <img src="https://authjs.dev/img/providers/apple.svg" alt="Apple Logo" class="w-5 h-5">
+                            <span class="text-sm font-medium text-gray-700">Apple</span>
+                        </button>
+                    </div>
+                    <p id="formFooterText" class="text-sm text-gray-600 mt-10">Don't have an account? <a href="#"
+                            class="font-semibold text-red-700 hover:text-red-800" onclick="showForm('signup')">Sign up
+                            for free</a>.</p>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-100 mt-auto">
+        <div class="container mx-auto px-6 py-6 text-center text-sm text-gray-500">
+            &copy; 2026 RS Medstar Pharmacy. All rights reserved. | <a href="#" class="hover:text-red-700">Privacy Policy</a> |
+            <a href="#" class="hover:text-red-700">Terms of Service</a>
+        </div>
+        <div class="container mx-auto py-6 text-center text-sm">
+            &copy; Design with ❤️ <a href="#" class="hover:text-red-700">Robyn Kristoffer Fernandez</a>
+        </div>
+    </footer>
+
+    <script src="../assets/scripts/scripts.js" defer>
+    </script>
+</body>
+
+</html>

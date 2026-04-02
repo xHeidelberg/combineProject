@@ -1,0 +1,126 @@
+Home (Landing Page)
+│
+├── Home
+│   ├── Hero Section
+│   ├── Services
+│   ├── Featured Products
+│   ├── Book an Appointment
+│   └── Contact Info
+│
+├── Authentication
+│   ├── Sign In
+│   └── Sign Up
+│
+├── Shop / Products
+│   ├── All Products
+│   ├── Categories
+│   │   ├── Medicines
+│   │   ├── Vitamins & Supplements
+│   │   ├── Personal Care
+│   │   └── Medical Supplies
+│   ├── Product Details Page
+│   └── Search / Filter
+│
+├── Cart
+│   ├── View Cart
+│   └── Checkout
+│
+├── Appointments
+│   ├── Book Appointment
+│   ├── Available Schedule
+│   └── Appointment History (User)
+│
+├── User Dashboard
+│   ├── Profile
+│   ├── Order History
+│   ├── Appointments
+│   └── Settings
+│
+├── Admin Panel
+│   ├── Dashboard Overview
+│   ├── Manage Products
+│   │   ├── Add Product
+│   │   ├── Edit Product
+│   │   └── Delete Product
+│   │
+│   ├── Inventory Management
+│   │   ├── Stock Levels
+│   │   └── Restock Alerts
+│   │
+│   ├── Orders Management
+│   │   ├── Pending Orders
+│   │   ├── Completed Orders
+│   │   └── Cancelled Orders
+│   │
+│   ├── Appointment Management
+│   │   ├── View Appointments
+│   │   └── Approve / Reject
+│   │
+│   └── User Management
+│       ├── View Users
+│       └── Roles / Permissions
+│
+├── About Us
+│   ├── Company Info
+│   └── Mission & Vision
+│
+└── Contact
+    ├── Contact Form
+    ├── Location Map
+    └── Phone / Email
+
+
+
+
+
+
+1. Inventory & Stock Management
+The backbone of any pharmacy system is knowing exactly what is on the shelves.
+
+    Medicine Categorization: Organize products by type (Tablet, Syrup, Injection) or category (Antibiotics, Painkillers, Vitamins).
+
+    Stock Tracking: Real-time updates of stock levels as sales occur.
+
+    Expiration Date Alerts: A critical pharmacy feature that flags batches nearing their expiry date to prevent selling unsafe medication.
+
+    Low-Stock Notifications: Automatic alerts when items fall below a specific "reorder level."
+
+2. Sales & Point of Sale (POS)
+This handles the customer-facing transactions.
+
+    Transaction Processing: A simple interface to search for medicine, add to cart, and calculate totals/taxes.
+
+    Receipt Generation: Automated digital or printable receipts for every sale.
+
+    Discount Management: Apply senior citizen or PWD discounts as required by local regulations.
+
+    Sales History: A searchable log of all past transactions for auditing purposes.
+
+3. Appointment Management System
+This is your "X-factor" feature, allowing customers to book services.
+
+    Service Selection: Let users book appointments for vaccinations, blood pressure monitoring, or pharmacist consultations.
+
+    Real-time Availability: A calendar view showing open time slots to prevent overbooking.
+
+    Appointment Status: Track bookings through stages like Pending, Confirmed, Completed, or Cancelled.
+
+4. User Roles & Security
+Ensure the right people have the right access.
+
+    Multi-Level Access: * Admin: Full access (reports, employee management, inventory).
+
+    Pharmacist/Staff: Can process sales and manage appointments.
+
+    Secure Authentication: Encrypted login system for all staff members.
+
+    Activity Logs: A record of which user performed specific actions (e.g., who deleted a stock entry).
+
+5. Reports & Analytics
+Transforming data into insights for the business owner.
+
+    Daily Sales Reports: Total revenue generated within a 24-hour period.
+
+    Top-Selling Medicines: A list of the most popular products to help with restocking decisions.
+
+    Appointment Trends: Reports on the busiest days or most requested services.

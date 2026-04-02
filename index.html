@@ -1,11 +1,262 @@
 <!doctype html>
 <html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="./src/output.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./src/output.css" rel="stylesheet">
+    <style>
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css');
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
-<body>
-    
+
+<body class=" fade-in bg-gray-50 font-sans">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+            <h1 class="text-2xl font-bold text-red-600">RS Medstar Pharmacy</h1>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#" class="hover:text-red-600">Home</a>
+                <a href="#" class="hover:text-red-600">Services</a>
+                <a href="#" class="hover:text-red-600">Products</a>
+                <a href="#" class="hover:text-red-600">Contact</a>
+
+                <!-- Auth Buttons -->
+                <a href="./pages/auth.html"
+                    class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-500 cursor-pointer">
+                    Account
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="menuBtn" class="md:hidden text-2xl">
+                ☰
+            </button>
+
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden px-6 pb-4">
+            <a href="#" class="block py-2">Home</a>
+            <a href="#" class="block py-2">Services</a>
+            <a href="#" class="block py-2">Products</a>
+            <a href="#" class="block py-2">Contact</a>
+
+            <!-- Mobile -->
+            <div class="flex flex-col gap-2 mt-4">
+                <a href="./pages/auth.html" class="text-red-600 border border-red-600 px-4 py-2 rounded-lg">
+                    Account
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="pt-38 pb-26 bg-red-100">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+
+            <div>
+                <h2 class="text-2xl md:text-4xl font-bold mb-6">
+                    Dekalidad na gamot sa abot-kayang presyo para sa masang Mindoreño 💊
+                </h2>
+                <p class="text-gray-600 mb-6">
+                    Fast, reliable, and affordable medicines anytime.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button class="cursor-pointer bg-red-700 text-white px-6 py-3 rounded-lg hover:bg-red-500">
+                        Shop Now
+                    </button>
+                    <button
+                        class="cursor-pointer border border-red-700 text-red-700 px-6 py-3 rounded-lg hover:bg-red-700 hover:text-white">
+                        Learn More
+                    </button>
+                </div>
+            </div>
+
+            <img src="./assets/image/rs-logo.png" alt="RS Medstar Pharmacy Logo" class="rounded-2xl w-96">
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h3 class="text-2xl md:text-3xl font-bold mb-10">Our Services</h3>
+
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow hover:shadow-2xl transition duration-400">
+                    <h4 class="font-semibold text-red-600 mb-2">Online Ordering</h4>
+                    <p>Order medicines easily.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow hover:shadow-2xl transition duration-400">
+                    <h4 class="font-semibold text-red-600 mb-2">Consultation</h4>
+                    <p>Talk to licensed pharmacists.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow hover:shadow-2xl transition duration-400">
+                    <h4 class="font-semibold text-red-600 mb-2">Reservation</h4>
+                    <p>Reservation of Medication</p>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="py-16 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h3 class="text-2xl md:text-3xl font-bold mb-10">Popular Products</h3>
+
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
+                    <img src="./assets/image/paracetamol.png" class="mb-3 rounded">
+                    <h4>Paracetamol 500mg</h4>
+                    <p class="text-red-600">₱50</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
+                    <img src="./assets/image/vitamin-c.png" class="mb-3 rounded">
+                    <h4>Vitamin C</h4>
+                    <p class="text-red-600">₱120</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
+                    <img src="./assets/image/cough-sy.png" class="mb-3 rounded">
+                    <h4>Cough Syrup 120mL</h4>
+                    <p class="text-red-600">₱90</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
+                    <img src="./assets/image/face-msk.png" class="mb-3 rounded">
+                    <h4>Face Mask</h4>
+                    <p class="text-red-600">₱150</p>
+                </div>
+                <!-- 2nd Row -->
+                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
+                    <img src="./assets/image/mefa.png" class="mb-3 rounded">
+                    <h4>Mefenamic Acid 500mg</h4>
+                    <p class="text-red-600">₱550</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
+                    <img src="./assets/image/losart.png" class="mb-3 rounded">
+                    <h4>Losartan Amlodipine 50mg/5mg</h4>
+                    <p class="text-red-600">₱400</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
+                    <img src="./assets/image/band-aid.png" class="mb-3 rounded">
+                    <h4>BAND AID Strips 50s</h4>
+                    <p class="text-red-600">₱99.75</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
+                    <img src="./assets/image/preg.png" class="mb-3 rounded">
+                    <h4>TRUST Clear Check Pregnancy Test (Cassette)</h4>
+                    <p class="text-red-600">₱64.75</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTERRRR -->
+    <footer class="bg-neutral-primary-soft">
+        <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+            <div class="md:flex md:justify-between">
+                <div class="mb-6 md:mb-0">
+                    <a href="#" class="flex items-center">
+                        <img src="./assets/image/rs-logo.png" class="h-20 me-3" alt="RS Medstar Pharmacy" />
+                        <span class="text-heading self-center text-2xl font-semibold whitespace-nowrap">RS Medstar
+                            Pharmacy</span>
+                    </a>
+                </div>
+                <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+                    <div>
+                        <h2 class="mb-6 text-sm font-semibold text-heading uppercase">Resources</h2>
+                        <ul class="text-body font-medium">
+                            <li class="mb-4">
+                                <a href="#" class="hover:text-red-700">Products</a>
+                            </li>
+                            <li>
+                                <a href="#" class="hover:text-red-700">Catalogs</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="mb-6 text-sm font-semibold text-heading uppercase">Follow us</h2>
+                        <ul class="text-body font-medium">
+                            <li class="mb-4">
+                                <a href="#" class="hover:text-red-700 ">Facebook</a>
+                            </li>
+                            <li>
+                                <a href="#" class="hover:text-red-700">Twitter</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="mb-6 text-sm font-semibold text-heading uppercase">Legal</h2>
+                        <ul class="text-body font-medium">
+                            <li class="mb-4">
+                                <a href="#" class="hover:text-red-700">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a href="#" class="hover:text-red-700">Terms &amp; Conditions</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-6 border-default sm:mx-auto lg:my-8" />
+            <div class="sm:flex sm:items-center sm:justify-between">
+                <span class="text-sm text-body sm:text-center">© 2026 <a href="#" class="hover:underline">RS Medical
+                        Pharmacy</a>. All Rights Reserved.
+                </span>
+                <span class="text-sm text-body sm:text-center">Design with ❤️ <a href="#" class="hover:underline">Robyn
+                        Kristoffer Fernandez</a>.
+                </span>
+                <div class="flex mt-4 sm:justify-center sm:mt-0 text-2xl ">
+                    <a href="#" class="text-body hover:text-heading hover:text-red-700 transition duration-500">
+                        <i class="fa-brands fa-facebook"></i>
+                        <span class="sr-only">Facebook page</span>
+                    </a>
+                    <a href="#" class="text-body hover:text-heading ms-5 hover:text-red-700 transition duration-500">
+                        <i class="fa-brands fa-twitter"></i>
+                        <span class="sr-only">Twitter page</span>
+                    </a>
+                    <a href="#" class="text-body hover:text-heading ms-5 hover:text-red-700 transition duration-500">
+                        <i class="fa-brands fa-github"></i>
+                        <span class="sr-only">GitHub account</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu -->
+    <script src="./assets/scripts/scripts.js" defer></script>
 </body>
+
 </html>
