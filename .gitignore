@@ -1,0 +1,17 @@
+# --- System Files ---
+.DS_Store
+Thumbs.db
+*.swp
+desktop.ini
+
+# --- Environment / Secrets ---
+# Never commit credentials to version control!
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# --- Other
+cookiejar
+rs_pharmacy.sql

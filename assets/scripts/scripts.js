@@ -2,9 +2,11 @@
 const menuBtn = document.getElementById("menuBtn");
 const mobileMenu = document.getElementById("mobileMenu");
 
-menuBtn.addEventListener("click", () => {
-  mobileMenu.classList.toggle("hidden");
-});
+if (menuBtn && mobileMenu) {
+  menuBtn.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
+  });
+}
 
 
 // Form hide Auth.html
@@ -42,7 +44,8 @@ function showForm(formType) {
 }
 
 const terms = document.getElementById('tos');
-
-terms.addEventListener('click', () => {
-  alert('Sample Terms and Condition pop-up')
-})
+if (terms) {
+  terms.addEventListener('click', () => {
+    alert('Sample Terms and Condition pop-up')
+  });
+}
