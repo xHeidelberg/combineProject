@@ -1,7 +1,4 @@
 <?php
-// Database configuration - update these values for your environment
-// Place this file outside webroot or protect it in production.
-
 $dbHost = 'localhost';
 $dbName = 'rs_pharmacy';
 $dbUser = 'user';

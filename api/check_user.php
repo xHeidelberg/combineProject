@@ -1,6 +1,6 @@
 <?php
-// Simple debug endpoint: /api/check_user.php?email=someone@example.com
-// REMOVE or protect this in production.
+// debug endpoint: /api/check_user.php?email=someone@example.com
+// if papa deploy ni sir isama sa .gitignore (check_user.php)
 
 header('Content-Type: application/json');
 require_once __DIR__ . '/config.php';

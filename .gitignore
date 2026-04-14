@@ -4,8 +4,7 @@ Thumbs.db
 *.swp
 desktop.ini
 
-# --- Environment / Secrets ---
-# Never commit credentials to version control!
+# --- Environment
 .env
 .env.local
 .env.*.local

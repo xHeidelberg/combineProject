@@ -1,15 +1,11 @@
-// Auth handlers: sends login/signup requests to /api/auth.php
-
-// Assumes `showForm()` exists in scripts.js
-
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('loginForm');
   const signupForm = document.getElementById('signupForm');
 
-  // Determine API host: if page is served by Live Server (:5500) use localhost:8000 for PHP
+  // Determine API host Live Server 5500 use 8000 for db
   const usePort8000 = (location.port === '5500');
   const API_BASE = usePort8000 ? `${location.protocol}//${location.hostname}:8000` : '';
-  const AUTH_URL = API_BASE + '/api/auth.php';
+  const AUTH_URL = API_BASE + '/api/auth.php'; // palitan pag ilipat sa ibang folder
 
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
@@ -79,14 +75,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         console.log('Signup response', data);
         if (data.success) {
-          alert('Account created. You can now sign in.');
-          if (typeof showForm === 'function') showForm('login');
+          // register auto login / if ever success no need to login 
+          try {
+            const loginRes = await fetch(AUTH_URL, {
+              method: 'POST',
+              credentials: 'include',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({ action: 'login', email, password })
+            });
+
+            let loginData;
+            try {
+              loginData = await loginRes.json();
+            } catch (err) {
+              loginData = null;
+            }
+
+            if (loginData && loginData.success) {
+              window.location.href = '/pages/main.html';
+            } else {
+              alert('Account created. Please sign in.');
+              if (typeof showForm === 'function') showForm('login');
+            }
+          } catch (err) {
+            console.error('Auto-login failed', err);
+            alert('Account created. Please sign in.');
+            if (typeof showForm === 'function') showForm('login');
+          }
         } else {
           alert(data.message || 'Signup failed');
         }
       } catch (err) {
         console.error(err);
-        alert('Signup failed — check console for details.');
+        alert('Signup failed — (check dev tools tapos console)');
       }
     });
   }
