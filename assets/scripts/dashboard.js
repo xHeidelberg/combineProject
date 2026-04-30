@@ -50,6 +50,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Set active link styling in the sidebar
+  function setActiveNav(id) {
+    const links = document.querySelectorAll('#sidebar nav a');
+    links.forEach(a => {
+      a.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-900', 'dark:text-white');
+    });
+    const el = document.getElementById(id);
+    if (el) el.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-900', 'dark:text-white');
+  }
+
   //Update the "current role" badge 
   function setRoleBadge(role) {
     const badge = document.getElementById('current-role');
@@ -371,11 +381,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const user = fetched; // authenticated user object
     const role = user.role; // admin, pharmacist, staff, patient
 
+    // expose current state so other scripts can restore the dashboard
+    window.__appState = { user, role };
+    window.showInitialDashboard = () => {
+      const s = window.__appState;
+      if (!s) return;
+      setRoleBadge(s.role);
+      setAvatar(s.user);
+      setUserName(s.user);
+      applyRoleVisibility(s.role);
+      applyNavVisibility(s.role);
+      renderDashboard(s.role);
+      // mark dashboard nav active
+      setActiveNav('nav-dashboard');
+    };
+
     setRoleBadge(role);
     setAvatar(user);
     setUserName(user);
     applyRoleVisibility(role);
     applyNavVisibility(role);
     renderDashboard(role);
+    // Ensure dashboard nav is active on initial load
+    setActiveNav('nav-dashboard');
   })();
 });
