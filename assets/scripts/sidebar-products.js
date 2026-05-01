@@ -12,7 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return '';
     }
 
-    function escapeHtml(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function escapeHtml(s) {
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
 
     // ================================================ sample data (replace with API fetch later)
     const sampleProducts = [
@@ -21,113 +26,151 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 3, name: 'Amoxicillin', generic: 'Amoxil', category: 'Capsule', price: '75', requires_prescription: true, batch_number: 'C003', quantity: 5, expiry_date: '2026-06-15', location: 'Shelf C-3' },
     ];
     // ================================================================================================
+
     function populateDashboardWithProducts(role) {
         const container = document.getElementById('role-dashboard');
         if (!container) { alert('Dashboard container not found'); return; }
 
-        // set products nav active
+        // Set products nav active
         (function setActiveNav(id) {
             const links = document.querySelectorAll('#sidebar nav a');
             links.forEach(a => {
-                a.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-900', 'dark:text-white');
+                a.classList.remove('bg-[#e53935]', 'text-white', 'bg-gray-200', 'dark:bg-gray-700', 'text-gray-900', 'dark:text-white');
+                a.style.background = '';
+                a.style.color = '';
+                a.style.boxShadow = '';
             });
             const el = document.getElementById(id);
-            if (el) el.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-900', 'dark:text-white');
+            if (el) {
+                el.classList.add('bg-[#e53935]', 'text-white');
+            }
         })('nav-products');
 
+        // Shared input class
+        const inputCls = 'w-full border border-gray-200 dark:border-white/10 rounded-xl px-3 py-2 mt-1.5 text-sm bg-gray-50 dark:bg-white/[0.03] text-gray-800 dark:text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-red-200 dark:focus:ring-red-500/20 transition-shadow';
+        const labelCls = 'text-xs font-semibold text-gray-400 uppercase tracking-wider mt-3 block';
+
         container.innerHTML = `
-      <div class="mb-4 flex justify-between items-center">
-        <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">📦 Products</h2>
+      <div class="mb-5 flex justify-between items-center">
         <div>
-          ${role === 'admin' ? '<button id="dashboard-add" class="bg-green-600 text-white px-3 py-1 rounded text-sm">➕ New Product</button>' : ''}
+          <h2 class="text-base font-bold text-gray-800 dark:text-white tracking-tight">📦 Products</h2>
+          <p class="text-xs text-gray-400 mt-0.5">Manage inventory and product details</p>
+        </div>
+        <div>
+          ${role === 'admin' ? `<button id="dashboard-add" class="bg-[#e53935] hover:bg-[#c62828] text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all shadow-sm shadow-red-200 dark:shadow-red-900/20">➕ New Product</button>` : ''}
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div>
-          <table id="prod-table" class="w-full text-sm bg-white dark:bg-gray-800 rounded shadow overflow-hidden">
-            <thead class="bg-gray-50 dark:bg-gray-700 text-left text-xs text-gray-600 dark:text-gray-300"><tr>
-              <th class="p-2">Product</th>
-              <th class="p-2">Generic</th>
-              <th class="p-2">Category</th>
-              <th class="p-2">Price</th>
-              <th class="p-2">Qty</th>
-              <th class="p-2">Actions</th>
-            </tr></thead>
-            <tbody id="prod-tbody" class="text-gray-700 dark:text-gray-300"></tbody>
-          </table>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <!-- Product Table -->
+        <div class="bg-white dark:bg-[#161616] rounded-2xl shadow-sm border border-gray-100 dark:border-white/[0.05] overflow-hidden">
+          <div class="overflow-x-auto">
+            <table id="prod-table" class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-gray-100 dark:border-white/[0.06] bg-gray-50 dark:bg-white/[0.02]">
+                  <th class="py-3 px-4 text-left text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">Product</th>
+                  <th class="py-3 px-4 text-left text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">Generic</th>
+                  <th class="py-3 px-4 text-left text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">Type</th>
+                  <th class="py-3 px-4 text-left text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">Price</th>
+                  <th class="py-3 px-4 text-left text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">Qty</th>
+                  <th class="py-3 px-4 text-left text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="prod-tbody" class="text-gray-700 dark:text-gray-300 divide-y divide-gray-50 dark:divide-white/[0.04]"></tbody>
+            </table>
+          </div>
         </div>
 
-        <div>
-          <form id="prod-form" class="bg-white dark:bg-gray-800 p-4 rounded shadow">
-            <h3 class="text-sm font-semibold mb-2 text-gray-700 dark:text-gray-200">Product / Inventory</h3>
+        <!-- Product Form -->
+        <div class="bg-white dark:bg-[#161616] rounded-2xl shadow-sm border border-gray-100 dark:border-white/[0.05] p-5">
+          <h3 class="text-sm font-bold text-gray-700 dark:text-gray-200 tracking-tight mb-4">Product / Inventory</h3>
 
-            <label class="text-xs">Product Name:</label>
-            <input type="text" id="product_name" name="product_name" placeholder="e.g., Amoxicillin" required class="w-full border dark:border-gray-600 rounded px-2 py-1 mt-1 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100" />
+          <form id="prod-form" onsubmit="return false">
+            <label class="${labelCls} mt-0">Product Name</label>
+            <input type="text" id="product_name" name="product_name" placeholder="e.g., Amoxicillin" required class="${inputCls}" />
 
-            <label class="text-xs mt-2">Generic Name:</label>
-            <input type="text" id="generic_name" name="generic_name" placeholder="e.g., Amoxil" class="w-full border dark:border-gray-600 rounded px-2 py-1 mt-1 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100" />
+            <label class="${labelCls}">Generic Name</label>
+            <input type="text" id="generic_name" name="generic_name" placeholder="e.g., Amoxil" class="${inputCls}" />
 
-            <label class="text-xs mt-2">Category:</label>
-            <select id="category" name="category" class="w-full border dark:border-gray-600 rounded px-2 py-1 mt-1 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100">
+            <label class="${labelCls}">Category</label>
+            <select id="category" name="category" class="${inputCls}">
               <option value="Tablet">Tablet</option>
               <option value="Syrup">Syrup</option>
               <option value="Capsule">Capsule</option>
             </select>
 
-            <label class="text-xs mt-2">Price ($):</label>
-            <input type="number" step="0.01" id="price" name="price" required class="w-full border dark:border-gray-600 rounded px-2 py-1 mt-1 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100" />
+            <label class="${labelCls}">Price (₱)</label>
+            <input type="number" step="0.01" id="price" name="price" required class="${inputCls}" />
 
-            <div class="flex items-center gap-2 mt-2">
-              <input type="checkbox" id="rx" name="requires_prescription" value="1" />
-              <label class="text-xs">Requires Prescription?</label>
+            <div class="flex items-center gap-3 mt-3 p-3 bg-gray-50 dark:bg-white/[0.03] rounded-xl">
+              <input type="checkbox" id="rx" name="requires_prescription" value="1"
+                class="w-4 h-4 rounded accent-[#e53935]" />
+              <label for="rx" class="text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Requires Prescription?</label>
             </div>
 
-            <hr class="my-3" />
+            <div class="my-4 h-px bg-gray-100 dark:bg-white/[0.05]"></div>
 
-            <label class="text-xs">Batch Number:</label>
-            <input type="text" id="batch_number" name="batch_number" required class="w-full border dark:border-gray-600 rounded px-2 py-1 mt-1 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100" />
+            <label class="${labelCls} mt-0">Batch Number</label>
+            <input type="text" id="batch_number" name="batch_number" required class="${inputCls}" />
 
-            <label class="text-xs mt-2">Initial Quantity:</label>
-            <input type="number" id="quantity" name="quantity" required class="w-full border dark:border-gray-600 rounded px-2 py-1 mt-1 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100" />
+            <label class="${labelCls}">Initial Quantity</label>
+            <input type="number" id="quantity" name="quantity" required class="${inputCls}" />
 
-            <label class="text-xs mt-2">Expiry Date:</label>
-            <input type="date" id="expiry_date" name="expiry_date" required class="w-full border dark:border-gray-600 rounded px-2 py-1 mt-1 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100" />
+            <label class="${labelCls}">Expiry Date</label>
+            <input type="date" id="expiry_date" name="expiry_date" required class="${inputCls}" />
 
-            <label class="text-xs mt-2">Storage Location:</label>
-            <input type="text" id="location" name="location" placeholder="e.g., Shelf A-12" class="w-full border dark:border-gray-600 rounded px-2 py-1 mt-1 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100" />
+            <label class="${labelCls}">Storage Location</label>
+            <input type="text" id="location" name="location" placeholder="e.g., Shelf A-12" class="${inputCls}" />
 
             <input type="hidden" id="editing_id" />
 
-            <div class="mt-4 flex justify-end gap-2">
-              ${role === 'admin' ? '<button id="save-product" class="bg-green-600 text-white px-3 py-1 rounded">Save Product</button>' : ''}
-              ${role === 'pharmacist' ? '<button id="adjust-stock" class="bg-blue-600 text-white px-3 py-1 rounded">Adjust Stock</button>' : ''}
-              ${role === 'staff' ? '<button id="add-to-order" class="bg-green-600 text-white px-3 py-1 rounded">Add to Order</button>' : ''}
+            <div class="mt-5 flex justify-end gap-2">
+              ${role === 'admin' ? `<button id="save-product" class="bg-[#e53935] hover:bg-[#c62828] text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all shadow-sm shadow-red-200 dark:shadow-red-900/20">Save Product</button>` : ''}
+              ${role === 'pharmacist' ? `<button id="adjust-stock" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all shadow-sm shadow-blue-200 dark:shadow-blue-900/20">Adjust Stock</button>` : ''}
+              ${role === 'staff' ? `<button id="add-to-order" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all">Add to Order</button>` : ''}
             </div>
           </form>
         </div>
       </div>
     `;
 
-        // render table rows
+        // Render table rows
         function renderTable() {
             const tbody = document.getElementById('prod-tbody');
             tbody.innerHTML = '';
+
             sampleProducts.forEach(p => {
+                const isLow = p.quantity <= 10;
                 const tr = document.createElement('tr');
-                tr.className = 'border-b dark:border-gray-700';
+                tr.className = 'hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors';
                 tr.innerHTML = `
-          <td class="p-2">${escapeHtml(p.name)}</td>
-          <td class="p-2">${escapeHtml(p.generic)}</td>
-          <td class="p-2">${escapeHtml(p.category)}</td>
-          <td class="p-2">₱${escapeHtml(String(p.price))}</td>
-          <td class="p-2">${escapeHtml(String(p.quantity))}</td>
-          <td class="p-2"><button data-id="${p.id}" class="view-btn text-xs text-blue-600">View</button> ${role === 'admin' ? '<button data-id="' + p.id + '" class="edit-btn text-xs text-green-600 ml-2">Edit</button> <button data-id="' + p.id + '" class="del-btn text-xs text-red-600 ml-2">Delete</button>' : ''}</td>
+          <td class="py-3 px-4">
+            <div class="font-semibold text-gray-700 dark:text-gray-200">${escapeHtml(p.name)}</div>
+            ${p.requires_prescription ? `<span class="text-[10px] font-semibold text-amber-600 dark:text-amber-400">Rx Required</span>` : ''}
+          </td>
+          <td class="py-3 px-4 text-gray-500 dark:text-gray-400 text-xs">${escapeHtml(p.generic)}</td>
+          <td class="py-3 px-4">
+            <span class="text-[10px] font-semibold bg-gray-100 dark:bg-white/[0.06] text-gray-500 dark:text-gray-400 px-2 py-1 rounded-lg">${escapeHtml(p.category)}</span>
+          </td>
+          <td class="py-3 px-4 font-mono text-xs text-gray-600 dark:text-gray-300">₱${escapeHtml(String(p.price))}</td>
+          <td class="py-3 px-4">
+            <span class="text-sm font-semibold ${isLow ? 'text-red-500 dark:text-red-400' : 'text-gray-700 dark:text-gray-300'}">${escapeHtml(String(p.quantity))}</span>
+            ${isLow ? `<span class="ml-1 text-[10px] text-red-400">Low</span>` : ''}
+          </td>
+          <td class="py-3 px-4">
+            <div class="flex items-center gap-1.5">
+              <button data-id="${p.id}" class="view-btn text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-500/10 px-2 py-1 rounded-lg transition-colors">View</button>
+              ${role === 'admin' ? `
+                <button data-id="${p.id}" class="edit-btn text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 px-2 py-1 rounded-lg transition-colors">Edit</button>
+                <button data-id="${p.id}" class="del-btn text-[11px] font-semibold text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 px-2 py-1 rounded-lg transition-colors">Delete</button>
+              ` : ''}
+            </div>
+          </td>
         `;
                 tbody.appendChild(tr);
             });
 
-            // attach view/edit/delete handlers
+            // Attach view/edit/delete handlers
             tbody.querySelectorAll('.view-btn').forEach(b => b.addEventListener('click', (e) => {
                 const id = Number(e.currentTarget.dataset.id);
                 const p = sampleProducts.find(x => x.id === id);
@@ -162,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderTable();
 
-        // form handlers
+        // Form handlers
         const form = document.getElementById('prod-form');
         form.addEventListener('submit', (e) => e.preventDefault());
 
@@ -189,7 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 sampleProducts.push(Object.assign({ id: newId }, payload));
             }
             renderTable();
-            // clear form
             form.reset();
             document.getElementById('editing_id').value = '';
         });
@@ -213,7 +255,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Added to order (UI-only)');
         });
 
-        // optional quick-create button
         document.getElementById('dashboard-add')?.addEventListener('click', () => {
             document.getElementById('prod-form').scrollIntoView({ behavior: 'smooth' });
         });
@@ -225,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
         populateDashboardWithProducts(role);
     });
 
-    // allow restoring the initial dashboard when Dashboard nav is clicked
+    // Allow restoring the initial dashboard when Dashboard nav is clicked
     const navDashboard = document.getElementById('nav-dashboard');
     if (navDashboard) {
         navDashboard.addEventListener('click', (ev) => {
@@ -233,7 +274,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (typeof window.showInitialDashboard === 'function') {
                 window.showInitialDashboard();
             } else {
-                // fallback: reload page
                 location.reload();
             }
         });
