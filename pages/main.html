@@ -400,6 +400,55 @@
         </a>
 
         <div class="sidebar-divider"></div>
+        <div class="nav-section-label">Operations</div>
+
+        <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-all">
+          <span class="nav-icon">💳</span>
+          <span class="link-text whitespace-nowrap">POS</span>
+        </a>
+
+        <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-admin role-pharmacist role-staff">
+          <span class="nav-icon">🩺</span>
+          <span class="link-text whitespace-nowrap">Patient Management</span>
+        </a>
+
+        <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-admin role-pharmacist role-staff">
+          <span class="nav-icon">📦</span>
+          <span class="link-text whitespace-nowrap">Stock Supply</span>
+        </a>
+
+        <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-admin role-pharmacist">
+          <span class="nav-icon">🧾</span>
+          <span class="link-text whitespace-nowrap">Product Management</span>
+        </a>
+
+        <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-admin">
+          <span class="nav-icon">🕵️</span>
+          <span class="link-text whitespace-nowrap">Audit Trail</span>
+        </a>
+
+        <div class="mt-1">
+          <button id="analytics-toggle" type="button" aria-expanded="false" aria-controls="analytics-submenu"
+            class="w-full flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-admin role-pharmacist">
+            <span class="nav-icon">📊</span>
+            <span class="link-text whitespace-nowrap flex-1 text-gray-400 text-sm">Analytics</span>
+            <svg id="analytics-chevron" class="w-3 h-3 text-gray-400 transform transition-transform" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 8l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+
+          <div id="analytics-submenu" class="pl-9 mt-1 space-y-1 hidden" data-open="false">
+            <a href="#" class="block text-sm text-gray-400 hover:text-gray-200 role-admin role-pharmacist">Sales</a>
+            <a href="#" class="block text-sm text-gray-400 hover:text-gray-200 role-admin role-pharmacist">Sales trends</a>
+          </div>
+        </div>
+
+        <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-admin mt-2">
+          <span class="nav-icon">📝</span>
+          <span class="link-text whitespace-nowrap">CMS — Landing Page</span>
+        </a>
+
+        <div class="sidebar-divider"></div>
         <div class="nav-section-label">Account</div>
 
         <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-admin">
@@ -511,6 +560,24 @@
     if (localStorage.getItem('darkMode') === 'true') {
       document.documentElement.classList.add('dark');
     }
+
+    // ── Analytics submenu toggle ─────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('analytics-toggle');
+      const submenu = document.getElementById('analytics-submenu');
+      const chevron = document.getElementById('analytics-chevron');
+      if (!toggle || !submenu) return;
+
+      toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        const opened = !submenu.classList.contains('hidden');
+        // toggle visibility
+        submenu.classList.toggle('hidden');
+        toggle.setAttribute('aria-expanded', String(!opened));
+        // rotate chevron
+        if (chevron) chevron.style.transform = opened ? 'rotate(0deg)' : 'rotate(90deg)';
+      });
+    });
 
     // ── Logout ────────────────────────────────────────────────────────────
     async function logout() {
