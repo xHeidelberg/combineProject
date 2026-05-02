@@ -1,3 +1,9 @@
+// REGISTRATION
+
+
+
+
+
 // Mobile Btn menu
 const menuBtn = document.getElementById("menuBtn");
 const mobileMenu = document.getElementById("mobileMenu");
