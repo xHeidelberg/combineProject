@@ -64,10 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const badge = document.getElementById('current-role');
     if (!badge) return;
     const labels = {
-      admin:      '🔑 Admin',
+      admin: '🔑 Admin',
       pharmacist: '💊 Pharmacist',
-      staff:      '🏪 Staff',
-      patient:    '🩺 Patient',
+      staff: '🏪 Staff',
+      patient: '🩺 Patient',
     };
     badge.textContent = labels[role] ?? role.charAt(0).toUpperCase() + role.slice(1);
     badge.classList.remove('hidden');
@@ -116,11 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const badge = (text, color) => {
     const styles = {
-      green:  'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
+      green: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
       yellow: 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400',
-      red:    'bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400',
-      blue:   'bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400',
-      gray:   'bg-gray-100 text-gray-600 dark:bg-white/[0.06] dark:text-gray-400',
+      red: 'bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400',
+      blue: 'bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400',
+      gray: 'bg-gray-100 text-gray-600 dark:bg-white/[0.06] dark:text-gray-400',
     };
     return `<span class="text-[10px] font-semibold px-2 py-1 rounded-lg ${styles[color] || styles.gray}">${text}</span>`;
   };
@@ -128,11 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const btn = (text, color = 'primary', size = 'sm') => {
     const colors = {
       primary: 'bg-[#e53935] hover:bg-[#c62828] text-white shadow-sm shadow-red-200 dark:shadow-red-900/20',
-      green:   'bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-200 dark:shadow-emerald-900/20',
-      blue:    'bg-blue-600 hover:bg-blue-700 text-white shadow-sm shadow-blue-200 dark:shadow-blue-900/20',
-      yellow:  'bg-amber-500 hover:bg-amber-600 text-white',
+      green: 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-200 dark:shadow-emerald-900/20',
+      blue: 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm shadow-blue-200 dark:shadow-blue-900/20',
+      yellow: 'bg-amber-500 hover:bg-amber-600 text-white',
       outline: 'border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/[0.04]',
-      ghost:   'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/[0.05]',
+      ghost: 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/[0.05]',
     };
     const sizes = { sm: 'px-3 py-1.5 text-xs', md: 'px-4 py-2 text-sm', full: 'w-full px-4 py-2 text-sm' };
     return `<button class="rounded-lg font-semibold transition-all ${colors[color]} ${sizes[size]}">${text}</button>`;
@@ -172,18 +172,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const views = {
       admin: `
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
-          ${statCard('Total Users',    '—', '#10b981', '👥')}
-          ${statCard('Total Orders',   '—', '#3b82f6', '🛒')}
-          ${statCard('Appointments',   '—', '#f59e0b', '📅')}
-          ${statCard('Notifications',  '—', '#e53935', '🔔')}
+          ${statCard('Total Users', '—', '#10b981', '👥')}
+          ${statCard('Total Orders', '—', '#3b82f6', '🛒')}
+          ${statCard('Appointments', '—', '#f59e0b', '📅')}
+          ${statCard('Notifications', '—', '#e53935', '🔔')}
         </div>
 
         <div class="grid lg:grid-cols-2 gap-4">
           ${card(`
             ${sectionTitle('📦', 'Product Management', `<div class="flex gap-2">${btn('➕ Add', 'green', 'sm')}${btn('✏️ Edit', 'outline', 'sm')}${btn('🗑 Delete', 'outline', 'sm')}</div>`)}
             ${tableWrap(
-              ['Product', 'Stock', 'Price'],
-              `<tr class="border-b border-gray-50 dark:border-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
+        ['Product', 'Stock', 'Price'],
+        `<tr class="border-b border-gray-50 dark:border-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
                 <td class="py-2.5 px-3 font-medium">Paracetamol</td><td class="py-2.5 px-3">100</td><td class="py-2.5 px-3 font-mono text-xs">₱50</td>
               </tr>
               <tr class="border-b border-gray-50 dark:border-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <tr class="hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
                 <td class="py-2.5 px-3 font-medium">Amoxicillin</td><td class="py-2.5 px-3">45</td><td class="py-2.5 px-3 font-mono text-xs">₱75</td>
               </tr>`
-            )}
+      )}
           `)}
 
           ${card(`
@@ -226,8 +226,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ${card(`
           ${sectionTitle('📋', 'Audit Logs')}
           ${tableWrap(
-            ['User', 'Action', 'Table', 'Time'],
-            `<tr class="border-b border-gray-50 dark:border-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
+        ['User', 'Action', 'Table', 'Time'],
+        `<tr class="border-b border-gray-50 dark:border-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
               <td class="py-2.5 px-3 font-mono text-xs text-gray-500">admin@rs.ph</td>
               <td class="py-2.5 px-3">${badge('UPDATE', 'yellow')}</td>
               <td class="py-2.5 px-3 font-mono text-xs">products</td>
@@ -239,14 +239,14 @@ document.addEventListener('DOMContentLoaded', () => {
               <td class="py-2.5 px-3 font-mono text-xs">orders</td>
               <td class="py-2.5 px-3 text-xs text-gray-400">5 min ago</td>
             </tr>`
-          )}
+      )}
         `, 'mt-4')}`,
 
       pharmacist: `
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
-          ${statCard("Today's Orders",       '12', '#3b82f6', '🛒')}
-          ${statCard('Pending Prescriptions', '4',  '#f59e0b', '📜')}
-          ${statCard('Appointments Today',    '3',  '#10b981', '📅')}
+          ${statCard("Today's Orders", '12', '#3b82f6', '🛒')}
+          ${statCard('Pending Prescriptions', '4', '#f59e0b', '📜')}
+          ${statCard('Appointments Today', '3', '#10b981', '📅')}
         </div>
 
         <div class="grid lg:grid-cols-2 gap-4">
@@ -316,8 +316,8 @@ document.addEventListener('DOMContentLoaded', () => {
       staff: `
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
           ${statCard("Walk-in Orders Today", '7', '#3b82f6', '🚶')}
-          ${statCard('Pending Orders',       '3', '#f59e0b', '⏳')}
-          ${statCard('Notifications',        '2', '#e53935', '🔔')}
+          ${statCard('Pending Orders', '3', '#f59e0b', '⏳')}
+          ${statCard('Notifications', '2', '#e53935', '🔔')}
         </div>
 
         <div class="grid lg:grid-cols-2 gap-4">
@@ -331,14 +331,14 @@ document.addEventListener('DOMContentLoaded', () => {
               ${btn('Search', 'primary', 'sm')}
             </div>
             ${tableWrap(
-              ['Product', 'Stock', 'Price'],
-              `<tr class="border-b border-gray-50 dark:border-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.02]">
+        ['Product', 'Stock', 'Price'],
+        `<tr class="border-b border-gray-50 dark:border-white/[0.04] hover:bg-gray-50 dark:hover:bg-white/[0.02]">
                 <td class="py-2.5 px-3 font-medium">Paracetamol</td><td class="py-2.5 px-3">100</td><td class="py-2.5 px-3 font-mono text-xs">₱50</td>
               </tr>
               <tr class="hover:bg-gray-50 dark:hover:bg-white/[0.02]">
                 <td class="py-2.5 px-3 font-medium">Vitamin C</td><td class="py-2.5 px-3">80</td><td class="py-2.5 px-3 font-mono text-xs">₱120</td>
               </tr>`
-            )}
+      )}
           `)}
 
           ${card(`
@@ -361,9 +361,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       patient: `
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
-          ${statCard('My Orders',             '3', '#3b82f6', '📦')}
+          ${statCard('My Orders', '3', '#3b82f6', '📦')}
           ${statCard('Upcoming Appointments', '1', '#10b981', '📅')}
-          ${statCard('Active Prescriptions',  '2', '#f59e0b', '📜')}
+          ${statCard('Active Prescriptions', '2', '#f59e0b', '📜')}
         </div>
 
         <div class="grid lg:grid-cols-2 gap-4">

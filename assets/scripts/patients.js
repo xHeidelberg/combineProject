@@ -1,100 +1,104 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const nav = document.getElementById('nav-patients');
-  const container = document.getElementById('role-dashboard');
-  if (!nav || !container) return;
+    const nav = document.getElementById('nav-patients');
+    const container = document.getElementById('role-dashboard');
+    if (!nav || !container) return;
 
-  const doctors = [
-    { id: 'D1', name: 'Dr. Maria Cruz',  specialty: 'General Practitioner', color: '#e53935' },
-    { id: 'D2', name: 'Dr. Jose Ramos',  specialty: 'Pediatrician',          color: '#3b82f6' },
-    { id: 'D3', name: 'Dr. Ana Lopez',   specialty: 'Internal Medicine',      color: '#10b981' },
-  ];
+    // ================================================ sample data (replace mo nalang API fetch later)
+    const doctors = [
+        { id: 'D1', name: 'Dr. Maria Cruz', specialty: 'General Practitioner', color: '#e53935' },
+        { id: 'D2', name: 'Dr. Jose Ramos', specialty: 'Pediatrician', color: '#3b82f6' },
+        { id: 'D3', name: 'Dr. Ana Lopez', specialty: 'Internal Medicine', color: '#10b981' },
+    ];
 
-  const patients = [
-    { id: 'PT-001', name: 'Juan Dela Cruz',  dob: '1985-02-20', phone: '09171234567', gender: 'Male',   bloodType: 'O+', assignedDoctor: 'D1', allergies: ['Penicillin'],         medicalHistory: 'Hypertension', initialDiagnosis: 'Routine checkup',  doctorComment: 'Monitor blood pressure weekly', status: 'Active' },
-    { id: 'PT-002', name: 'Maria Santos',    dob: '1992-07-10', phone: '09179876543', gender: 'Female', bloodType: 'A+', assignedDoctor: 'D2', allergies: [],                    medicalHistory: '',             initialDiagnosis: '',                 doctorComment: '',                             status: 'Active' },
-    { id: 'PT-003', name: 'Pedro Reyes',     dob: '1978-11-05', phone: '09170001111', gender: 'Male',   bloodType: 'B-', assignedDoctor: 'D3', allergies: ['Aspirin'],            medicalHistory: 'Diabetes type 2', initialDiagnosis: 'High blood sugar', doctorComment: 'Advise diet change and follow-up in 2 weeks', status: 'Active' },
-    { id: 'PT-004', name: 'Ana Lim',         dob: '2001-03-18', phone: '09180001234', gender: 'Female', bloodType: 'AB+', assignedDoctor: 'D1', allergies: ['Sulfa','Ibuprofen'], medicalHistory: 'Asthma',       initialDiagnosis: 'Mild asthma attack', doctorComment: 'Prescribe reliever inhaler', status: 'Inactive' },
-  ];
+    const patients = [
+        { id: 'PT-001', name: 'Juan Dela Cruz', dob: '1985-02-20', phone: '09171234567', gender: 'Male', bloodType: 'O+', assignedDoctor: 'D1', allergies: ['Penicillin'], medicalHistory: 'Hypertension', initialDiagnosis: 'Routine checkup', doctorComment: 'Monitor blood pressure weekly', status: 'Active' },
+        { id: 'PT-002', name: 'Maria Santos', dob: '1992-07-10', phone: '09179876543', gender: 'Female', bloodType: 'A+', assignedDoctor: 'D2', allergies: [], medicalHistory: '', initialDiagnosis: '', doctorComment: '', status: 'Active' },
+        { id: 'PT-003', name: 'Pedro Reyes', dob: '1978-11-05', phone: '09170001111', gender: 'Male', bloodType: 'B-', assignedDoctor: 'D3', allergies: ['Aspirin'], medicalHistory: 'Diabetes type 2', initialDiagnosis: 'High blood sugar', doctorComment: 'Advise diet change and follow-up in 2 weeks', status: 'Active' },
+        { id: 'PT-004', name: 'Ana Lim', dob: '2001-03-18', phone: '09180001234', gender: 'Female', bloodType: 'AB+', assignedDoctor: 'D1', allergies: ['Sulfa', 'Ibuprofen'], medicalHistory: 'Asthma', initialDiagnosis: 'Mild asthma attack', doctorComment: 'Prescribe reliever inhaler', status: 'Inactive' },
+    ];
 
-  const appointments = [
-    { id: 'APT-001', patientId: 'PT-001', doctorId: 'D1', date: '2026-05-04', time: '09:00', type: 'Checkup',      status: 'Scheduled' },
-    { id: 'APT-002', patientId: 'PT-002', doctorId: 'D2', date: '2026-05-05', time: '10:30', type: 'Vaccination',  status: 'Scheduled' },
-    { id: 'APT-003', patientId: 'PT-003', doctorId: 'D3', date: '2026-04-20', time: '11:00', type: 'Follow-up',    status: 'Completed' },
-    { id: 'APT-004', patientId: 'PT-001', doctorId: 'D1', date: '2026-04-10', time: '14:00', type: 'Consultation', status: 'Completed' },
-  ];
+    const appointments = [
+        { id: 'APT-001', patientId: 'PT-001', doctorId: 'D1', date: '2026-05-04', time: '09:00', type: 'Checkup', status: 'Scheduled' },
+        { id: 'APT-002', patientId: 'PT-002', doctorId: 'D2', date: '2026-05-05', time: '10:30', type: 'Vaccination', status: 'Scheduled' },
+        { id: 'APT-003', patientId: 'PT-003', doctorId: 'D3', date: '2026-04-20', time: '11:00', type: 'Follow-up', status: 'Completed' },
+        { id: 'APT-004', patientId: 'PT-001', doctorId: 'D1', date: '2026-04-10', time: '14:00', type: 'Consultation', status: 'Completed' },
+    ];
 
-  let activeFilter = 'all'; // 'all' | 'with-apt' | 'active' | 'inactive'
-  let searchQuery  = '';
+    let activeFilter = 'all'; // 'all' | 'with-apt' | 'active' | 'inactive'
+    let searchQuery = '';
 
-  // ── Helpers ────────────────────────────────────────────────────────────────
+    // ── Helpers ────────────────────────────────────────────────────────────────
 
-  function getRole() {
-    const badge    = document.getElementById('current-role');
-    const userName = document.getElementById('user-name')?.textContent?.trim() || '';
-    if (!badge) return { role: 'patient', userName };
-    const txt = badge.textContent || '';
-    if (/admin/i.test(txt))  return { role: 'admin',  userName };
-    if (/staff/i.test(txt))  return { role: 'staff',  userName };
-    return { role: 'patient', userName };
-  }
+    function getRole() {
+        const badge = document.getElementById('current-role');
+        const userName = document.getElementById('user-name')?.textContent?.trim() || '';
+        if (!badge) return { role: 'patient', userName };
+        const txt = badge.textContent || '';
+        if (/admin/i.test(txt)) return { role: 'admin', userName };
+        if (/staff/i.test(txt)) return { role: 'staff', userName };
+        return { role: 'patient', userName };
+    }
 
-  function setActiveNav(el) {
-    document.querySelectorAll('#sidebar nav a').forEach(a => a.classList.remove('bg-[#e53935]', 'text-white'));
-    if (el) el.classList.add('bg-[#e53935]', 'text-white');
-  }
+    function setActiveNav(target){
+      if (window.setActiveSidebar) return window.setActiveSidebar(target);
+      const links = document.querySelectorAll('#sidebar nav a');
+      links.forEach(a => a.classList.remove('active-nav','bg-[#e53935]','text-white'));
+      const el = (typeof target === 'string') ? document.getElementById(target) : target;
+      if (el) el.classList.add('active-nav');
+    }
 
-  function calcAge(dob) {
-    if (!dob) return '—';
-    const diff = Date.now() - new Date(dob).getTime();
-    return Math.floor(diff / (365.25 * 24 * 3600 * 1000));
-  }
+    function calcAge(dob) {
+        if (!dob) return '—';
+        const diff = Date.now() - new Date(dob).getTime();
+        return Math.floor(diff / (365.25 * 24 * 3600 * 1000));
+    }
 
-  function fmt12(t) {
-    if (!t) return '';
-    const [hh, mm] = t.split(':').map(Number);
-    const ampm = hh >= 12 ? 'PM' : 'AM';
-    return `${((hh + 11) % 12) + 1}:${String(mm).padStart(2, '0')} ${ampm}`;
-  }
+    function fmt12(t) {
+        if (!t) return '';
+        const [hh, mm] = t.split(':').map(Number);
+        const ampm = hh >= 12 ? 'PM' : 'AM';
+        return `${((hh + 11) % 12) + 1}:${String(mm).padStart(2, '0')} ${ampm}`;
+    }
 
-  function todayISO() { return new Date().toISOString().slice(0, 10); }
+    function todayISO() { return new Date().toISOString().slice(0, 10); }
 
-  function initials(name) {
-    return name.split(' ').filter((_, i) => i === 0 || i === name.split(' ').length - 1)
-               .map(n => n[0]).join('').toUpperCase().slice(0, 2);
-  }
+    function initials(name) {
+        return name.split(' ').filter((_, i) => i === 0 || i === name.split(' ').length - 1)
+            .map(n => n[0]).join('').toUpperCase().slice(0, 2);
+    }
 
-  const avatarColor = (id) => {
-    const palette = ['#e53935','#3b82f6','#10b981','#f59e0b','#8b5cf6','#ec4899'];
-    return palette[parseInt(id.replace(/\D/g,''), 10) % palette.length];
-  };
+    const avatarColor = (id) => {
+        const palette = ['#e53935', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+        return palette[parseInt(id.replace(/\D/g, ''), 10) % palette.length];
+    };
 
-  // ── Shared UI tokens ───────────────────────────────────────────────────────
+    // ── Shared UI tokens ───────────────────────────────────────────────────────
 
-  const inputCls = 'w-full border border-gray-200 dark:border-white/[0.1] rounded-xl px-3 py-2.5 mt-1.5 text-sm bg-gray-50 dark:bg-white/[0.03] text-gray-800 dark:text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-red-200 dark:focus:ring-red-500/20 transition-shadow';
-  const labelCls = 'text-[10px] font-semibold text-gray-400 uppercase tracking-wider block mt-3';
+    const inputCls = 'w-full border border-gray-200 dark:border-white/[0.1] rounded-xl px-3 py-2.5 mt-1.5 text-sm bg-gray-50 dark:bg-white/[0.03] text-gray-800 dark:text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-red-200 dark:focus:ring-red-500/20 transition-shadow';
+    const labelCls = 'text-[10px] font-semibold text-gray-400 uppercase tracking-wider block mt-3';
 
-  const statusBadge = (status) => {
-    const s = { Active: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400', Inactive: 'bg-gray-100 text-gray-500 dark:bg-white/[0.06] dark:text-gray-400' };
-    return `<span class="text-[10px] font-semibold px-2 py-0.5 rounded-lg ${s[status] || s.Active}">${status}</span>`;
-  };
+    const statusBadge = (status) => {
+        const s = { Active: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400', Inactive: 'bg-gray-100 text-gray-500 dark:bg-white/[0.06] dark:text-gray-400' };
+        return `<span class="text-[10px] font-semibold px-2 py-0.5 rounded-lg ${s[status] || s.Active}">${status}</span>`;
+    };
 
-  const aptStatusBadge = (status) => {
-    const s = { Scheduled: 'bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400', Completed: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400', Cancelled: 'bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400' };
-    return `<span class="text-[10px] font-semibold px-2 py-0.5 rounded-lg ${s[status] || s.Scheduled}">${status}</span>`;
-  };
+    const aptStatusBadge = (status) => {
+        const s = { Scheduled: 'bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400', Completed: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400', Cancelled: 'bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400' };
+        return `<span class="text-[10px] font-semibold px-2 py-0.5 rounded-lg ${s[status] || s.Scheduled}">${status}</span>`;
+    };
 
-  const allergyPill = (a) =>
-    `<span class="text-[10px] font-semibold bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-500/20 px-2 py-0.5 rounded-lg">${a}</span>`;
+    const allergyPill = (a) =>
+        `<span class="text-[10px] font-semibold bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-500/20 px-2 py-0.5 rounded-lg">${a}</span>`;
 
-  // ── Stats ──────────────────────────────────────────────────────────────────
+    // ── Stats ──────────────────────────────────────────────────────────────────
 
-  function buildStats() {
-    const today      = todayISO();
-    const active     = patients.filter(p => p.status === 'Active').length;
-    const todayApts  = appointments.filter(a => a.date === today && a.status === 'Scheduled').length;
-    const withAllergies = patients.filter(p => p.allergies?.length > 0).length;
+    function buildStats() {
+        const today = todayISO();
+        const active = patients.filter(p => p.status === 'Active').length;
+        const todayApts = appointments.filter(a => a.date === today && a.status === 'Scheduled').length;
+        const withAllergies = patients.filter(p => p.allergies?.length > 0).length;
 
-    const stat = (label, val, color, icon) => `
+        const stat = (label, val, color, icon) => `
       <div class="bg-white dark:bg-[#161616] rounded-2xl p-4 border border-gray-100 dark:border-white/[0.05] shadow-sm flex items-start justify-between">
         <div>
           <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-1.5">${label}</p>
@@ -103,27 +107,27 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="w-8 h-8 rounded-xl flex items-center justify-center text-sm flex-shrink-0" style="background:${color}18">${icon}</div>
       </div>`;
 
-    return `
+        return `
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-        ${stat('Total Patients',    patients.length,    '#3b82f6', '🧑‍⚕️')}
-        ${stat('Active',            active,             '#10b981', '✅')}
-        ${stat("Today's Appts",     todayApts,          '#e53935', '📅')}
-        ${stat('With Allergies',    withAllergies,      '#f59e0b', '⚠️')}
+        ${stat('Total Patients', patients.length, '#3b82f6', '🧑‍⚕️')}
+        ${stat('Active', active, '#10b981', '✅')}
+        ${stat("Today's Appts", todayApts, '#e53935', '📅')}
+        ${stat('With Allergies', withAllergies, '#f59e0b', '⚠️')}
       </div>`;
-  }
+    }
 
-  // ── Patient card ───────────────────────────────────────────────────────────
+    // ── Patient card ───────────────────────────────────────────────────────────
 
-  function buildPatientCard(pt, roleObj) {
-    const doc      = doctors.find(d => d.id === pt.assignedDoctor);
-    const upcoming = appointments
-      .filter(a => a.patientId === pt.id && a.date >= todayISO() && a.status === 'Scheduled')
-      .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))[0];
-    const aptDoc   = upcoming ? doctors.find(d => d.id === upcoming.doctorId) : null;
-    const age      = calcAge(pt.dob);
-    const color    = avatarColor(pt.id);
+    function buildPatientCard(pt, roleObj) {
+        const doc = doctors.find(d => d.id === pt.assignedDoctor);
+        const upcoming = appointments
+            .filter(a => a.patientId === pt.id && a.date >= todayISO() && a.status === 'Scheduled')
+            .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))[0];
+        const aptDoc = upcoming ? doctors.find(d => d.id === upcoming.doctorId) : null;
+        const age = calcAge(pt.dob);
+        const color = avatarColor(pt.id);
 
-    return `
+        return `
       <div class="bg-white dark:bg-[#161616] rounded-2xl border border-gray-100 dark:border-white/[0.05] shadow-sm p-4 hover:shadow-md transition-shadow">
         <div class="flex items-start gap-3">
 
@@ -157,8 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>` : ''}
               <div class="text-[11px] ${upcoming ? 'text-blue-600 dark:text-blue-400 font-medium' : 'text-gray-400'}">
                 ${upcoming
-                  ? `📅 ${upcoming.date} · ${fmt12(upcoming.time)} · ${aptDoc?.name || '—'}`
-                  : 'No upcoming appointment'}
+                ? `📅 ${upcoming.date} · ${fmt12(upcoming.time)} · ${aptDoc?.name || '—'}`
+                : 'No upcoming appointment'}
               </div>
             </div>
 
@@ -185,70 +189,70 @@ document.addEventListener('DOMContentLoaded', () => {
             </button>` : ''}
         </div>
       </div>`;
-  }
-
-  // ── Patient list with filter/search ───────────────────────────────────────
-
-  function getFilteredPatients(roleObj) {
-    let list = patients;
-    if (roleObj.role === 'patient') list = patients.filter(p => p.name === roleObj.userName);
-
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      list = list.filter(p =>
-        p.name.toLowerCase().includes(q) ||
-        p.phone.includes(q) ||
-        p.id.toLowerCase().includes(q) ||
-        (p.medicalHistory || '').toLowerCase().includes(q)
-      );
     }
 
-    if (activeFilter === 'with-apt')  list = list.filter(p => appointments.some(a => a.patientId === p.id && a.date >= todayISO() && a.status === 'Scheduled'));
-    if (activeFilter === 'active')    list = list.filter(p => p.status === 'Active');
-    if (activeFilter === 'inactive')  list = list.filter(p => p.status === 'Inactive');
-    if (activeFilter === 'allergies') list = list.filter(p => p.allergies?.length > 0);
+    // ── Patient list with filter/search ───────────────────────────────────────
 
-    return list;
-  }
+    function getFilteredPatients(roleObj) {
+        let list = patients;
+        if (roleObj.role === 'patient') list = patients.filter(p => p.name === roleObj.userName);
 
-  function buildPatientList(roleObj) {
-    const list = getFilteredPatients(roleObj);
-    if (list.length === 0) return `
+        if (searchQuery) {
+            const q = searchQuery.toLowerCase();
+            list = list.filter(p =>
+                p.name.toLowerCase().includes(q) ||
+                p.phone.includes(q) ||
+                p.id.toLowerCase().includes(q) ||
+                (p.medicalHistory || '').toLowerCase().includes(q)
+            );
+        }
+
+        if (activeFilter === 'with-apt') list = list.filter(p => appointments.some(a => a.patientId === p.id && a.date >= todayISO() && a.status === 'Scheduled'));
+        if (activeFilter === 'active') list = list.filter(p => p.status === 'Active');
+        if (activeFilter === 'inactive') list = list.filter(p => p.status === 'Inactive');
+        if (activeFilter === 'allergies') list = list.filter(p => p.allergies?.length > 0);
+
+        return list;
+    }
+
+    function buildPatientList(roleObj) {
+        const list = getFilteredPatients(roleObj);
+        if (list.length === 0) return `
       <div class="flex flex-col items-center justify-center py-16 text-center">
         <div class="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-white/[0.05] flex items-center justify-center text-2xl mb-3">🔍</div>
         <p class="text-sm font-semibold text-gray-500 dark:text-gray-400">No patients found</p>
         <p class="text-xs text-gray-400 mt-1">Try a different search or filter</p>
       </div>`;
 
-    return `<div class="space-y-3">${list.map(p => buildPatientCard(p, roleObj)).join('')}</div>`;
-  }
+        return `<div class="space-y-3">${list.map(p => buildPatientCard(p, roleObj)).join('')}</div>`;
+    }
 
-  // ── Sidebar panels ─────────────────────────────────────────────────────────
+    // ── Sidebar panels ─────────────────────────────────────────────────────────
 
-  function buildSidebar(roleObj) {
-    const filterBtn = (id, label, icon) => {
-      const active = activeFilter === id;
-      return `<button data-filter="${id}"
+    function buildSidebar(roleObj) {
+        const filterBtn = (id, label, icon) => {
+            const active = activeFilter === id;
+            return `<button data-filter="${id}"
         class="w-full flex items-center gap-2.5 text-left px-3 py-2.5 rounded-xl text-xs font-semibold transition-colors
           ${active
-            ? 'bg-[#e53935] text-white shadow-sm shadow-red-200 dark:shadow-red-900/20'
-            : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/[0.05]'}">
+                    ? 'bg-[#e53935] text-white shadow-sm shadow-red-200 dark:shadow-red-900/20'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/[0.05]'}">
         <span>${icon}</span><span>${label}</span>
       </button>`;
-    };
+        };
 
-    const todayApts = appointments.filter(a => a.date === todayISO() && a.status === 'Scheduled');
+        const todayApts = appointments.filter(a => a.date === todayISO() && a.status === 'Scheduled');
 
-    return `
+        return `
       <!-- Quick filters -->
       <div class="bg-white dark:bg-[#161616] rounded-2xl border border-gray-100 dark:border-white/[0.05] shadow-sm p-4">
         <h4 class="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Quick Filters</h4>
         <div class="space-y-1">
-          ${filterBtn('all',       'All Patients',            '🧑‍⚕️')}
-          ${filterBtn('active',    'Active Only',             '✅')}
-          ${filterBtn('inactive',  'Inactive',                '⏸')}
-          ${filterBtn('with-apt',  'With Upcoming Appts',     '📅')}
-          ${filterBtn('allergies', 'Has Allergies',           '⚠️')}
+          ${filterBtn('all', 'All Patients', '🧑‍⚕️')}
+          ${filterBtn('active', 'Active Only', '✅')}
+          ${filterBtn('inactive', 'Inactive', '⏸')}
+          ${filterBtn('with-apt', 'With Upcoming Appts', '📅')}
+          ${filterBtn('allergies', 'Has Allergies', '⚠️')}
         </div>
       </div>
 
@@ -256,11 +260,11 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="bg-white dark:bg-[#161616] rounded-2xl border border-gray-100 dark:border-white/[0.05] shadow-sm p-4">
         <h4 class="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Today's Schedule</h4>
         ${todayApts.length === 0
-          ? `<p class="text-xs text-gray-400 py-2">No appointments today</p>`
-          : todayApts.map(a => {
-              const pt  = patients.find(p => p.id === a.patientId);
-              const doc = doctors.find(d => d.id === a.doctorId);
-              return `
+                ? `<p class="text-xs text-gray-400 py-2">No appointments today</p>`
+                : todayApts.map(a => {
+                    const pt = patients.find(p => p.id === a.patientId);
+                    const doc = doctors.find(d => d.id === a.doctorId);
+                    return `
                 <div class="flex items-start gap-2.5 py-2.5 border-b border-gray-50 dark:border-white/[0.04] last:border-0">
                   <div class="w-1.5 min-h-[28px] rounded-full flex-shrink-0 mt-0.5" style="background:${doc?.color || '#e53935'}"></div>
                   <div>
@@ -269,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="text-[10px] text-gray-400">${a.type}</div>
                   </div>
                 </div>`;
-            }).join('')}
+                }).join('')}
       </div>
 
       <!-- Doctors -->
@@ -277,12 +281,12 @@ document.addEventListener('DOMContentLoaded', () => {
         <h4 class="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Doctors on Roster</h4>
         <div class="space-y-2.5">
           ${doctors.map(d => {
-            const count = patients.filter(p => p.assignedDoctor === d.id).length;
-            return `
+                    const count = patients.filter(p => p.assignedDoctor === d.id).length;
+                    return `
               <div class="flex items-center gap-2.5">
                 <div class="w-7 h-7 rounded-lg flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0"
                   style="background:${d.color}">
-                  ${d.name.split(' ').filter((_,i) => i > 0).map(n => n[0]).join('')}
+                  ${d.name.split(' ').filter((_, i) => i > 0).map(n => n[0]).join('')}
                 </div>
                 <div class="flex-1 min-w-0">
                   <div class="text-xs font-semibold text-gray-700 dark:text-gray-200 truncate">${d.name}</div>
@@ -290,18 +294,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <span class="text-[10px] font-semibold bg-gray-100 dark:bg-white/[0.06] text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-lg">${count} pts</span>
               </div>`;
-          }).join('')}
+                }).join('')}
         </div>
       </div>`;
-  }
+    }
 
-  // ── Main render ────────────────────────────────────────────────────────────
+    // ── Main render ────────────────────────────────────────────────────────────
 
-  function render() {
-    setActiveNav(nav);
-    const roleObj = getRole();
+    function render() {
+        setActiveNav(nav);
+        const roleObj = getRole();
 
-    container.innerHTML = `
+        container.innerHTML = `
       <!-- Header -->
       <div class="mb-5 flex items-center justify-between flex-wrap gap-3">
         <div>
@@ -351,13 +355,13 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    wire(roleObj);
-  }
+        wire(roleObj);
+    }
 
-  // ── Modal helpers ──────────────────────────────────────────────────────────
+    // ── Modal helpers ──────────────────────────────────────────────────────────
 
-  function modalHeader(icon, title, sub = '') {
-    return `
+    function modalHeader(icon, title, sub = '') {
+        return `
       <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-white/[0.06]">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-[#e53935]/10 flex items-center justify-center text-sm">${icon}</div>
@@ -370,62 +374,62 @@ document.addEventListener('DOMContentLoaded', () => {
           class="w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-white/[0.07] transition-colors text-sm">✕</button>
       </div>
       <div class="p-5 overflow-y-auto max-h-[75vh]">`;
-  }
+    }
 
-  function openModal(html) {
-    const root  = document.getElementById('pm-modal');
-    const panel = document.getElementById('pm-modal-panel');
-    const body  = document.getElementById('pm-modal-body');
-    if (!root || !body) return;
-    body.innerHTML = html + '</div>';
-    root.classList.remove('pointer-events-none');
-    requestAnimationFrame(() => { root.style.opacity = '1'; if (panel) panel.style.transform = 'scale(1)'; });
-    document.getElementById('pm-modal-close')?.addEventListener('click', closeModal);
-    document.getElementById('pm-modal-overlay')?.addEventListener('click', closeModal);
-  }
+    function openModal(html) {
+        const root = document.getElementById('pm-modal');
+        const panel = document.getElementById('pm-modal-panel');
+        const body = document.getElementById('pm-modal-body');
+        if (!root || !body) return;
+        body.innerHTML = html + '</div>';
+        root.classList.remove('pointer-events-none');
+        requestAnimationFrame(() => { root.style.opacity = '1'; if (panel) panel.style.transform = 'scale(1)'; });
+        document.getElementById('pm-modal-close')?.addEventListener('click', closeModal);
+        document.getElementById('pm-modal-overlay')?.addEventListener('click', closeModal);
+    }
 
-  function closeModal() {
-    const root  = document.getElementById('pm-modal');
-    const panel = document.getElementById('pm-modal-panel');
-    if (!root) return;
-    root.style.opacity = '0';
-    if (panel) panel.style.transform = 'scale(0.95)';
-    setTimeout(() => root.classList.add('pointer-events-none'), 200);
-  }
+    function closeModal() {
+        const root = document.getElementById('pm-modal');
+        const panel = document.getElementById('pm-modal-panel');
+        if (!root) return;
+        root.style.opacity = '0';
+        if (panel) panel.style.transform = 'scale(0.95)';
+        setTimeout(() => root.classList.add('pointer-events-none'), 200);
+    }
 
-  // ── Wire events ────────────────────────────────────────────────────────────
+    // ── Wire events ────────────────────────────────────────────────────────────
 
-  function wire(roleObj) {
+    function wire(roleObj) {
 
-    // Search
-    document.getElementById('patient-search')?.addEventListener('input', (e) => {
-      searchQuery = e.target.value;
-      document.getElementById('patient-list-container').innerHTML = buildPatientList(roleObj);
-      const countEl = container.querySelector('.lg\\:col-span-2 p');
-      if (countEl) countEl.textContent = `${getFilteredPatients(roleObj).length} patient${getFilteredPatients(roleObj).length !== 1 ? 's' : ''} shown`;
-    });
-    document.getElementById('clear-search')?.addEventListener('click', () => { searchQuery = ''; render(); });
+        // Search
+        document.getElementById('patient-search')?.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            document.getElementById('patient-list-container').innerHTML = buildPatientList(roleObj);
+            const countEl = container.querySelector('.lg\\:col-span-2 p');
+            if (countEl) countEl.textContent = `${getFilteredPatients(roleObj).length} patient${getFilteredPatients(roleObj).length !== 1 ? 's' : ''} shown`;
+        });
+        document.getElementById('clear-search')?.addEventListener('click', () => { searchQuery = ''; render(); });
 
-    // Quick filters
-    container.querySelectorAll('[data-filter]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        activeFilter = btn.getAttribute('data-filter');
-        render();
-      });
-    });
+        // Quick filters
+        container.querySelectorAll('[data-filter]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                activeFilter = btn.getAttribute('data-filter');
+                render();
+            });
+        });
 
-    // ── View patient ────────────────────────────────────────────────────────
+        // ── View patient ────────────────────────────────────────────────────────
 
-    container.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => {
-      const pt = patients.find(x => x.id === b.getAttribute('data-view'));
-      if (!pt) return;
-      const doc   = doctors.find(d => d.id === pt.assignedDoctor);
-      const color = avatarColor(pt.id);
-      const ptApts = appointments
-        .filter(a => a.patientId === pt.id)
-        .sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
+        container.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => {
+            const pt = patients.find(x => x.id === b.getAttribute('data-view'));
+            if (!pt) return;
+            const doc = doctors.find(d => d.id === pt.assignedDoctor);
+            const color = avatarColor(pt.id);
+            const ptApts = appointments
+                .filter(a => a.patientId === pt.id)
+                .sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
 
-      const html = modalHeader('🩺', pt.name, `Patient ID: ${pt.id}`) + `
+            const html = modalHeader('🩺', pt.name, `Patient ID: ${pt.id}`) + `
         <!-- Avatar + basic -->
         <div class="flex items-center gap-3 mb-4">
           <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white text-base font-bold flex-shrink-0"
@@ -501,20 +505,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     ${aptStatusBadge(a.status || 'Scheduled')}
                   </div>`;
-              }).join('')}
+            }).join('')}
             </div>
           </div>` : ''}
       `;
-      openModal(html);
-    }));
+            openModal(html);
+        }));
 
-    // ── Edit patient ────────────────────────────────────────────────────────
+        // ── Edit patient ────────────────────────────────────────────────────────
 
-    container.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => {
-      const pt = patients.find(x => x.id === b.getAttribute('data-edit'));
-      if (!pt) return;
+        container.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => {
+            const pt = patients.find(x => x.id === b.getAttribute('data-edit'));
+            if (!pt) return;
 
-      const html = modalHeader('✏️', `Edit Patient`, pt.name) + `
+            const html = modalHeader('✏️', `Edit Patient`, pt.name) + `
         <label class="${labelCls} mt-0">Full Name</label>
         <input id="pm-name" class="${inputCls}" value="${pt.name}" />
 
@@ -526,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div>
             <label class="${labelCls}">Gender</label>
             <select id="pm-gender" class="${inputCls}">
-              ${['Male','Female','Other'].map(g => `<option ${pt.gender===g?'selected':''}>${g}</option>`).join('')}
+              ${['Male', 'Female', 'Other'].map(g => `<option ${pt.gender === g ? 'selected' : ''}>${g}</option>`).join('')}
             </select>
           </div>
         </div>
@@ -539,67 +543,67 @@ document.addEventListener('DOMContentLoaded', () => {
           <div>
             <label class="${labelCls}">Blood Type</label>
             <select id="pm-blood" class="${inputCls}">
-              ${['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(bt => `<option ${pt.bloodType===bt?'selected':''}>${bt}</option>`).join('')}
+              ${['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(bt => `<option ${pt.bloodType === bt ? 'selected' : ''}>${bt}</option>`).join('')}
             </select>
           </div>
         </div>
 
         <label class="${labelCls}">Assigned Doctor</label>
         <select id="pm-doc" class="${inputCls}">
-          ${doctors.map(d => `<option value="${d.id}" ${pt.assignedDoctor===d.id?'selected':''}>${d.name} — ${d.specialty}</option>`).join('')}
+          ${doctors.map(d => `<option value="${d.id}" ${pt.assignedDoctor === d.id ? 'selected' : ''}>${d.name} — ${d.specialty}</option>`).join('')}
         </select>
 
         <label class="${labelCls}">Status</label>
         <select id="pm-status" class="${inputCls}">
-          ${['Active','Inactive'].map(s => `<option ${pt.status===s?'selected':''}>${s}</option>`).join('')}
+          ${['Active', 'Inactive'].map(s => `<option ${pt.status === s ? 'selected' : ''}>${s}</option>`).join('')}
         </select>
 
         <label class="${labelCls}">Allergies (comma-separated)</label>
-        <input id="pm-allergies" class="${inputCls}" value="${(pt.allergies||[]).join(', ')}" placeholder="e.g. Penicillin, Aspirin" />
+        <input id="pm-allergies" class="${inputCls}" value="${(pt.allergies || []).join(', ')}" placeholder="e.g. Penicillin, Aspirin" />
 
         <label class="${labelCls}">Medical History</label>
-        <input id="pm-history" class="${inputCls}" value="${pt.medicalHistory||''}" />
+        <input id="pm-history" class="${inputCls}" value="${pt.medicalHistory || ''}" />
 
         <label class="${labelCls}">Initial Diagnosis</label>
-        <input id="pm-diagnosis" class="${inputCls}" value="${pt.initialDiagnosis||''}" />
+        <input id="pm-diagnosis" class="${inputCls}" value="${pt.initialDiagnosis || ''}" />
 
         <label class="${labelCls}">Doctor's Note</label>
-        <input id="pm-note" class="${inputCls}" value="${pt.doctorComment||''}" />
+        <input id="pm-note" class="${inputCls}" value="${pt.doctorComment || ''}" />
 
         <button id="pm-save"
           class="w-full mt-5 bg-[#e53935] hover:bg-[#c62828] text-white py-3 rounded-xl text-sm font-bold transition-all shadow-sm shadow-red-200 dark:shadow-red-900/20">
           Save Changes
         </button>
       `;
-      openModal(html);
+            openModal(html);
 
-      document.getElementById('pm-save')?.addEventListener('click', () => {
-        pt.name             = document.getElementById('pm-name').value.trim() || pt.name;
-        pt.dob              = document.getElementById('pm-dob').value || pt.dob;
-        pt.gender           = document.getElementById('pm-gender').value;
-        pt.phone            = document.getElementById('pm-phone').value.trim() || pt.phone;
-        pt.bloodType        = document.getElementById('pm-blood').value;
-        pt.assignedDoctor   = document.getElementById('pm-doc').value;
-        pt.status           = document.getElementById('pm-status').value;
-        pt.allergies        = document.getElementById('pm-allergies').value.split(',').map(s=>s.trim()).filter(Boolean);
-        pt.medicalHistory   = document.getElementById('pm-history').value;
-        pt.initialDiagnosis = document.getElementById('pm-diagnosis').value;
-        pt.doctorComment    = document.getElementById('pm-note').value;
-        closeModal();
-        render();
-      });
-    }));
+            document.getElementById('pm-save')?.addEventListener('click', () => {
+                pt.name = document.getElementById('pm-name').value.trim() || pt.name;
+                pt.dob = document.getElementById('pm-dob').value || pt.dob;
+                pt.gender = document.getElementById('pm-gender').value;
+                pt.phone = document.getElementById('pm-phone').value.trim() || pt.phone;
+                pt.bloodType = document.getElementById('pm-blood').value;
+                pt.assignedDoctor = document.getElementById('pm-doc').value;
+                pt.status = document.getElementById('pm-status').value;
+                pt.allergies = document.getElementById('pm-allergies').value.split(',').map(s => s.trim()).filter(Boolean);
+                pt.medicalHistory = document.getElementById('pm-history').value;
+                pt.initialDiagnosis = document.getElementById('pm-diagnosis').value;
+                pt.doctorComment = document.getElementById('pm-note').value;
+                closeModal();
+                render();
+            });
+        }));
 
-    // ── Book appointment ────────────────────────────────────────────────────
+        // ── Book appointment ────────────────────────────────────────────────────
 
-    container.querySelectorAll('[data-book]').forEach(b => b.addEventListener('click', () => {
-      const pt = patients.find(x => x.id === b.getAttribute('data-book'));
-      if (!pt) return;
+        container.querySelectorAll('[data-book]').forEach(b => b.addEventListener('click', () => {
+            const pt = patients.find(x => x.id === b.getAttribute('data-book'));
+            if (!pt) return;
 
-      const html = modalHeader('📅', `Book Appointment`, pt.name) + `
+            const html = modalHeader('📅', `Book Appointment`, pt.name) + `
         <label class="${labelCls} mt-0">Doctor</label>
         <select id="pm-doc-book" class="${inputCls}">
-          ${doctors.map(d => `<option value="${d.id}" ${pt.assignedDoctor===d.id?'selected':''}>${d.name} — ${d.specialty}</option>`).join('')}
+          ${doctors.map(d => `<option value="${d.id}" ${pt.assignedDoctor === d.id ? 'selected' : ''}>${d.name} — ${d.specialty}</option>`).join('')}
         </select>
 
         <div class="grid grid-cols-2 gap-3">
@@ -615,7 +619,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <label class="${labelCls}">Type</label>
         <select id="pm-type" class="${inputCls}">
-          ${['Checkup','Consultation','Follow-up','Vaccination','Lab Review','Other'].map(t=>`<option>${t}</option>`).join('')}
+          ${['Checkup', 'Consultation', 'Follow-up', 'Vaccination', 'Lab Review', 'Other'].map(t => `<option>${t}</option>`).join('')}
         </select>
 
         <button id="pm-book-save"
@@ -623,29 +627,29 @@ document.addEventListener('DOMContentLoaded', () => {
           Confirm Booking
         </button>
       `;
-      openModal(html);
+            openModal(html);
 
-      document.getElementById('pm-book-save')?.addEventListener('click', () => {
-        const date = document.getElementById('pm-date').value;
-        const time = document.getElementById('pm-time').value;
-        if (!date || !time) { alert('Please select a date and time.'); return; }
-        appointments.push({
-          id: 'APT-' + String(1000 + appointments.length + 1),
-          patientId: pt.id,
-          doctorId: document.getElementById('pm-doc-book').value,
-          date, time,
-          type: document.getElementById('pm-type').value,
-          status: 'Scheduled'
-        });
-        closeModal();
-        render();
-      });
-    }));
+            document.getElementById('pm-book-save')?.addEventListener('click', () => {
+                const date = document.getElementById('pm-date').value;
+                const time = document.getElementById('pm-time').value;
+                if (!date || !time) { alert('Please select a date and time.'); return; }
+                appointments.push({
+                    id: 'APT-' + String(1000 + appointments.length + 1),
+                    patientId: pt.id,
+                    doctorId: document.getElementById('pm-doc-book').value,
+                    date, time,
+                    type: document.getElementById('pm-type').value,
+                    status: 'Scheduled'
+                });
+                closeModal();
+                render();
+            });
+        }));
 
-    // ── Add patient ─────────────────────────────────────────────────────────
+        // ── Add patient ─────────────────────────────────────────────────────────
 
-    document.getElementById('add-patient')?.addEventListener('click', () => {
-      const html = modalHeader('➕', 'Add New Patient', 'Enter patient details below') + `
+        document.getElementById('add-patient')?.addEventListener('click', () => {
+            const html = modalHeader('➕', 'Add New Patient', 'Enter patient details below') + `
         <label class="${labelCls} mt-0">Full Name</label>
         <input id="pm-new-name" class="${inputCls}" placeholder="e.g. Juan Dela Cruz" />
 
@@ -670,14 +674,14 @@ document.addEventListener('DOMContentLoaded', () => {
           <div>
             <label class="${labelCls}">Blood Type</label>
             <select id="pm-new-blood" class="${inputCls}">
-              ${['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(bt=>`<option>${bt}</option>`).join('')}
+              ${['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(bt => `<option>${bt}</option>`).join('')}
             </select>
           </div>
         </div>
 
         <label class="${labelCls}">Assigned Doctor</label>
         <select id="pm-new-doc" class="${inputCls}">
-          ${doctors.map(d=>`<option value="${d.id}">${d.name} — ${d.specialty}</option>`).join('')}
+          ${doctors.map(d => `<option value="${d.id}">${d.name} — ${d.specialty}</option>`).join('')}
         </select>
 
         <label class="${labelCls}">Allergies (comma-separated)</label>
@@ -688,40 +692,40 @@ document.addEventListener('DOMContentLoaded', () => {
           Create Patient Record
         </button>
       `;
-      openModal(html);
+            openModal(html);
 
-      document.getElementById('pm-new-save')?.addEventListener('click', () => {
-        const name = document.getElementById('pm-new-name').value.trim();
-        if (!name) { alert('Name is required.'); return; }
-        patients.push({
-          id:             'PT-' + String(100 + patients.length + 1),
-          name,
-          dob:            document.getElementById('pm-new-dob').value,
-          gender:         document.getElementById('pm-new-gender').value,
-          phone:          document.getElementById('pm-new-phone').value.trim(),
-          bloodType:      document.getElementById('pm-new-blood').value,
-          assignedDoctor: document.getElementById('pm-new-doc').value,
-          allergies:      document.getElementById('pm-new-allergies').value.split(',').map(s=>s.trim()).filter(Boolean),
-          medicalHistory: '', initialDiagnosis: '', doctorComment: '',
-          status: 'Active'
+            document.getElementById('pm-new-save')?.addEventListener('click', () => {
+                const name = document.getElementById('pm-new-name').value.trim();
+                if (!name) { alert('Name is required.'); return; }
+                patients.push({
+                    id: 'PT-' + String(100 + patients.length + 1),
+                    name,
+                    dob: document.getElementById('pm-new-dob').value,
+                    gender: document.getElementById('pm-new-gender').value,
+                    phone: document.getElementById('pm-new-phone').value.trim(),
+                    bloodType: document.getElementById('pm-new-blood').value,
+                    assignedDoctor: document.getElementById('pm-new-doc').value,
+                    allergies: document.getElementById('pm-new-allergies').value.split(',').map(s => s.trim()).filter(Boolean),
+                    medicalHistory: '', initialDiagnosis: '', doctorComment: '',
+                    status: 'Active'
+                });
+                closeModal();
+                render();
+            });
         });
-        closeModal();
-        render();
-      });
-    });
 
-    // ── New appointment (generic) ───────────────────────────────────────────
+        // ── New appointment (generic) ───────────────────────────────────────────
 
-    document.getElementById('new-apt')?.addEventListener('click', () => {
-      const html = modalHeader('📅', 'New Appointment', 'Schedule for any patient') + `
+        document.getElementById('new-apt')?.addEventListener('click', () => {
+            const html = modalHeader('📅', 'New Appointment', 'Schedule for any patient') + `
         <label class="${labelCls} mt-0">Patient</label>
         <select id="pm-patient" class="${inputCls}">
-          ${patients.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}
+          ${patients.map(p => `<option value="${p.id}">${p.name}</option>`).join('')}
         </select>
 
         <label class="${labelCls}">Doctor</label>
         <select id="pm-doc2" class="${inputCls}">
-          ${doctors.map(d=>`<option value="${d.id}">${d.name} — ${d.specialty}</option>`).join('')}
+          ${doctors.map(d => `<option value="${d.id}">${d.name} — ${d.specialty}</option>`).join('')}
         </select>
 
         <div class="grid grid-cols-2 gap-3">
@@ -737,7 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <label class="${labelCls}">Type</label>
         <select id="pm-type2" class="${inputCls}">
-          ${['Checkup','Consultation','Follow-up','Vaccination','Lab Review','Other'].map(t=>`<option>${t}</option>`).join('')}
+          ${['Checkup', 'Consultation', 'Follow-up', 'Vaccination', 'Lab Review', 'Other'].map(t => `<option>${t}</option>`).join('')}
         </select>
 
         <button id="pm-new-apt-save"
@@ -745,28 +749,28 @@ document.addEventListener('DOMContentLoaded', () => {
           Confirm Appointment
         </button>
       `;
-      openModal(html);
+            openModal(html);
 
-      document.getElementById('pm-new-apt-save')?.addEventListener('click', () => {
-        const date = document.getElementById('pm-date2').value;
-        const time = document.getElementById('pm-time2').value;
-        if (!date || !time) { alert('Date and time are required.'); return; }
-        appointments.push({
-          id: 'APT-' + String(1000 + appointments.length + 1),
-          patientId: document.getElementById('pm-patient').value,
-          doctorId:  document.getElementById('pm-doc2').value,
-          date, time,
-          type:   document.getElementById('pm-type2').value,
-          status: 'Scheduled'
+            document.getElementById('pm-new-apt-save')?.addEventListener('click', () => {
+                const date = document.getElementById('pm-date2').value;
+                const time = document.getElementById('pm-time2').value;
+                if (!date || !time) { alert('Date and time are required.'); return; }
+                appointments.push({
+                    id: 'APT-' + String(1000 + appointments.length + 1),
+                    patientId: document.getElementById('pm-patient').value,
+                    doctorId: document.getElementById('pm-doc2').value,
+                    date, time,
+                    type: document.getElementById('pm-type2').value,
+                    status: 'Scheduled'
+                });
+                closeModal();
+                render();
+            });
         });
-        closeModal();
-        render();
-      });
-    });
 
-    document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
-  }
+        document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
+    }
 
-  nav.addEventListener('click', (e) => { e.preventDefault(); render(); });
-  if (location.hash === '#patients') render();
+    nav.addEventListener('click', (e) => { e.preventDefault(); render(); });
+    if (location.hash === '#patients') render();
 });

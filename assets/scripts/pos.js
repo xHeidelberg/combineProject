@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('role-dashboard');
   if (!nav || !container) return;
 
-  // sample product data
+  // ================================================ sample data (replace with API fetch later)
   const products = [
     { id: 'P001', name: 'Paracetamol 500mg', price: 35.00, prescription: false, shelf: 'A1', delivered: '2026-04-28', dosage: '500mg', stock: 24 },
     { id: 'P002', name: 'Amoxicillin 250mg', price: 120.00, prescription: true,  shelf: 'B4', delivered: '2026-04-20', dosage: '250mg', stock: 8  },
@@ -30,9 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return '₱' + Number(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
-  function setActiveNav(el) {
-    document.querySelectorAll('#sidebar nav a').forEach(a => a.classList.remove('bg-[#e53935]', 'text-white'));
-    if (el) el.classList.add('bg-[#e53935]', 'text-white');
+  function setActiveNav(target) {
+    if (window.setActiveSidebar) return window.setActiveSidebar(target);
+    const links = document.querySelectorAll('#sidebar nav a');
+    links.forEach(a => a.classList.remove('active-nav','bg-[#e53935]','text-white'));
+    const el = (typeof target === 'string') ? document.getElementById(target) : target;
+    if (el) el.classList.add('active-nav');
   }
 
   // Pill badge

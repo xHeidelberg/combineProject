@@ -490,22 +490,22 @@
           <span class="link-text whitespace-nowrap">Patient Management</span>
         </a>
 
-        <a href="#"
+        <a id="nav-supply" href="#"
           class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-admin role-pharmacist role-staff">
           <span class="nav-icon">📦</span>
           <span class="link-text whitespace-nowrap">Stock Supply</span>
         </a>
 
-        <a href="#"
+        <a id="nav-product-management" href="#"
           class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-admin role-pharmacist">
           <span class="nav-icon">🧾</span>
           <span class="link-text whitespace-nowrap">Product Management</span>
         </a>
 
-        <a href="#"
+        <a id="nav-audit-logs" href="#"
           class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-admin">
           <span class="nav-icon">🕵️</span>
-          <span class="link-text whitespace-nowrap">Audit Trail</span>
+          <span class="link-text whitespace-nowrap">Audit Logs</span>
         </a>
 
         <div class="mt-1">
@@ -545,7 +545,7 @@
         <a href="#"
           class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-patient">
           <span class="nav-icon">📜</span>
-          <span class="link-text whitespace-nowrap">My Prescriptions</span>
+          <span class="link-text whitespace-nowrap">Prescriptions</span>
         </a>
       </nav>
 
@@ -683,9 +683,31 @@
   </script>
 
   <script src="../assets/scripts/dashboard.js" defer></script>
+  <script>
+    // Global helper to keep sidebar active state consistent across modules
+    // Global helper to keep sidebar active state consistent across modules
+    window.setActiveSidebar = function(idOrEl){
+      const links = document.querySelectorAll('#sidebar nav a');
+      links.forEach(a => {
+        a.classList.remove('active-nav','bg-[#e53935]','text-white');
+        a.classList.add('text-gray-300');
+        a.style.background = '';
+        a.style.color = '';
+        a.style.boxShadow = '';
+      });
+      const el = (typeof idOrEl === 'string') ? document.getElementById(idOrEl) : idOrEl;
+      if (el) {
+        el.classList.remove('text-gray-300');
+        el.classList.add('active-nav');
+      }
+    };
+  </script>
   <script src="../assets/scripts/sidebar-products.js" defer></script>
   <script src="../assets/scripts/pos.js" defer></script>
   <script src="../assets/scripts/patients.js" defer></script>
+  <script src="../assets/scripts/stock-supply.js" defer></script>
+  <script src="../assets/scripts/product-management.js" defer></script>
+  <script src="../assets/scripts/audit-logs.js" defer></script>
   <script src="../assets/scripts/orders.js" defer></script>
   <script src="../assets/scripts/appointments.js" defer></script>
   <script src="../assets/scripts/transaction-history.js" defer></script>

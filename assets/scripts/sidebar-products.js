@@ -32,19 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!container) { alert('Dashboard container not found'); return; }
 
         // Set products nav active
-        (function setActiveNav(id) {
+          function setActiveNav(target) {
+            if (window.setActiveSidebar) return window.setActiveSidebar(target);
             const links = document.querySelectorAll('#sidebar nav a');
-            links.forEach(a => {
-                a.classList.remove('bg-[#e53935]', 'text-white', 'bg-gray-200', 'dark:bg-gray-700', 'text-gray-900', 'dark:text-white');
-                a.style.background = '';
-                a.style.color = '';
-                a.style.boxShadow = '';
-            });
-            const el = document.getElementById(id);
-            if (el) {
-                el.classList.add('bg-[#e53935]', 'text-white');
-            }
-        })('nav-products');
+            links.forEach(a => a.classList.remove('active-nav','bg-[#e53935]', 'text-white', 'bg-gray-200', 'dark:bg-gray-700', 'text-gray-900', 'dark:text-white'));
+            const el = (typeof target === 'string') ? document.getElementById(target) : target;
+            if (el) el.classList.add('active-nav');
+          }
+          setActiveNav('nav-products');
 
         // Shared input class
         const inputCls = 'w-full border border-gray-200 dark:border-white/10 rounded-xl px-3 py-2 mt-1.5 text-sm bg-gray-50 dark:bg-white/[0.03] text-gray-800 dark:text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-red-200 dark:focus:ring-red-500/20 transition-shadow';

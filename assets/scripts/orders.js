@@ -9,11 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'ORD-1003', date: '2026-05-01 09:50', customer: 'Pedro Reyes', items: 'Amoxicillin x1', status: 'Cancelled', total: '₱75.00' },
   ];
 
-  function setActiveNav(el) {
-    document.querySelectorAll('#sidebar nav a').forEach(a => {
-      a.classList.remove('bg-[#e53935]', 'text-white');
-    });
-    if (el) el.classList.add('bg-[#e53935]', 'text-white');
+  function setActiveNav(target) {
+    if (window.setActiveSidebar) return window.setActiveSidebar(target);
+    const links = document.querySelectorAll('#sidebar nav a');
+    links.forEach(a => a.classList.remove('active-nav','bg-[#e53935]', 'text-white'));
+    const el = (typeof target === 'string') ? document.getElementById(target) : target;
+    if (el) el.classList.add('active-nav');
   }
 
   function buildTable(rows) {
