@@ -5,6 +5,7 @@ bash: php -S localhost:8000
 Todo CAI
 - Orders
 - appointment
+- Patient Management
 
 
 
