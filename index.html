@@ -1,262 +1,1375 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="./src/output.css" rel="stylesheet">
-    <style>
-        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RS Medstar Pharmacy — Your Trusted Health Partner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        :root {
-            --primary: #e53935;
-            --primary-dark: #cc3633;
-            --bg: #ffffff;
-            --text: #000000;
-        }
+  <style>
+    /* ═══════════════════════════════════════════════════
+       TOKENS & THEME
+    ═══════════════════════════════════════════════════ */
+    :root {
+      --red:       #e53935;
+      --red-dark:  #b71c1c;
+      --red-soft:  #fff0ef;
+      --red-mid:   rgba(229,57,53,.12);
 
-        html, body { height: 100%; }
-        body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background: var(--bg); color: var(--text); transition: background-color .2s, color .2s; }
+      /* light */
+      --bg:        #fafafa;
+      --bg2:       #f3f3f3;
+      --surface:   #ffffff;
+      --border:    #e8e8e8;
+      --text:      #0d0d0d;
+      --text2:     #555;
+      --text3:     #888;
+      --nav-bg:    rgba(255,255,255,.88);
+      --shadow:    0 4px 32px rgba(0,0,0,.08);
+      --card-bg:   #ffffff;
 
-        .fade-in { animation: fadeIn 0.8s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+      --radius:    16px;
+      --transition: .25s cubic-bezier(.4,0,.2,1);
+    }
 
-        /* utility tweaks to keep design consistent */
-        .btn-primary { background: var(--primary); color: #fff; }
-        .btn-primary:hover { background: var(--primary-dark); }
-        .card { background: #fff; box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
-    </style>
+    [data-theme="dark"] {
+      --bg:        #0c0c0e;
+      --bg2:       #141416;
+      --surface:   #1a1a1e;
+      --border:    #272730;
+      --text:      #f0f0f4;
+      --text2:     #a0a0b0;
+      --text3:     #666680;
+      --nav-bg:    rgba(12,12,14,.92);
+      --shadow:    0 4px 32px rgba(0,0,0,.4);
+      --card-bg:   #1a1a1e;
+      --red-soft:  rgba(229,57,53,.12);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       RESET & BASE
+    ═══════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      transition: background var(--transition), color var(--transition);
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ═══════════════════════════════════════════════════
+       SCROLLBAR
+    ═══════════════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 99px; }
+
+    /* ═══════════════════════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════════════════════ */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display);
+      font-size: 20px; font-weight: 700;
+      color: var(--text);
+      flex-shrink: 0;
+    }
+    .nav-logo .logo-icon {
+      width: 38px; height: 38px;
+      background: var(--red);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 4px 14px rgba(229,57,53,.35);
+    }
+    .nav-logo span { color: var(--red); }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 4px;
+      list-style: none;
+    }
+    .nav-links a {
+      padding: 8px 14px; border-radius: 8px;
+      font-size: 14px; font-weight: 500; color: var(--text2);
+      transition: color var(--transition), background var(--transition);
+    }
+    .nav-links a:hover { color: var(--red); background: var(--red-mid); }
+    .nav-links a.active { color: var(--red); }
+
+    .nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+    .btn-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text2);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 15px;
+      transition: all var(--transition);
+    }
+    .btn-icon:hover { border-color: var(--red); color: var(--red); }
+
+    .btn-account {
+      background: var(--red); color: #fff;
+      padding: 9px 20px; border-radius: 10px;
+      font-size: 13.5px; font-weight: 600;
+      border: none; cursor: pointer;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 4px 14px rgba(229,57,53,.3);
+    }
+    .btn-account:hover { background: var(--red-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(229,57,53,.4); }
+
+    /* Hamburger */
+    #menuBtn {
+      display: none;
+      width: 38px; height: 38px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--text); font-size: 18px;
+      align-items: center; justify-content: center;
+      cursor: pointer; transition: all var(--transition);
+    }
+    #menuBtn:hover { border-color: var(--red); color: var(--red); }
+
+    /* Mobile menu */
+    #mobileMenu {
+      display: none;
+      flex-direction: column;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 12px 20px 20px;
+      gap: 4px;
+    }
+    #mobileMenu a {
+      padding: 11px 14px; border-radius: 10px;
+      font-size: 15px; font-weight: 500; color: var(--text2);
+      transition: color var(--transition), background var(--transition);
+    }
+    #mobileMenu a:hover { color: var(--red); background: var(--red-mid); }
+    #mobileMenu .mob-divider { height: 1px; background: var(--border); margin: 8px 0; }
+    #mobileMenu .btn-account { width: 100%; text-align: center; margin-top: 4px; padding: 12px; }
+
+    /* ═══════════════════════════════════════════════════
+       ANNOUNCEMENT BAR
+    ═══════════════════════════════════════════════════ */
+    .announce-bar {
+      background: var(--red);
+      color: #fff;
+      text-align: center;
+      padding: 9px 16px;
+      font-size: 12.5px; font-weight: 500;
+      letter-spacing: .3px;
+    }
+    .announce-bar a { color: #fff; text-decoration: underline; }
+
+    /* ═══════════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════════ */
+    #hero {
+      padding-top: 110px;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); pointer-events: none; z-index: 0;
+    }
+    .hero-blob-1 {
+      width: 600px; height: 600px;
+      background: rgba(229,57,53,.08);
+      top: -100px; right: -150px;
+    }
+    .hero-blob-2 {
+      width: 400px; height: 400px;
+      background: rgba(229,57,53,.05);
+      bottom: 0; left: -100px;
+    }
+    .hero-inner {
+      max-width: 1200px; margin: 0 auto; padding: 60px 24px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--red-soft);
+      color: var(--red); border: 1px solid rgba(229,57,53,.2);
+      border-radius: 99px; padding: 6px 14px;
+      font-size: 12px; font-weight: 600;
+      margin-bottom: 20px;
+      animation: fadeUp .6s ease both;
+    }
+    .hero-badge .dot { width: 7px; height: 7px; background: var(--red); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5.5vw, 72px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      color: var(--text);
+      margin-bottom: 20px;
+      animation: fadeUp .7s .1s ease both;
+    }
+    .hero-title em { font-style: italic; color: var(--red); }
+
+    .hero-desc {
+      font-size: 17px; color: var(--text2); line-height: 1.7;
+      max-width: 460px; margin-bottom: 36px;
+      animation: fadeUp .7s .2s ease both;
+    }
+
+    .hero-cta {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      animation: fadeUp .7s .3s ease both;
+    }
+    .btn-primary {
+      background: var(--red); color: #fff;
+      padding: 14px 28px; border-radius: 12px;
+      font-weight: 600; font-size: 15px;
+      border: none; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: all var(--transition);
+      box-shadow: 0 6px 20px rgba(229,57,53,.35);
+    }
+    .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(229,57,53,.45); }
+    .btn-outline {
+      background: transparent; color: var(--red);
+      padding: 14px 28px; border-radius: 12px;
+      font-weight: 600; font-size: 15px;
+      border: 1.5px solid var(--red); cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: all var(--transition);
+    }
+    .btn-outline:hover { background: var(--red-soft); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex; gap: 28px; margin-top: 44px;
+      animation: fadeUp .7s .4s ease both;
+    }
+    .hero-stat { display: flex; flex-direction: column; gap: 2px; }
+    .hero-stat strong {
+      font-family: var(--font-display);
+      font-size: 28px; font-weight: 900; color: var(--red);
+    }
+    .hero-stat span { font-size: 12px; color: var(--text3); text-transform: uppercase; letter-spacing: .6px; }
+    .stat-divider { width: 1px; background: var(--border); }
+
+    /* Hero image card */
+    .hero-visual {
+      position: relative;
+      animation: fadeUp .7s .2s ease both;
+    }
+    .hero-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--red), #ff7043);
+    }
+    .hc-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .hc-title { font-weight: 700; font-size: 15px; }
+    .hc-pill { background: #d4edda; color: #1a7a34; border-radius: 99px; padding: 4px 12px; font-size: 11px; font-weight: 700; }
+    .hc-items { display: flex; flex-direction: column; gap: 12px; }
+    .hc-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 14px;
+      background: var(--bg2);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      transition: transform var(--transition);
+    }
+    .hc-item:hover { transform: translateX(4px); }
+    .hc-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--red-soft); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .hc-name { font-size: 13px; font-weight: 600; }
+    .hc-sub { font-size: 11px; color: var(--text3); }
+    .hc-price { margin-left: auto; font-size: 14px; font-weight: 700; color: var(--red); flex-shrink: 0; }
+    .hc-footer { margin-top: 20px; display: flex; align-items: center; justify-content: space-between; }
+    .hc-footer-label { font-size: 12px; color: var(--text3); }
+    .hc-order-btn {
+      background: var(--red); color: #fff;
+      border: none; cursor: pointer;
+      padding: 9px 18px; border-radius: 9px;
+      font-size: 12px; font-weight: 600;
+      transition: all var(--transition);
+    }
+    .hc-order-btn:hover { background: var(--red-dark); }
+
+    /* Float cards */
+    .float-card {
+      position: absolute;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 16px;
+      box-shadow: var(--shadow);
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; font-weight: 600;
+      animation: float 4s ease-in-out infinite;
+    }
+    .float-card-1 { bottom: -16px; left: -24px; animation-delay: 0s; }
+    .float-card-2 { top: -16px; right: -20px; animation-delay: 1.5s; }
+    .float-card .fc-icon { font-size: 20px; }
+    .float-card .fc-sub { font-size: 10px; color: var(--text3); font-weight: 400; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+    /* ═══════════════════════════════════════════════════
+       TRUST STRIP
+    ═══════════════════════════════════════════════════ */
+    .trust-strip {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 22px 24px;
+    }
+    .trust-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: center;
+      gap: 40px; flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13.5px; font-weight: 600; color: var(--text2);
+    }
+    .trust-item i { color: var(--red); font-size: 18px; }
+
+    /* ═══════════════════════════════════════════════════
+       SECTION UTILITY
+    ═══════════════════════════════════════════════════ */
+    .section { padding: 96px 24px; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-eyebrow {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--red);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 900; line-height: 1.1;
+      letter-spacing: -.02em;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 16px; color: var(--text2); line-height: 1.7;
+      max-width: 540px;
+    }
+    .section-header { margin-bottom: 56px; }
+
+    /* reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ═══════════════════════════════════════════════════
+       SERVICES
+    ═══════════════════════════════════════════════════ */
+    #services { background: var(--bg); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .service-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      transition: all var(--transition);
+      position: relative; overflow: hidden;
+      cursor: default;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .3s ease;
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.1); border-color: rgba(229,57,53,.25); }
+    .service-card:hover::after { transform: scaleX(1); }
+    .sc-icon {
+      width: 56px; height: 56px;
+      background: var(--red-soft);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; margin-bottom: 20px;
+      transition: transform var(--transition);
+    }
+    .service-card:hover .sc-icon { transform: scale(1.1) rotate(-4deg); }
+    .sc-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .sc-desc { font-size: 14px; color: var(--text2); line-height: 1.65; }
+    .sc-link { margin-top: 18px; color: var(--red); font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+
+    /* ═══════════════════════════════════════════════════
+       PRODUCTS
+    ═══════════════════════════════════════════════════ */
+    #products { background: var(--bg2); }
+    .products-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 40px; flex-wrap: wrap; gap: 16px; }
+    .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-tab {
+      padding: 7px 16px; border-radius: 99px;
+      font-size: 13px; font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--surface); color: var(--text2);
+      cursor: pointer; transition: all var(--transition);
+    }
+    .filter-tab.active, .filter-tab:hover { background: var(--red); color: #fff; border-color: var(--red); }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.1); }
+    .pc-img {
+      aspect-ratio: 1/1;
+      background: var(--bg2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 60px;
+      padding: 20px;
+      position: relative;
+    }
+    .pc-badge {
+      position: absolute; top: 10px; left: 10px;
+      background: var(--red); color: #fff;
+      font-size: 10px; font-weight: 700;
+      padding: 3px 8px; border-radius: 6px;
+    }
+    .pc-body { padding: 16px; }
+    .pc-name { font-size: 13.5px; font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
+    .pc-sub { font-size: 11.5px; color: var(--text3); margin-bottom: 10px; }
+    .pc-footer { display: flex; align-items: center; justify-content: space-between; }
+    .pc-price { font-size: 15px; font-weight: 700; color: var(--red); }
+    .pc-add {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: var(--red-soft); color: var(--red);
+      border: none; cursor: pointer; font-size: 16px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--transition);
+    }
+    .pc-add:hover { background: var(--red); color: #fff; }
+
+    /* ═══════════════════════════════════════════════════
+       HOW IT WORKS
+    ═══════════════════════════════════════════════════ */
+    #how { background: var(--bg); }
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 32px; position: relative;
+    }
+    .steps-grid::before {
+      content: '';
+      position: absolute; top: 28px; left: 12.5%; right: 12.5%;
+      height: 1.5px;
+      background: linear-gradient(90deg, var(--red) 0%, rgba(229,57,53,.2) 100%);
+      z-index: 0;
+    }
+    .step-card { text-align: center; position: relative; z-index: 1; }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--red); color: #fff;
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 18px;
+      box-shadow: 0 6px 20px rgba(229,57,53,.35);
+    }
+    .step-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .step-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+    /* ═══════════════════════════════════════════════════
+       TESTIMONIALS
+    ═══════════════════════════════════════════════════ */
+    #testimonials { background: var(--bg2); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .testi-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      transition: all var(--transition);
+    }
+    .testi-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .testi-stars { color: #f59e0b; font-size: 13px; margin-bottom: 14px; }
+    .testi-text { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--red);
+      color: #fff; font-weight: 700; font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .testi-name { font-size: 13.5px; font-weight: 700; }
+    .testi-role { font-size: 11.5px; color: var(--text3); }
+
+    /* ═══════════════════════════════════════════════════
+       OPERATING HOURS + CONTACT
+    ═══════════════════════════════════════════════════ */
+    #contact { background: var(--bg); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .hours-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px; overflow: hidden; position: relative;
+    }
+    .hours-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--red), #ff7043);
+    }
+    .hours-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .hours-title i { color: var(--red); }
+    .hours-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 11px 0; border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-day { font-weight: 500; }
+    .hours-time { color: var(--text2); }
+    .hours-open { color: #16a34a; font-size: 11px; font-weight: 700; background: #d4edda; padding: 2px 8px; border-radius: 99px; }
+    .hours-closed { color: #dc2626; font-size: 11px; font-weight: 700; background: #fee2e2; padding: 2px 8px; border-radius: 99px; }
+
+    .contact-info { display: flex; flex-direction: column; gap: 20px; }
+    .contact-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 20px; border-radius: 16px;
+      background: var(--card-bg); border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+    .contact-item:hover { border-color: rgba(229,57,53,.25); transform: translateX(4px); }
+    .ci-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--red-soft); color: var(--red);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .ci-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; font-weight: 600; margin-bottom: 4px; }
+    .ci-value { font-size: 14.5px; font-weight: 600; }
+    .ci-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+    /* ═══════════════════════════════════════════════════
+       CTA BANNER
+    ═══════════════════════════════════════════════════ */
+    .cta-banner {
+      background: var(--red);
+      padding: 80px 24px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(255,255,255,.1), transparent 60%);
+    }
+    .cta-banner-inner { max-width: 640px; margin: 0 auto; position: relative; z-index: 1; }
+    .cta-banner h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 900; color: #fff;
+      margin-bottom: 14px; line-height: 1.1;
+    }
+    .cta-banner p { color: rgba(255,255,255,.8); font-size: 16px; margin-bottom: 32px; }
+    .cta-banner .btn-white {
+      background: #fff; color: var(--red);
+      padding: 14px 32px; border-radius: 12px;
+      font-weight: 700; font-size: 15px;
+      border: none; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: all var(--transition);
+      box-shadow: 0 6px 20px rgba(0,0,0,.15);
+    }
+    .cta-banner .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,.2); }
+
+    /* ═══════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════ */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 60px 24px 30px;
+    }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; margin-bottom: 48px;
+    }
+    .footer-brand .fb-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display);
+      font-size: 18px; font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .footer-brand .fb-logo .logo-icon { width: 34px; height: 34px; border-radius: 9px; font-size: 16px; }
+    .footer-brand .fb-logo span { color: var(--red); }
+    .fb-desc { font-size: 13.5px; color: var(--text2); line-height: 1.7; margin-bottom: 20px; }
+    .fb-social { display: flex; gap: 8px; }
+    .fb-social a {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: var(--bg2); color: var(--text3);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; transition: all var(--transition);
+    }
+    .fb-social a:hover { background: var(--red); color: #fff; border-color: var(--red); }
+
+    .footer-col h4 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 16px; color: var(--text); }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { font-size: 13.5px; color: var(--text2); transition: color var(--transition); }
+    .footer-col ul a:hover { color: var(--red); }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border); padding-top: 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      font-size: 12.5px; color: var(--text3);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       CHATBOT
+    ═══════════════════════════════════════════════════ */
+    #chatbot-toggle {
+      position: fixed; bottom: 28px; right: 28px; z-index: 200;
+      width: 60px; height: 60px; border-radius: 50%;
+      background: var(--red); color: #fff;
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 8px 28px rgba(229,57,53,.5);
+      transition: all var(--transition);
+    }
+    #chatbot-toggle:hover { transform: scale(1.08); box-shadow: 0 12px 36px rgba(229,57,53,.6); }
+    #chatbot-toggle .notif-dot {
+      position: absolute; top: 2px; right: 2px;
+      width: 14px; height: 14px;
+      background: #22c55e; border-radius: 50%;
+      border: 2.5px solid #fff;
+    }
+
+    #chatbot-window {
+      position: fixed; bottom: 100px; right: 28px; z-index: 200;
+      width: 360px; max-height: 520px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+      display: flex; flex-direction: column;
+      overflow: hidden;
+      transform: scale(.9) translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all .25s cubic-bezier(.34,1.56,.64,1);
+    }
+    #chatbot-window.open {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .cb-header {
+      background: var(--red);
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .cb-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .cb-header-info { flex: 1; }
+    .cb-name { font-size: 14px; font-weight: 700; color: #fff; }
+    .cb-status { font-size: 11px; color: rgba(255,255,255,.7); display: flex; align-items: center; gap: 5px; }
+    .cb-status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #4ade80; display: inline-block; }
+    .cb-close {
+      background: none; border: none; cursor: pointer;
+      color: rgba(255,255,255,.8); font-size: 18px;
+      transition: color var(--transition);
+    }
+    .cb-close:hover { color: #fff; }
+    .cb-messages {
+      flex: 1; overflow-y: auto; padding: 16px;
+      display: flex; flex-direction: column; gap: 12px;
+      background: var(--bg2);
+    }
+    .cb-messages::-webkit-scrollbar { width: 3px; }
+    .cb-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+    .cb-msg {
+      max-width: 82%; font-size: 13.5px; line-height: 1.55;
+      padding: 10px 14px; border-radius: 16px;
+      animation: msgIn .2s ease;
+    }
+    @keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+    .cb-msg.bot { background: var(--surface); border: 1px solid var(--border); color: var(--text); align-self: flex-start; border-bottom-left-radius: 4px; }
+    .cb-msg.user { background: var(--red); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .cb-msg.typing { padding: 12px 16px; }
+    .typing-dots { display: flex; gap: 4px; }
+    .typing-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--text3); animation: typingDot 1.2s infinite; }
+    .typing-dots span:nth-child(2) { animation-delay: .2s; }
+    .typing-dots span:nth-child(3) { animation-delay: .4s; }
+    @keyframes typingDot { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+    .cb-quick-btns { padding: 10px 16px 4px; display: flex; flex-wrap: wrap; gap: 6px; background: var(--bg2); }
+    .cb-quick-btn {
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text2); font-size: 11.5px; font-weight: 500;
+      padding: 6px 12px; border-radius: 99px; cursor: pointer;
+      transition: all var(--transition);
+    }
+    .cb-quick-btn:hover { background: var(--red); color: #fff; border-color: var(--red); }
+    .cb-input-row {
+      padding: 12px 14px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex; gap: 8px; align-items: center;
+    }
+    #cb-input {
+      flex: 1; border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px 14px; font-size: 13px;
+      background: var(--bg2); color: var(--text);
+      outline: none; font-family: var(--font-body);
+      transition: border var(--transition);
+    }
+    #cb-input:focus { border-color: var(--red); }
+    #cb-send {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: var(--red); color: #fff; border: none;
+      cursor: pointer; font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--transition);
+    }
+    #cb-send:hover { background: var(--red-dark); }
+
+    /* ═══════════════════════════════════════════════════
+       ANIMATIONS
+    ═══════════════════════════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-visual { display: none; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid::before { display: none; }
+      .testimonials-grid { grid-template-columns: 1fr 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .nav-links, .nav-actions .btn-account { display: none; }
+      #menuBtn { display: flex; }
+    }
+    @media (max-width: 600px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      #chatbot-window { width: calc(100vw - 32px); right: 16px; }
+      .hero-stats { gap: 16px; }
+      .trust-inner { gap: 20px; }
+    }
+  </style>
 </head>
 
-<body class="fade-in bg-white text-black">
+<body>
 
-    <!-- Navbar -->
-    <nav class="bg-black text-white shadow-md fixed w-full z-10">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+<!-- Announcement Bar -->
+<div class="announce-bar">
+  🚚 Free delivery on orders over ₱500 &nbsp;·&nbsp; <a href="#">Book a consultation</a> with our licensed pharmacists
+</div>
 
-            <h1 class="text-2xl font-bold text-white">RS Medstar <span class="text-[#e53935]">Pharmacy</span></h1>
+<!-- Navbar -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="logo-icon">💊</div>
+      RS Medstar <span>Pharmacy</span>
+    </a>
 
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="#" class="hover:text-[#e53935]">Home</a>
-                <a href="#" class="hover:text-[#e53935]">Services</a>
-                <a href="#" class="hover:text-[#e53935]">Products</a>
-                <a href="#" class="hover:text-[#e53935]">Contact</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero" class="active">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#how">How it Works</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
 
-                <!-- Auth Buttons -->
-                <a href="./pages/auth.html" class="bg-[#e53935] text-white px-4 py-2 rounded-lg hover:bg-[#cc3633] cursor-pointer">
-                    Account
-                </a>
-            </div>
+    <div class="nav-actions">
+      <button class="btn-icon" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
+      <a href="./pages/auth.html" class="btn-account">Account</a>
+      <button id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
 
-            <!-- Mobile Menu Button -->
-            <button id="menuBtn" class="md:hidden text-2xl">
-                ☰
-            </button>
+  <!-- Mobile Menu -->
+  <div id="mobileMenu">
+    <a href="#hero">Home</a>
+    <a href="#services">Services</a>
+    <a href="#products">Products</a>
+    <a href="#how">How it Works</a>
+    <a href="#contact">Contact</a>
+    <div class="mob-divider"></div>
+    <a href="./pages/auth.html" class="btn-account">Account</a>
+  </div>
+</nav>
 
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge"><span class="dot"></span> FDA-Registered Pharmacy</div>
+      <h1 class="hero-title">
+        Your health,<br>our <em>priority</em><br>every day.
+      </h1>
+      <p class="hero-desc">
+        Quality medicines at affordable prices. Fast, reliable, and caring pharmacy services — order online or visit our store in Quezon City.
+      </p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+          <i class="fa fa-bag-shopping"></i> Shop Now
+        </button>
+        <button class="btn-outline" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+          <i class="fa fa-circle-info"></i> Learn More
+        </button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <strong>500+</strong>
+          <span>Products</span>
         </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobileMenu" class="hidden md:hidden px-6 pb-4">
-            <a href="#" class="block py-2">Home</a>
-            <a href="#" class="block py-2">Services</a>
-            <a href="#" class="block py-2">Products</a>
-            <a href="#" class="block py-2">Contact</a>
-
-            <!-- Mobile -->
-            <div class="flex flex-col gap-2 mt-4">
-                <a href="./pages/auth.html" class="text-[#e53935] border border-[#e53935] px-4 py-2 rounded-lg">
-                    Account
-                </a>
-            </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <strong>8K+</strong>
+          <span>Customers</span>
         </div>
-    </nav>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <strong>10yr</strong>
+          <span>Trusted</span>
+        </div>
+      </div>
+    </div>
 
-    <!-- Hero -->
-    <section class="pt-38 pb-26 bg-white">
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
-
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="hc-header">
+          <span class="hc-title">Today's Popular Items</span>
+          <span class="hc-pill">✓ In Stock</span>
+        </div>
+        <div class="hc-items">
+          <div class="hc-item">
+            <div class="hc-icon">💊</div>
             <div>
-                <h2 class="text-3xl md:text-5xl font-extrabold mb-4">
-                    Quality medicines at affordable prices
-                </h2>
-                <p class="text-gray-700 mb-6 max-w-xl">
-                    Fast, reliable and friendly pharmacy services — order online or visit our store.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <button class="btn-primary px-6 py-3 rounded-lg shadow-md">
-                        Shop Now
-                    </button>
-                    <button class="border border-[#e53935] text-[#e53935] px-6 py-3 rounded-lg hover:bg-[#fdecea]">Learn More</button>
-                </div>
+              <div class="hc-name">Paracetamol 500mg</div>
+              <div class="hc-sub">Box of 100 tablets</div>
             </div>
-
-            <img src="./assets/image/rs-logo.png" alt="RS Medstar Pharmacy Logo" class="rounded-2xl w-96">
+            <div class="hc-price">₱50</div>
+          </div>
+          <div class="hc-item">
+            <div class="hc-icon">🍊</div>
+            <div>
+              <div class="hc-name">Vitamin C 500mg</div>
+              <div class="hc-sub">Box of 100 tablets</div>
+            </div>
+            <div class="hc-price">₱120</div>
+          </div>
+          <div class="hc-item">
+            <div class="hc-icon">🩹</div>
+            <div>
+              <div class="hc-name">BAND AID Strips 50s</div>
+              <div class="hc-sub">Flexible fabric</div>
+            </div>
+            <div class="hc-price">₱99.75</div>
+          </div>
         </div>
-    </section>
-
-    <!-- Services -->
-    <section class="py-16">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h3 class="text-2xl md:text-3xl font-bold mb-10">Our Services</h3>
-
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow hover:shadow-2xl transition duration-400">
-                    <h4 class="font-semibold text-[#e53935] mb-2">Online Ordering</h4>
-                    <p>Order medicines easily.</p>
-                </div>
-
-                <div class="bg-white p-6 rounded-xl shadow hover:shadow-2xl transition duration-400">
-                    <h4 class="font-semibold text-[#e53935] mb-2">Consultation</h4>
-                    <p>Talk to licensed pharmacists.</p>
-                </div>
-
-                <div class="bg-white p-6 rounded-xl shadow hover:shadow-2xl transition duration-400">
-                    <h4 class="font-semibold text-[#e53935] mb-2">Reservation</h4>
-                    <p>Reservation of Medication</p>
-                </div>
-
-
-            </div>
+        <div class="hc-footer">
+          <div>
+            <div class="hc-footer-label">Free delivery over ₱500</div>
+          </div>
+          <button class="hc-order-btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">View All →</button>
         </div>
-    </section>
-
-    <!-- Products -->
-    <section class="py-16 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h3 class="text-2xl md:text-3xl font-bold mb-10">Popular Products</h3>
-
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
-                    <img src="./assets/image/paracetamol.png" class="mb-3 rounded">
-                    <h4>Paracetamol 500mg</h4>
-                    <p class="text-[#e53935]">₱50</p>
-                </div>
-
-                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
-                    <img src="./assets/image/vitamin-c.png" class="mb-3 rounded">
-                    <h4>Vitamin C</h4>
-                    <p class="text-[#e53935]">₱120</p>
-                </div>
-
-                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
-                    <img src="./assets/image/cough-sy.png" class="mb-3 rounded">
-                    <h4>Cough Syrup 120mL</h4>
-                    <p class="text-[#e53935]">₱90</p>
-                </div>
-
-                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
-                    <img src="./assets/image/face-msk.png" class="mb-3 rounded">
-                    <h4>Face Mask</h4>
-                    <p class="text-[#e53935]">₱150</p>
-                </div>
-                <!-- 2nd Row -->
-                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
-                    <img src="./assets/image/mefa.png" class="mb-3 rounded">
-                    <h4>Mefenamic Acid 500mg</h4>
-                    <p class="text-[#e53935]">₱550</p>
-                </div>
-
-                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
-                    <img src="./assets/image/losart.png" class="mb-3 rounded">
-                    <h4>Losartan Amlodipine 50mg/5mg</h4>
-                    <p class="text-[#e53935]">₱400</p>
-                </div>
-
-                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
-                    <img src="./assets/image/band-aid.png" class="mb-3 rounded">
-                    <h4>BAND AID Strips 50s</h4>
-                    <p class="text-[#e53935]">₱99.75</p>
-                </div>
-
-                <div class="bg-white p-4 rounded-lg shadow hover:shadow-2xl transition duration-400">
-                    <img src="./assets/image/preg.png" class="mb-3 rounded">
-                    <h4>TRUST Clear Check Pregnancy Test (Cassette)</h4>
-                    <p class="text-[#e53935]">₱64.75</p>
-                </div>
-            </div>
+      </div>
+      <div class="float-card float-card-1">
+        <div class="fc-icon">🚚</div>
+        <div>
+          <div>Fast Delivery</div>
+          <div class="fc-sub">Same-day Order Request</div>
         </div>
-    </section>
-
-    <!-- FOOTERRRR -->
-    <footer class="bg-neutral-primary-soft">
-        <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-            <div class="md:flex md:justify-between">
-                <div class="mb-6 md:mb-0">
-                    <a href="#" class="flex items-center">
-                        <img src="./assets/image/rs-logo.png" class="h-20 me-3" alt="RS Medstar Pharmacy" />
-                        <span class="text-heading self-center text-2xl font-semibold whitespace-nowrap">RS Medstar
-                            Pharmacy</span>
-                    </a>
-                </div>
-                <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
-                    <div>
-                        <h2 class="mb-6 text-sm font-semibold text-heading uppercase">Resources</h2>
-                        <ul class="text-body font-medium">
-                            <li class="mb-4">
-                                <a href="#" class="hover:text-[#e53935]">Products</a>
-                            </li>
-                            <li>
-                                <a href="#" class="hover:text-[#e53935]">Catalogs</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h2 class="mb-6 text-sm font-semibold text-heading uppercase">Follow us</h2>
-                        <ul class="text-body font-medium">
-                            <li class="mb-4">
-                                <a href="#" class="hover:text-[#e53935] ">Facebook</a>
-                            </li>
-                            <li>
-                                <a href="#" class="hover:text-[#e53935]">Twitter</a>
-                            </li>
-
-                        </ul>
-                    </div>
-                    <div>
-                        <h2 class="mb-6 text-sm font-semibold text-heading uppercase">Legal</h2>
-                        <ul class="text-body font-medium">
-                            <li class="mb-4">
-                                <a href="#" class="hover:text-[#e53935]">Privacy Policy</a>
-                            </li>
-                            <li>
-                                <a href="#" class="hover:text-[#e53935]">Terms &amp; Conditions</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <hr class="my-6 border-default sm:mx-auto lg:my-8" />
-            <div class="sm:flex sm:items-center sm:justify-between">
-                <span class="text-sm text-body sm:text-center">© 2026 <a href="#" class="hover:underline">RS Medical
-                        Pharmacy</a>. All Rights Reserved.
-                </span>
-                <span class="text-sm text-body sm:text-center">Design with ❤️ <a href="#" class="hover:underline">Robyn
-                        Kristoffer Fernandez</a>.
-                </span>
-                <div class="flex mt-4 sm:justify-center sm:mt-0 text-2xl ">
-                    <a href="#" class="text-body hover:text-heading hover:text-red-700 transition duration-500">
-                        <i class="fa-brands fa-facebook"></i>
-                        <span class="sr-only">Facebook page</span>
-                    </a>
-                    <a href="#" class="text-body hover:text-heading ms-5 hover:text-red-700 transition duration-500">
-                        <i class="fa-brands fa-twitter"></i>
-                        <span class="sr-only">Twitter page</span>
-                    </a>
-                    <a href="#" class="text-body hover:text-heading ms-5 hover:text-red-700 transition duration-500">
-                        <i class="fa-brands fa-github"></i>
-                        <span class="sr-only">GitHub account</span>
-                    </a>
-                </div>
-
-            </div>
+      </div>
+      <div class="float-card float-card-2">
+        <div class="fc-icon">⭐</div>
+        <div>
+          <div>4.9 / 5 Rating</div>
+          <div class="fc-sub">2,400+ reviews</div>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Mobile Menu -->
-    <script src="./assets/scripts/scripts.js" defer></script>
+<!-- Trust Strip -->
+<div class="trust-strip reveal">
+  <div class="trust-inner">
+    <div class="trust-item"><i class="fa fa-shield-halved"></i> FDA-Registered</div>
+    <div class="trust-item"><i class="fa fa-truck-fast"></i> Safe Delivery</div>
+    <div class="trust-item"><i class="fa fa-user-doctor"></i> Licensed Pharmacists</div>
+    <div class="trust-item"><i class="fa fa-clock"></i> Open 7 Days a Week</div>
+    <div class="trust-item"><i class="fa fa-lock"></i> Flexible Payment Method</div>
+  </div>
+</div>
+
+<!-- Services -->
+<section id="services" class="section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">What We Offer</div>
+      <h2 class="section-title">Services designed<br>around your health</h2>
+      <p class="section-desc">From online ordering to expert consultations — we make healthcare convenient and accessible.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal" style="transition-delay:.05s">
+        <div class="sc-icon">🛒</div>
+        <div class="sc-title">Online Ordering </div>
+        <p class="sc-desc">Browse our full catalogue and order medicines from the comfort of your home. Same-day delivery available within Quezon City.</p>
+        <div class="sc-link">Learn more <i class="fa fa-arrow-right" style="font-size:11px"></i></div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:.1s">
+        <div class="sc-icon">👨‍⚕️</div>
+        <div class="sc-title">Doctor Consultation (MAIN)</div>
+        <p class="sc-desc">Talk directly with our primary care physician — in-person, by phone, or online. Get advice on medications, dosages, and drug interactions.</p>
+        <div class="sc-link">Book now <i class="fa fa-arrow-right" style="font-size:11px"></i></div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:.15s">
+        <div class="sc-icon">📋</div>
+        <div class="sc-title">Prescription Management</div>
+        <p class="sc-desc">Upload your prescription digitally. We'll verify, fill, and prepare your medicines — ready for pickup or delivery.</p>
+        <div class="sc-link">Upload Rx <i class="fa fa-arrow-right" style="font-size:11px"></i></div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:.2s">
+        <div class="sc-icon">📅</div>
+        <div class="sc-title">Medication Reservation</div>
+        <p class="sc-desc">Reserve your maintenance medications in advance. We'll notify you when they're ready and hold them for up to 3 days.</p>
+        <div class="sc-link">Reserve now <i class="fa fa-arrow-right" style="font-size:11px"></i></div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:.25s">
+        <div class="sc-icon">💉</div>
+        <div class="sc-title">Vaccination Services</div>
+        <p class="sc-desc">Walk-in flu shots and select immunizations available. No appointment needed for most vaccines.</p>
+        <div class="sc-link">Check availability <i class="fa fa-arrow-right" style="font-size:11px"></i></div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:.3s">
+        <div class="sc-icon">🩺</div>
+        <div class="sc-title">Health Monitoring</div>
+        <p class="sc-desc">Free blood pressure and blood sugar screening every day. Walk in, no appointment necessary.</p>
+        <div class="sc-link">Learn more <i class="fa fa-arrow-right" style="font-size:11px"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Products -->
+<section id="products" class="section">
+  <div class="section-inner">
+    <div class="products-header reveal">
+      <div>
+        <div class="section-eyebrow">Our Products</div>
+        <h2 class="section-title">Popular medicines<br>& wellness items</h2>
+      </div>
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" data-filter="all">All</button>
+        <button class="filter-tab" data-filter="otc">OTC</button>
+        <button class="filter-tab" data-filter="vitamins">Vitamins</button>
+        <button class="filter-tab" data-filter="firstaid">First Aid</button>
+        <button class="filter-tab" data-filter="devices">Devices</button>
+      </div>
+    </div>
+    <div class="products-grid" id="productsGrid">
+      <div class="product-card reveal" data-cat="otc" style="transition-delay:.05s">
+        <div class="pc-img">💊<span class="pc-badge">Best Seller</span></div>
+        <div class="pc-body">
+          <div class="pc-name">Paracetamol 500mg</div>
+          <div class="pc-sub">Box of 100 tablets · Analgesic</div>
+          <div class="pc-footer"><span class="pc-price">₱50</span><button class="pc-add" onclick="addToCart('Paracetamol 500mg')">+</button></div>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="vitamins" style="transition-delay:.1s">
+        <div class="pc-img">🍊</div>
+        <div class="pc-body">
+          <div class="pc-name">Vitamin C 500mg</div>
+          <div class="pc-sub">Box of 100 tablets · Supplement</div>
+          <div class="pc-footer"><span class="pc-price">₱120</span><button class="pc-add" onclick="addToCart('Vitamin C 500mg')">+</button></div>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="otc" style="transition-delay:.15s">
+        <div class="pc-img">🧴</div>
+        <div class="pc-body">
+          <div class="pc-name">Cough Syrup 120mL</div>
+          <div class="pc-sub">Expectorant formula</div>
+          <div class="pc-footer"><span class="pc-price">₱90</span><button class="pc-add" onclick="addToCart('Cough Syrup 120mL')">+</button></div>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="firstaid" style="transition-delay:.2s">
+        <div class="pc-img">😷</div>
+        <div class="pc-body">
+          <div class="pc-name">Surgical Face Mask</div>
+          <div class="pc-sub">Box of 50 · 3-ply</div>
+          <div class="pc-footer"><span class="pc-price">₱150</span><button class="pc-add" onclick="addToCart('Surgical Face Mask')">+</button></div>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="otc" style="transition-delay:.05s">
+        <div class="pc-img">💊</div>
+        <div class="pc-body">
+          <div class="pc-name">Mefenamic Acid 500mg</div>
+          <div class="pc-sub">Box of 100 · NSAID</div>
+          <div class="pc-footer"><span class="pc-price">₱550</span><button class="pc-add" onclick="addToCart('Mefenamic Acid 500mg')">+</button></div>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="otc" style="transition-delay:.1s">
+        <div class="pc-img">❤️</div>
+        <div class="pc-body">
+          <div class="pc-name">Losartan/Amlodipine</div>
+          <div class="pc-sub">50mg/5mg · Antihypertensive</div>
+          <div class="pc-footer"><span class="pc-price">₱400</span><button class="pc-add" onclick="addToCart('Losartan/Amlodipine')">+</button></div>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="firstaid" style="transition-delay:.15s">
+        <div class="pc-img">🩹</div>
+        <div class="pc-body">
+          <div class="pc-name">BAND AID Strips 50s</div>
+          <div class="pc-sub">Flexible fabric · First Aid</div>
+          <div class="pc-footer"><span class="pc-price">₱99.75</span><button class="pc-add" onclick="addToCart('BAND AID Strips')">+</button></div>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="devices" style="transition-delay:.2s">
+        <div class="pc-img">🤰<span class="pc-badge">Popular</span></div>
+        <div class="pc-body">
+          <div class="pc-name">Pregnancy Test Kit</div>
+          <div class="pc-sub">TRUST Clear Check · Cassette</div>
+          <div class="pc-footer"><span class="pc-price">₱64.75</span><button class="pc-add" onclick="addToCart('Pregnancy Test Kit')">+</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section id="how" class="section">
+  <div class="section-inner">
+    <div class="section-header reveal" style="text-align:center">
+      <div class="section-eyebrow">Simple Process</div>
+      <h2 class="section-title">Order in 4 easy steps</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal" style="transition-delay:.05s">
+        <div class="step-num">1</div>
+        <div class="step-title">Browse Products</div>
+        <p class="step-desc">Search our complete inventory of medicines, vitamins, and health supplies.</p>
+      </div>
+      <div class="step-card reveal" style="transition-delay:.1s">
+        <div class="step-num">2</div>
+        <div class="step-title">Add to Cart</div>
+        <p class="step-desc">Select your items, upload your prescription if needed, and choose delivery or pickup.</p>
+      </div>
+      <div class="step-card reveal" style="transition-delay:.15s">
+        <div class="step-num">3</div>
+        <div class="step-title">Confirm & Pay</div>
+        <p class="step-desc">Secure checkout — pay via GCash, Maya, cash on delivery, or in-store.</p>
+      </div>
+      <div class="step-card reveal" style="transition-delay:.2s">
+        <div class="step-num">4</div>
+        <div class="step-title">Pick up Order</div>
+        <p class="step-desc">Your medicines are packed and ready for collection! Skip the wait and swing by any of our 3 branches to pick up your order today.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials" class="section" style="background:var(--bg2)">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Customer Reviews</div>
+      <h2 class="section-title">What our customers say</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testi-card reveal" style="transition-delay:.05s">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Mabilis na paghahatid at ang mga gamot ay palaging tunay. Napakaraming kaalaman at palakaibigan ang mga staff. 3 taon na akong customer at hindi na ako pumupunta kahit saan"</p>
+        <div class="testi-author">
+          <div class="testi-avatar">MR</div>
+          <div>
+            <div class="testi-name">Maria Reyes</div>
+            <div class="testi-role">Regular Customer · Bansud</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal" style="transition-delay:.1s">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Ang konsultasyon sa parmasyutiko ay nagligtas sa akin ng isang paglalakbay sa doktor. Ipinaliwanag nila nang perpekto ang aking gamot at ang presyo ay mas abot-kaya dito"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#6366f1">JD</div>
+          <div>
+            <div class="testi-name">Jose Dela Cruz</div>
+            <div class="testi-role">Online Customer · Pinamalayan</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal" style="transition-delay:.15s">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Gustung-gusto ko ang serbisyo ng pagpapareserba para sa aking mga maintenance med. Lagi nilang nakahanda ang mga ito kapag pumapasok ako at naaalala ng mga pharmacist ang pangalan ko. Talagang parang isang botika ng komunidad."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#0ea5e9">AL</div>
+          <div>
+            <div class="testi-name">Ana Lim</div>
+            <div class="testi-role">Monthly Customer · Gloria, Oriental Mindoro</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact & Hours -->
+<section id="contact" class="section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Find Us</div>
+      <h2 class="section-title">Visit or reach out</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="hours-card reveal">
+        <div class="hours-title"><i class="fa fa-clock"></i> Operating Hours</div>
+        <div class="hours-row">
+          <span class="hours-day">Monday – Friday</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="hours-time">6:00 AM – 9:00 PM</span>
+            <span class="hours-open">Open</span>
+          </div>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Saturday</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="hours-time">6:00 AM – 9:30 PM</span>
+            <span class="hours-open">Open</span>
+          </div>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Sunday</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="hours-time">6:00 AM – 9:00 PM</span>
+            <span class="hours-open">Open</span>
+          </div>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Holidays</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="hours-time">10:00 AM – 4:00 PM</span>
+            <span class="hours-closed">Limited</span>
+          </div>
+        </div>
+        <div style="margin-top:20px;padding:14px;background:var(--red-soft);border-radius:12px;border:1px solid rgba(229,57,53,.15)">
+          <p style="font-size:13px;color:var(--red);font-weight:600">💊 Emergency medication inquiries available 24/7 via our chatbot.</p>
+        </div>
+      </div>
+
+      <div class="contact-info reveal" style="transition-delay:.1s">
+        <div class="contact-item">
+          <div class="ci-icon"><i class="fa fa-location-dot"></i></div>
+          <div>
+            <div class="ci-label">Address Main</div>
+            <div class="ci-value">Old Public Market, Zone II</div>
+            <div class="ci-sub">Pinamalayan, Oriental Mindoro, Philippines</div>
+          </div>
+          <!-- Address 2 -->
+           <div>
+            <div class="ci-label">Address Branch 2</div>
+            <div class="ci-value">Aguinaldo St., Zone II</div>
+            <div class="ci-sub">Pinamalayan, Oriental Mindoro, Philippines</div>
+          </div>
+          <!-- Address 3-->
+           <div>
+            <div class="ci-label">Address Branch 3</div>
+            <div class="ci-value">Papandayan</div>
+            <div class="ci-sub">Pinamalayan, Oriental Mindoro, Philippines</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon"><i class="fa fa-phone"></i></div>
+          <div>
+            <div class="ci-label">Phone</div>
+            <div class="ci-value">(12) 3456-7890</div>
+            <div class="ci-sub">Also available on Viber & WhatsApp</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon"><i class="fa fa-envelope"></i></div>
+          <div>
+            <div class="ci-label">Email</div>
+            <div class="ci-value">samplesample@rs.ph</div>
+            <div class="ci-sub">Response within 2 hours during business hours</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon"><i class="fa-brands fa-facebook"></i></div>
+          <div>
+            <div class="ci-label">Facebook</div>
+            <div class="ci-value">RS Medstar Pharmacy</div>
+            <div class="ci-sub">Message us for quick inquiries</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Banner -->
+<div class="cta-banner">
+  <div class="cta-banner-inner reveal">
+    <h2>Ready to take care of your health?</h2>
+    <p>Join thousands of happy customers who trust RS Medstar for their everyday health needs.</p>
+    <button class="btn-white" onclick="document.getElementById('chatbot-toggle').click()">
+      <i class="fa fa-comment-medical"></i> Chat with a Pharmacist
+    </button>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="fb-logo">
+          <div class="logo-icon">💊</div>
+          RS Medstar <span>Pharmacy</span>
+        </div>
+        <p class="fb-desc">Your trusted community pharmacy in Pinamalayan, Oriental Mindoro. Providing quality healthcare and genuine medicines since 2012.</p>
+        <div class="fb-social">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Online Ordering</a></li>
+          <li><a href="#">Consultation</a></li>
+          <li><a href="#">Prescription Mgmt</a></li>
+          <li><a href="#">Reservation</a></li>
+          <li><a href="#">Vaccination</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Partners</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms & Conditions</a></li>
+          <li><a href="#">Return Policy</a></li>
+          <li><a href="#">FDA Registration</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 RS Medical Pharmacy. All Rights Reserved.</span>
+      <span>FDA-Registered · Licensed Pharmacists · DOH Compliant</span>
+      <span>Made with ❤️ by Robyn Kristoffer Fernandez</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Chatbot Toggle -->
+<button id="chatbot-toggle" aria-label="Open chat">
+  💬
+  <span class="notif-dot"></span>
+</button>
+
+<!-- Chatbot Window -->
+<div id="chatbot-window" role="dialog" aria-label="Pharmacy Assistant">
+  <div class="cb-header">
+    <div class="cb-avatar">💊</div>
+    <div class="cb-header-info">
+      <div class="cb-name">RS Pharmacy Assistant</div>
+      <div class="cb-status">Online now · Typically replies instantly</div>
+    </div>
+    <button class="cb-close" id="cb-close" aria-label="Close chat">✕</button>
+  </div>
+  <div class="cb-messages" id="cb-messages"></div>
+  <div class="cb-quick-btns" id="cb-quick-btns">
+    <button class="cb-quick-btn">📦 Order status</button>
+    <button class="cb-quick-btn">💊 Drug inquiry</button>
+    <button class="cb-quick-btn">🕐 Store hours</button>
+    <button class="cb-quick-btn">📋 Upload Rx</button>
+    <button class="cb-quick-btn">🚚 Delivery info</button>
+  </div>
+  <div class="cb-input-row">
+    <input type="text" id="cb-input" placeholder="Type your question…" autocomplete="off">
+    <button id="cb-send" aria-label="Send message"><i class="fa fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<script src="./chatbot.js" defer></script>
 </body>
-
 </html>
