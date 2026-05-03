@@ -12,7 +12,8 @@
   <!-- Incase cdn failed to load-->
   <link href="../src/output.css" rel="stylesheet">
   <script>
-    tailwind.config = { darkMode: 'class' }
+    tailwind.config = { darkMode: 'class' };
+  
   </script>
   <style>
     :root {
@@ -520,14 +521,14 @@
             </svg>
           </button>
 
-          <div id="analytics-submenu" class="pl-9 mt-1 space-y-1 hidden" data-open="false">
-            <a href="#" class="block text-sm text-gray-400 hover:text-gray-200 role-admin role-pharmacist">Sales</a>
-            <a href="#" class="block text-sm text-gray-400 hover:text-gray-200 role-admin role-pharmacist">Sales
+            <div id="analytics-submenu" class="pl-9 mt-1 space-y-1 hidden" data-open="false">
+            <a id="nav-sales" href="#" class="block text-sm text-gray-400 hover:text-gray-200 role-admin">Sales</a>
+            <a id="nav-sales-trends" href="#" class="block text-sm text-gray-400 hover:text-gray-200 role-admin">Sales
               trends</a>
           </div>
         </div>
 
-        <a href="#"
+        <a id="nav-cms" href="#"
           class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-admin mt-2">
           <span class="nav-icon">📝</span>
           <span class="link-text whitespace-nowrap">CMS — Landing Page</span>
@@ -536,14 +537,14 @@
         <div class="sidebar-divider"></div>
         <div class="nav-section-label">Account</div>
 
-        <a href="#"
+        <a id="nav-users" href="#"
           class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-admin">
           <span class="nav-icon">👤</span>
           <span class="link-text whitespace-nowrap">Users</span>
         </a>
 
-        <a href="#"
-          class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-patient">
+        <a id="nav-prescriptions" href="#"
+          class="flex items-center gap-3 p-2 hover:bg-gray-900 rounded-xl transition-colors text-gray-300 role-patient role-admin role-pharmacist role-staff">
           <span class="nav-icon">📜</span>
           <span class="link-text whitespace-nowrap">Prescriptions</span>
         </a>
@@ -708,9 +709,15 @@
   <script src="../assets/scripts/stock-supply.js" defer></script>
   <script src="../assets/scripts/product-management.js" defer></script>
   <script src="../assets/scripts/audit-logs.js" defer></script>
+  <script src="../assets/scripts/sales.js" defer></script>
+  <script src="../assets/scripts/analytics-sales-trends.js" defer></script>
   <script src="../assets/scripts/orders.js" defer></script>
   <script src="../assets/scripts/appointments.js" defer></script>
   <script src="../assets/scripts/transaction-history.js" defer></script>
+  <script src="../assets/scripts/cms-landing.js" defer></script>
+  <script src="../assets/scripts/prescriptions.js" defer></script>
+  <script src="../assets/scripts/users.js" defer></script>
+
 
 </body>
 

@@ -3,86 +3,89 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('role-dashboard');
   if (!nav || !container) return;
 
+
+  // ================================================ sample data (replace mo nalang API fetch later)
+
   const audits = [
-    { id:'A-1001', time:'2026-05-02T09:12:00Z', action:'received_stock', actorRole:'admin', actorName:'Alice', details:{ supplier:'Pharma Global', items:[{sku:'P002', name:'Amoxicillin 250mg', qty:50}], txId:'TX-9001' }, note:'Initial stock received', ipAddress:'192.168.1.10', severity:'info' },
-    { id:'A-1002', time:'2026-05-02T10:05:00Z', action:'out_of_inventory', actorRole:'staff', actorName:'John', details:{ sku:'P005', name:'Vitamin C', attemptedQty:10 }, note:'Customer requested but out of stock', ipAddress:'192.168.1.22', severity:'warning' },
-    { id:'A-1003', time:'2026-04-30T14:22:00Z', action:'pull_out_item', actorRole:'pharmacist', actorName:'Dr. Emeka', details:{ sku:'P002', name:'Amoxicillin 250mg', qty:2, reason:'Prescription dispense' }, note:'', ipAddress:'192.168.1.15', severity:'info' },
-    { id:'A-1004', time:'2026-04-29T08:44:00Z', action:'added_prescription', actorRole:'staff', actorName:'Mona', details:{ patientId:'PT-102', prescId:'RX-778', items:[{sku:'P002', qty:10}] }, note:'Uploaded scanned Rx', ipAddress:'192.168.1.22', severity:'info' },
-    { id:'A-1005', time:'2026-04-28T11:00:00Z', action:'edited_product', actorRole:'admin', actorName:'Alice', details:{ sku:'P003', field:'expiry', from:'2026-10-01', to:'2026-11-30' }, note:'Corrected expiry date', ipAddress:'192.168.1.10', severity:'info' },
-    { id:'A-1006', time:'2026-04-27T16:35:00Z', action:'login', actorRole:'admin', actorName:'Alice', details:{ method:'password', browser:'Chrome 124', os:'Windows 11' }, note:'', ipAddress:'192.168.1.10', severity:'info' },
-    { id:'A-1007', time:'2026-04-27T17:01:00Z', action:'deleted_product', actorRole:'admin', actorName:'Alice', details:{ sku:'P009', name:'Aspirin 100mg' }, note:'Discontinued product removed', ipAddress:'192.168.1.10', severity:'critical' },
-    { id:'A-1008', time:'2026-04-26T09:15:00Z', action:'failed_login', actorRole:'unknown', actorName:'Unknown', details:{ attemptedUser:'bob@pharmacy.com', attempts:3 }, note:'Multiple failed attempts', ipAddress:'10.0.0.55', severity:'critical' }
+    { id: 'A-1001', time: '2026-05-02T09:12:00Z', action: 'received_stock', actorRole: 'admin', actorName: 'Alice', details: { supplier: 'Pharma Global', items: [{ sku: 'P002', name: 'Amoxicillin 250mg', qty: 50 }], txId: 'TX-9001' }, note: 'Initial stock received', ipAddress: '192.168.1.10', severity: 'info' },
+    { id: 'A-1002', time: '2026-05-02T10:05:00Z', action: 'out_of_inventory', actorRole: 'staff', actorName: 'John', details: { sku: 'P005', name: 'Vitamin C', attemptedQty: 10 }, note: 'Customer requested but out of stock', ipAddress: '192.168.1.22', severity: 'warning' },
+    { id: 'A-1003', time: '2026-04-30T14:22:00Z', action: 'pull_out_item', actorRole: 'pharmacist', actorName: 'Dr. Emeka', details: { sku: 'P002', name: 'Amoxicillin 250mg', qty: 2, reason: 'Prescription dispense' }, note: '', ipAddress: '192.168.1.15', severity: 'info' },
+    { id: 'A-1004', time: '2026-04-29T08:44:00Z', action: 'added_prescription', actorRole: 'staff', actorName: 'Mona', details: { patientId: 'PT-102', prescId: 'RX-778', items: [{ sku: 'P002', qty: 10 }] }, note: 'Uploaded scanned Rx', ipAddress: '192.168.1.22', severity: 'info' },
+    { id: 'A-1005', time: '2026-04-28T11:00:00Z', action: 'edited_product', actorRole: 'admin', actorName: 'Alice', details: { sku: 'P003', field: 'expiry', from: '2026-10-01', to: '2026-11-30' }, note: 'Corrected expiry date', ipAddress: '192.168.1.10', severity: 'info' },
+    { id: 'A-1006', time: '2026-04-27T16:35:00Z', action: 'login', actorRole: 'admin', actorName: 'Alice', details: { method: 'password', browser: 'Chrome 124', os: 'Windows 11' }, note: '', ipAddress: '192.168.1.10', severity: 'info' },
+    { id: 'A-1007', time: '2026-04-27T17:01:00Z', action: 'deleted_product', actorRole: 'admin', actorName: 'Alice', details: { sku: 'P009', name: 'Aspirin 100mg' }, note: 'Discontinued product removed', ipAddress: '192.168.1.10', severity: 'critical' },
+    { id: 'A-1008', time: '2026-04-26T09:15:00Z', action: 'failed_login', actorRole: 'unknown', actorName: 'Unknown', details: { attemptedUser: 'bob@pharmacy.com', attempts: 3 }, note: 'Multiple failed attempts', ipAddress: '10.0.0.55', severity: 'critical' }
   ];
 
   const ACTION_META = {
-    received_stock:    { label:'Received Stock',        icon:'📥', color:'green'  },
-    out_of_inventory:  { label:'Out of Inventory',      icon:'📭', color:'amber'  },
-    pull_out_item:     { label:'Pulled from Shelf',     icon:'📤', color:'blue'   },
-    added_prescription:{ label:'Added Prescription',    icon:'📋', color:'purple' },
-    edited_product:    { label:'Edited Product',        icon:'✏️',  color:'orange' },
-    login:             { label:'User Login',            icon:'🔐', color:'gray'   },
-    deleted_product:   { label:'Deleted Product',       icon:'🗑️',  color:'red'    },
-    failed_login:      { label:'Failed Login Attempt',  icon:'🚨', color:'red'    }
+    received_stock: { label: 'Received Stock', icon: '📥', color: 'green' },
+    out_of_inventory: { label: 'Out of Inventory', icon: '📭', color: 'amber' },
+    pull_out_item: { label: 'Pulled from Shelf', icon: '📤', color: 'blue' },
+    added_prescription: { label: 'Added Prescription', icon: '📋', color: 'purple' },
+    edited_product: { label: 'Edited Product', icon: '✏️', color: 'orange' },
+    login: { label: 'User Login', icon: '🔐', color: 'gray' },
+    deleted_product: { label: 'Deleted Product', icon: '🗑️', color: 'red' },
+    failed_login: { label: 'Failed Login Attempt', icon: '🚨', color: 'red' }
   };
 
   const SEVERITY_META = {
-    info:     { label:'Info',     cls:'al-sev-info'     },
-    warning:  { label:'Warning',  cls:'al-sev-warning'  },
-    critical: { label:'Critical', cls:'al-sev-critical' }
+    info: { label: 'Info', cls: 'al-sev-info' },
+    warning: { label: 'Warning', cls: 'al-sev-warning' },
+    critical: { label: 'Critical', cls: 'al-sev-critical' }
   };
 
   const ROLE_META = {
-    admin:      { cls:'al-role-admin',      label:'Admin'      },
-    staff:      { cls:'al-role-staff',      label:'Staff'      },
-    pharmacist: { cls:'al-role-pharmacist', label:'Pharmacist' },
-    unknown:    { cls:'al-role-unknown',    label:'Unknown'    }
+    admin: { cls: 'al-role-admin', label: 'Admin' },
+    staff: { cls: 'al-role-staff', label: 'Staff' },
+    pharmacist: { cls: 'al-role-pharmacist', label: 'Pharmacist' },
+    unknown: { cls: 'al-role-unknown', label: 'Unknown' }
   };
 
   /* ── helpers ── */
   function getRole() {
     const b = document.getElementById('current-role');
     const userName = document.getElementById('user-name')?.textContent?.trim() || '';
-    if (!b) return { role:'staff', userName };
+    if (!b) return { role: 'staff', userName };
     const t = b.textContent || '';
-    if (/admin/i.test(t)) return { role:'admin', userName };
-    return { role:'staff', userName };
+    if (/admin/i.test(t)) return { role: 'admin', userName };
+    return { role: 'staff', userName };
   }
 
   function setActiveNav(target) {
     if (window.setActiveSidebar) return window.setActiveSidebar(target);
     const links = document.querySelectorAll('#sidebar nav a');
-    links.forEach(a => a.classList.remove('active-nav','bg-[#e53935]','text-white'));
+    links.forEach(a => a.classList.remove('active-nav', 'bg-[#e53935]', 'text-white'));
     const el = (typeof target === 'string') ? document.getElementById(target) : target;
     if (el) el.classList.add('active-nav');
   }
 
   function formatDate(iso) {
-    try { return new Date(iso).toLocaleString('en-PH', { dateStyle:'medium', timeStyle:'short' }); }
-    catch(e) { return iso; }
+    try { return new Date(iso).toLocaleString('en-PH', { dateStyle: 'medium', timeStyle: 'short' }); }
+    catch (e) { return iso; }
   }
 
   function timeAgo(iso) {
     const diff = (Date.now() - new Date(iso)) / 1000;
     if (diff < 60) return `${Math.floor(diff)}s ago`;
-    if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
-    if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
-    return `${Math.floor(diff/86400)}d ago`;
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+    return `${Math.floor(diff / 86400)}d ago`;
   }
 
   function actorInitials(name) {
-    return name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
   }
 
   /* ── stats ── */
   function buildStats() {
-    const total    = audits.length;
+    const total = audits.length;
     const received = audits.filter(a => a.action === 'received_stock').length;
-    const edits    = audits.filter(a => a.action === 'edited_product').length;
+    const edits = audits.filter(a => a.action === 'edited_product').length;
     const critical = audits.filter(a => a.severity === 'critical').length;
     const warnings = audits.filter(a => a.severity === 'warning').length;
-    const today    = audits.filter(a => {
+    const today = audits.filter(a => {
       const d = new Date(a.time); const n = new Date();
-      return d.getDate()===n.getDate() && d.getMonth()===n.getMonth() && d.getFullYear()===n.getFullYear();
+      return d.getDate() === n.getDate() && d.getMonth() === n.getMonth() && d.getFullYear() === n.getFullYear();
     }).length;
     return `
     <div class="al-stats">
@@ -115,8 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── row ── */
   function buildRow(a) {
-    const meta = ACTION_META[a.action] || { label: a.action, icon:'📌', color:'gray' };
-    const sev  = SEVERITY_META[a.severity] || SEVERITY_META.info;
+    const meta = ACTION_META[a.action] || { label: a.action, icon: '📌', color: 'gray' };
+    const sev = SEVERITY_META[a.severity] || SEVERITY_META.info;
     const role = ROLE_META[a.actorRole] || ROLE_META.unknown;
     return `
     <div class="al-row" data-id="${a.id}">
@@ -150,8 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── detail modal ── */
   function buildDetailModal(a) {
-    const meta = ACTION_META[a.action] || { label: a.action, icon:'📌', color:'gray' };
-    const sev  = SEVERITY_META[a.severity] || SEVERITY_META.info;
+    const meta = ACTION_META[a.action] || { label: a.action, icon: '📌', color: 'gray' };
+    const sev = SEVERITY_META[a.severity] || SEVERITY_META.info;
     const role = ROLE_META[a.actorRole] || ROLE_META.unknown;
 
     let detailHTML = '';
@@ -166,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="al-detail-section">
           <div class="al-detail-section-title">Items Received</div>
-          ${(d.items||[]).map(i=>`
+          ${(d.items || []).map(i => `
             <div class="al-item-row">
               <span class="al-item-sku">${i.sku}</span>
               <span class="al-item-name">${i.name}</span>
@@ -191,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="al-detail-section">
           <div class="al-detail-section-title">Prescribed Items</div>
-          ${(d.items||[]).map(i=>`
+          ${(d.items || []).map(i => `
             <div class="al-item-row">
               <span class="al-item-sku">${i.sku}</span>
               <span class="al-item-qty">${i.qty} units</span>
@@ -242,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="al-detail-row"><span>Attempted Qty</span><strong>${d.attemptedQty} units</strong></div>
         </div>`;
     } else {
-      detailHTML = `<div class="al-detail-section"><pre class="al-json">${JSON.stringify(d,null,2)}</pre></div>`;
+      detailHTML = `<div class="al-detail-section"><pre class="al-json">${JSON.stringify(d, null, 2)}</pre></div>`;
     }
 
     return `
@@ -442,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <input id="a-search" placeholder="🔍  Search by ID, actor, note, or IP…" />
         <select id="a-filter-action">
           <option value="all">All Actions</option>
-          ${Object.entries(ACTION_META).map(([k,v])=>`<option value="${k}">${v.icon} ${v.label}</option>`).join('')}
+          ${Object.entries(ACTION_META).map(([k, v]) => `<option value="${k}">${v.icon} ${v.label}</option>`).join('')}
         </select>
         <select id="a-filter-severity">
           <option value="all">All Severity</option>
@@ -480,7 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── modal helpers ── */
   function openModal(html) {
     const modal = document.getElementById('a-modal');
-    const body  = document.getElementById('a-modal-body');
+    const body = document.getElementById('a-modal-body');
     if (!modal || !body) return;
     body.innerHTML = html;
     modal.classList.add('open');
@@ -509,23 +512,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function exportCSV() {
-    const headers = ['ID','Time','Action','Actor','Role','IP','Severity','Note'];
+    const headers = ['ID', 'Time', 'Action', 'Actor', 'Role', 'IP', 'Severity', 'Note'];
     const rows = audits.map(a => [a.id, a.time, a.action, a.actorName, a.actorRole, a.ipAddress, a.severity, a.note]);
-    const csv = [headers, ...rows].map(r => r.map(v => `"${(v||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
+    const csv = [headers, ...rows].map(r => r.map(v => `"${(v || '').toString().replace(/"/g, '""')}"`).join(',')).join('\n');
     const el = document.createElement('a');
     el.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-    el.download = `audit_logs_${new Date().toISOString().slice(0,10)}.csv`;
+    el.download = `audit_logs_${new Date().toISOString().slice(0, 10)}.csv`;
     el.click();
   }
 
   /* ── filter ── */
   function updateList() {
-    const q        = (document.getElementById('a-search')?.value || '').toLowerCase();
-    const action   = document.getElementById('a-filter-action')?.value || 'all';
+    const q = (document.getElementById('a-search')?.value || '').toLowerCase();
+    const action = document.getElementById('a-filter-action')?.value || 'all';
     const severity = document.getElementById('a-filter-severity')?.value || 'all';
-    const role     = document.getElementById('a-filter-role')?.value || 'all';
-    const root     = document.getElementById('a-list');
-    const info     = document.getElementById('a-results-info');
+    const role = document.getElementById('a-filter-role')?.value || 'all';
+    const root = document.getElementById('a-list');
+    const info = document.getElementById('a-results-info');
     if (!root) return;
 
     const filtered = audits.filter(a => {

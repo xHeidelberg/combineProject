@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const nav = document.getElementById('nav-orders');
   const container = document.getElementById('role-dashboard');
   if (!nav || !container) return;
-
+  // ── Sample data ────────────────────────────────────────────────────────────
+  // MAX LOAD DAPAT AY 20 ITEMS per page Fetch=> tapos lagay ng page 2, 3 4 ..... Max.length
   const sampleOrders = [
     { id: 'ORD-1001', date: '2026-04-30 11:02', customer: 'Juan Dela Cruz', items: 'Paracetamol x2', status: 'Pending', total: '₱100.00' },
     { id: 'ORD-1002', date: '2026-04-30 12:20', customer: 'Maria Santos', items: 'Vitamin C x1', status: 'Completed', total: '₱120.00' },
