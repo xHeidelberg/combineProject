@@ -1,125 +1,124 @@
 (function () {
 
-  /* ─────────────────────────────────────────
-     DATA
-  ───────────────────────────────────────── */
-  const users = [
-    {
-      id: 1, name: 'Ana Santos', email: 'ana.santos@rsmedstar.ph',
-      role: 'pharmacist', department: 'Dispensary',
-      phone: '+63 912 345 6789', joined: '2024-03-15',
-      lastLogin: '2026-05-04T08:12:00Z', sessionMins: 95,
-      active: true, lastActive: '2026-05-04T09:47:00Z',
-      loginCount: 142, actionsToday: 8,
-      activities: [
-        { time: '2026-05-04T09:47:00Z', action: 'Dispensed Rx #RX-882 · Amoxicillin 250mg' },
-        { time: '2026-05-04T09:10:00Z', action: 'Processed order #231' },
-        { time: '2026-05-04T08:55:00Z', action: 'Updated stock for Paracetamol 500mg' },
-        { time: '2026-05-04T08:12:00Z', action: 'Logged in from 192.168.1.15' }
-      ],
-      history: [
-        { time: '2026-04-10T10:00:00Z', change: 'Role changed: staff → pharmacist by Admin' },
-        { time: '2024-03-15T09:00:00Z', change: 'Account created by Admin' }
-      ]
-    },
-    {
-      id: 2, name: 'Ben Cruz', email: 'ben.cruz@rsmedstar.ph',
-      role: 'staff', department: 'Front Counter',
-      phone: '+63 917 654 3210', joined: '2025-01-08',
-      lastLogin: '2026-05-02T14:00:00Z', sessionMins: 30,
-      active: false, lastActive: '2026-05-02T14:30:00Z',
-      loginCount: 58, actionsToday: 0,
-      activities: [
-        { time: '2026-05-02T14:00:00Z', action: 'Viewed inventory report' },
-        { time: '2026-05-02T13:45:00Z', action: 'Logged in from 192.168.1.22' }
-      ],
-      history: [
-        { time: '2026-04-28T09:00:00Z', change: 'Password reset by Admin' },
-        { time: '2025-01-08T08:30:00Z', change: 'Account created by Admin' }
-      ]
-    },
-    {
-      id: 3, name: 'Clara Mendoza', email: 'clara.m@rsmedstar.ph',
-      role: 'admin', department: 'Management',
-      phone: '+63 918 111 2222', joined: '2023-06-01',
-      lastLogin: '2026-05-04T07:30:00Z', sessionMins: 210,
-      active: true, lastActive: '2026-05-04T10:00:00Z',
-      loginCount: 280, actionsToday: 14,
-      activities: [
-        { time: '2026-05-04T10:00:00Z', action: 'Reviewed audit log' },
-        { time: '2026-05-04T09:00:00Z', action: 'Added product: Metformin 500mg' },
-        { time: '2026-05-04T07:30:00Z', action: 'Logged in from 192.168.1.10' }
-      ],
-      history: [
-        { time: '2023-06-01T08:00:00Z', change: 'Account created · Admin role assigned' }
-      ]
-    },
-    {
-      id: 4, name: 'Diego Ramos', email: 'diego.r@rsmedstar.ph',
-      role: 'staff', department: 'Delivery',
-      phone: '+63 920 777 8888', joined: '2025-09-20',
-      lastLogin: '2026-04-30T11:00:00Z', sessionMins: 15,
-      active: false, lastActive: '2026-04-30T11:15:00Z',
-      loginCount: 31, actionsToday: 0,
-      activities: [
-        { time: '2026-04-30T11:00:00Z', action: 'Marked 3 deliveries as completed' },
-        { time: '2026-04-30T10:58:00Z', action: 'Logged in from 192.168.1.33' }
-      ],
-      history: [
-        { time: '2025-09-20T09:00:00Z', change: 'Account created by Admin' }
-      ]
+    // ================================================ sample data (replace with API fetch later)
+
+    const users = [
+        {
+            id: 1, name: 'Ana Santos', email: 'ana.santos@rsmedstar.ph',
+            role: 'pharmacist', department: 'Dispensary',
+            phone: '+63 912 345 6789', joined: '2024-03-15',
+            lastLogin: '2026-05-04T08:12:00Z', sessionMins: 95,
+            active: true, lastActive: '2026-05-04T09:47:00Z',
+            loginCount: 142, actionsToday: 8,
+            activities: [
+                { time: '2026-05-04T09:47:00Z', action: 'Dispensed Rx #RX-882 · Amoxicillin 250mg' },
+                { time: '2026-05-04T09:10:00Z', action: 'Processed order #231' },
+                { time: '2026-05-04T08:55:00Z', action: 'Updated stock for Paracetamol 500mg' },
+                { time: '2026-05-04T08:12:00Z', action: 'Logged in from 192.168.1.15' }
+            ],
+            history: [
+                { time: '2026-04-10T10:00:00Z', change: 'Role changed: staff → pharmacist by Admin' },
+                { time: '2024-03-15T09:00:00Z', change: 'Account created by Admin' }
+            ]
+        },
+        {
+            id: 2, name: 'Ben Cruz', email: 'ben.cruz@rsmedstar.ph',
+            role: 'staff', department: 'Front Counter',
+            phone: '+63 917 654 3210', joined: '2025-01-08',
+            lastLogin: '2026-05-02T14:00:00Z', sessionMins: 30,
+            active: false, lastActive: '2026-05-02T14:30:00Z',
+            loginCount: 58, actionsToday: 0,
+            activities: [
+                { time: '2026-05-02T14:00:00Z', action: 'Viewed inventory report' },
+                { time: '2026-05-02T13:45:00Z', action: 'Logged in from 192.168.1.22' }
+            ],
+            history: [
+                { time: '2026-04-28T09:00:00Z', change: 'Password reset by Admin' },
+                { time: '2025-01-08T08:30:00Z', change: 'Account created by Admin' }
+            ]
+        },
+        {
+            id: 3, name: 'Clara Mendoza', email: 'clara.m@rsmedstar.ph',
+            role: 'admin', department: 'Management',
+            phone: '+63 918 111 2222', joined: '2023-06-01',
+            lastLogin: '2026-05-04T07:30:00Z', sessionMins: 210,
+            active: true, lastActive: '2026-05-04T10:00:00Z',
+            loginCount: 280, actionsToday: 14,
+            activities: [
+                { time: '2026-05-04T10:00:00Z', action: 'Reviewed audit log' },
+                { time: '2026-05-04T09:00:00Z', action: 'Added product: Metformin 500mg' },
+                { time: '2026-05-04T07:30:00Z', action: 'Logged in from 192.168.1.10' }
+            ],
+            history: [
+                { time: '2023-06-01T08:00:00Z', change: 'Account created · Admin role assigned' }
+            ]
+        },
+        {
+            id: 4, name: 'Diego Ramos', email: 'diego.r@rsmedstar.ph',
+            role: 'staff', department: 'Delivery',
+            phone: '+63 920 777 8888', joined: '2025-09-20',
+            lastLogin: '2026-04-30T11:00:00Z', sessionMins: 15,
+            active: false, lastActive: '2026-04-30T11:15:00Z',
+            loginCount: 31, actionsToday: 0,
+            activities: [
+                { time: '2026-04-30T11:00:00Z', action: 'Marked 3 deliveries as completed' },
+                { time: '2026-04-30T10:58:00Z', action: 'Logged in from 192.168.1.33' }
+            ],
+            history: [
+                { time: '2025-09-20T09:00:00Z', change: 'Account created by Admin' }
+            ]
+        }
+    ];
+
+    /* ─────────────────────────────────────────
+       HELPERS
+    ───────────────────────────────────────── */
+    function getRole() {
+        const el = document.getElementById('current-role');
+        return el ? el.textContent.trim().toLowerCase() : '';
     }
-  ];
 
-  /* ─────────────────────────────────────────
-     HELPERS
-  ───────────────────────────────────────── */
-  function getRole() {
-    const el = document.getElementById('current-role');
-    return el ? el.textContent.trim().toLowerCase() : '';
-  }
+    function formatDate(s) {
+        try { return new Date(s).toLocaleString('en-PH', { dateStyle: 'medium', timeStyle: 'short' }); }
+        catch (e) { return s; }
+    }
 
-  function formatDate(s) {
-    try { return new Date(s).toLocaleString('en-PH', { dateStyle: 'medium', timeStyle: 'short' }); }
-    catch (e) { return s; }
-  }
+    function timeAgo(s) {
+        const diff = (Date.now() - new Date(s)) / 1000;
+        if (diff < 60) return `${Math.floor(diff)}s ago`;
+        if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+        if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+        return `${Math.floor(diff / 86400)}d ago`;
+    }
 
-  function timeAgo(s) {
-    const diff = (Date.now() - new Date(s)) / 1000;
-    if (diff < 60) return `${Math.floor(diff)}s ago`;
-    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-    return `${Math.floor(diff / 86400)}d ago`;
-  }
+    function computeInactiveMins(u) {
+        try { return Math.round((Date.now() - new Date(u.lastActive || u.lastLogin)) / 60000); }
+        catch (e) { return 0; }
+    }
 
-  function computeInactiveMins(u) {
-    try { return Math.round((Date.now() - new Date(u.lastActive || u.lastLogin)) / 60000); }
-    catch (e) { return 0; }
-  }
+    function initials(name) {
+        return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    }
 
-  function initials(name) {
-    return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-  }
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
-  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    const ROLE_META = {
+        admin: { cls: 'um-role-admin', label: 'Admin', color: '#e53935' },
+        pharmacist: { cls: 'um-role-pharmacist', label: 'Pharmacist', color: '#6366f1' },
+        staff: { cls: 'um-role-staff', label: 'Staff', color: '#0ea5e9' }
+    };
 
-  const ROLE_META = {
-    admin:      { cls: 'um-role-admin',      label: 'Admin',       color: '#e53935' },
-    pharmacist: { cls: 'um-role-pharmacist', label: 'Pharmacist',  color: '#6366f1' },
-    staff:      { cls: 'um-role-staff',      label: 'Staff',       color: '#0ea5e9' }
-  };
+    function avatarColor(role) {
+        return { admin: '#e53935', pharmacist: '#6366f1', staff: '#0ea5e9' }[role] || '#9ca3af';
+    }
 
-  function avatarColor(role) {
-    return { admin: '#e53935', pharmacist: '#6366f1', staff: '#0ea5e9' }[role] || '#9ca3af';
-  }
-
-  /* ─────────────────────────────────────────
-     INJECT SCOPED STYLES (once)
-  ───────────────────────────────────────── */
-  if (!document.getElementById('um-styles')) {
-    const style = document.createElement('style');
-    style.id = 'um-styles';
-    style.textContent = `
+    /* ─────────────────────────────────────────
+       INJECT SCOPED STYLES (once)
+    ───────────────────────────────────────── */
+    if (!document.getElementById('um-styles')) {
+        const style = document.createElement('style');
+        style.id = 'um-styles';
+        style.textContent = `
       /* ── Variables (scoped to container) ── */
       #role-dashboard {
         --um-red:     #e53935;
@@ -296,48 +295,48 @@
         .um-modal-panel { border-radius:20px 20px 0 0; }
       }
     `;
-    document.head.appendChild(style);
-  }
+        document.head.appendChild(style);
+    }
 
-  /* ─────────────────────────────────────────
-     TOAST
-  ───────────────────────────────────────── */
-  function showToast(msg, icon = '✓') {
-    let t = document.getElementById('um-toast');
-    if (!t) { t = document.createElement('div'); t.id = 'um-toast'; t.className = 'um-toast'; document.body.appendChild(t); }
-    t.innerHTML = `<span style="color:#4ade80">${icon}</span> ${msg}`;
-    t.classList.add('show');
-    clearTimeout(t._timer);
-    t._timer = setTimeout(() => t.classList.remove('show'), 2600);
-  }
+    /* ─────────────────────────────────────────
+       TOAST
+    ───────────────────────────────────────── */
+    function showToast(msg, icon = '✓') {
+        let t = document.getElementById('um-toast');
+        if (!t) { t = document.createElement('div'); t.id = 'um-toast'; t.className = 'um-toast'; document.body.appendChild(t); }
+        t.innerHTML = `<span style="color:#4ade80">${icon}</span> ${msg}`;
+        t.classList.add('show');
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => t.classList.remove('show'), 2600);
+    }
 
-  /* ─────────────────────────────────────────
-     MODAL HELPERS
-  ───────────────────────────────────────── */
-  function openModal(innerHTML, maxWidth = '580px') {
-    closeModal();
-    const backdrop = document.createElement('div');
-    backdrop.id = 'um-modal-backdrop';
-    backdrop.className = 'um-modal-backdrop';
-    backdrop.innerHTML = `<div class="um-modal-panel" style="max-width:${maxWidth}">${innerHTML}</div>`;
-    document.body.appendChild(backdrop);
-    backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
-  }
+    /* ─────────────────────────────────────────
+       MODAL HELPERS
+    ───────────────────────────────────────── */
+    function openModal(innerHTML, maxWidth = '580px') {
+        closeModal();
+        const backdrop = document.createElement('div');
+        backdrop.id = 'um-modal-backdrop';
+        backdrop.className = 'um-modal-backdrop';
+        backdrop.innerHTML = `<div class="um-modal-panel" style="max-width:${maxWidth}">${innerHTML}</div>`;
+        document.body.appendChild(backdrop);
+        backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+    }
 
-  function closeModal() {
-    document.getElementById('um-modal-backdrop')?.remove();
-  }
+    function closeModal() {
+        document.getElementById('um-modal-backdrop')?.remove();
+    }
 
-  /* ─────────────────────────────────────────
-     STATS
-  ───────────────────────────────────────── */
-  function buildStats() {
-    const total    = users.length;
-    const active   = users.filter(u => u.active).length;
-    const inactive = users.length - active;
-    const admins   = users.filter(u => u.role === 'admin').length;
-    const pharma   = users.filter(u => u.role === 'pharmacist').length;
-    return `
+    /* ─────────────────────────────────────────
+       STATS
+    ───────────────────────────────────────── */
+    function buildStats() {
+        const total = users.length;
+        const active = users.filter(u => u.active).length;
+        const inactive = users.length - active;
+        const admins = users.filter(u => u.role === 'admin').length;
+        const pharma = users.filter(u => u.role === 'pharmacist').length;
+        return `
     <div class="um-stats">
       <div class="um-stat"><div class="um-stat-icon um-si-blue">👥</div><div><div class="um-stat-label">Total Users</div><div class="um-stat-value">${total}</div></div></div>
       <div class="um-stat"><div class="um-stat-icon um-si-green">✅</div><div><div class="um-stat-label">Active</div><div class="um-stat-value">${active}</div></div></div>
@@ -345,19 +344,19 @@
       <div class="um-stat"><div class="um-stat-icon um-si-red">🔑</div><div><div class="um-stat-label">Admins</div><div class="um-stat-value">${admins}</div></div></div>
       <div class="um-stat"><div class="um-stat-icon um-si-indigo">💊</div><div><div class="um-stat-label">Pharmacists</div><div class="um-stat-value">${pharma}</div></div></div>
     </div>`;
-  }
+    }
 
-  /* ─────────────────────────────────────────
-     TABLE ROW
-  ───────────────────────────────────────── */
-  function buildRow(u) {
-    const rm = ROLE_META[u.role] || { cls: 'um-role-staff', label: u.role };
-    const sessionPct = Math.min(100, Math.round((u.sessionMins / 240) * 100));
-    const sessionColor = u.sessionMins > 180 ? '#22c55e' : u.sessionMins > 60 ? '#f59e0b' : '#0ea5e9';
-    const statusCls  = u.active ? 'um-status-active' : 'um-status-inactive';
-    const statusDot  = u.active ? 'um-dot-green' : 'um-dot-gray';
-    const statusLbl  = u.active ? 'Active' : 'Inactive';
-    return `
+    /* ─────────────────────────────────────────
+       TABLE ROW
+    ───────────────────────────────────────── */
+    function buildRow(u) {
+        const rm = ROLE_META[u.role] || { cls: 'um-role-staff', label: u.role };
+        const sessionPct = Math.min(100, Math.round((u.sessionMins / 240) * 100));
+        const sessionColor = u.sessionMins > 180 ? '#22c55e' : u.sessionMins > 60 ? '#f59e0b' : '#0ea5e9';
+        const statusCls = u.active ? 'um-status-active' : 'um-status-inactive';
+        const statusDot = u.active ? 'um-dot-green' : 'um-dot-gray';
+        const statusLbl = u.active ? 'Active' : 'Inactive';
+        return `
     <tr>
       <td>
         <div class="um-user-cell">
@@ -390,50 +389,50 @@
         </div>
       </td>
     </tr>`;
-  }
+    }
 
-  /* ─────────────────────────────────────────
-     BUILD TABLE
-  ───────────────────────────────────────── */
-  function buildTable(filterText = '', filterRole = 'all', filterStatus = 'all') {
-    const tbody = document.querySelector('#um-table tbody');
-    const info  = document.getElementById('um-results-info');
-    if (!tbody) return;
+    /* ─────────────────────────────────────────
+       BUILD TABLE
+    ───────────────────────────────────────── */
+    function buildTable(filterText = '', filterRole = 'all', filterStatus = 'all') {
+        const tbody = document.querySelector('#um-table tbody');
+        const info = document.getElementById('um-results-info');
+        if (!tbody) return;
 
-    const filtered = users.filter(u => {
-      if (filterRole !== 'all' && u.role !== filterRole) return false;
-      if (filterStatus === 'active' && !u.active) return false;
-      if (filterStatus === 'inactive' && u.active) return false;
-      if (filterText) {
-        const q = filterText.toLowerCase();
-        if (!`${u.name} ${u.email} ${u.role} ${u.department}`.toLowerCase().includes(q)) return false;
-      }
-      return true;
-    });
+        const filtered = users.filter(u => {
+            if (filterRole !== 'all' && u.role !== filterRole) return false;
+            if (filterStatus === 'active' && !u.active) return false;
+            if (filterStatus === 'inactive' && u.active) return false;
+            if (filterText) {
+                const q = filterText.toLowerCase();
+                if (!`${u.name} ${u.email} ${u.role} ${u.department}`.toLowerCase().includes(q)) return false;
+            }
+            return true;
+        });
 
-    tbody.innerHTML = filtered.length
-      ? filtered.map(buildRow).join('')
-      : `<tr><td colspan="6"><div class="um-empty"><div class="um-empty-icon">🔍</div><p>No users match your filters.</p></div></td></tr>`;
+        tbody.innerHTML = filtered.length
+            ? filtered.map(buildRow).join('')
+            : `<tr><td colspan="6"><div class="um-empty"><div class="um-empty-icon">🔍</div><p>No users match your filters.</p></div></td></tr>`;
 
-    if (info) info.textContent = `Showing ${filtered.length} of ${users.length} users`;
+        if (info) info.textContent = `Showing ${filtered.length} of ${users.length} users`;
 
-    // Wire row buttons
-    document.querySelectorAll('.users-view').forEach(b => b.addEventListener('click', () => openViewModal(Number(b.dataset.id))));
-    document.querySelectorAll('.users-edit').forEach(b => b.addEventListener('click', () => openEditModal(Number(b.dataset.id))));
-    document.querySelectorAll('.users-reset').forEach(b => b.addEventListener('click', () => resetPassword(Number(b.dataset.id))));
-    document.querySelectorAll('.users-toggle').forEach(b => b.addEventListener('click', () => toggleActive(Number(b.dataset.id))));
-  }
+        // Wire row buttons
+        document.querySelectorAll('.users-view').forEach(b => b.addEventListener('click', () => openViewModal(Number(b.dataset.id))));
+        document.querySelectorAll('.users-edit').forEach(b => b.addEventListener('click', () => openEditModal(Number(b.dataset.id))));
+        document.querySelectorAll('.users-reset').forEach(b => b.addEventListener('click', () => resetPassword(Number(b.dataset.id))));
+        document.querySelectorAll('.users-toggle').forEach(b => b.addEventListener('click', () => toggleActive(Number(b.dataset.id))));
+    }
 
-  /* ─────────────────────────────────────────
-     VIEW MODAL
-  ───────────────────────────────────────── */
-  function openViewModal(id) {
-    const u = users.find(x => x.id === id); if (!u) return;
-    const rm = ROLE_META[u.role] || { cls: 'um-role-staff', label: u.role };
-    const inactiveMins = computeInactiveMins(u);
-    const totalActions = (u.activities || []).length;
+    /* ─────────────────────────────────────────
+       VIEW MODAL
+    ───────────────────────────────────────── */
+    function openViewModal(id) {
+        const u = users.find(x => x.id === id); if (!u) return;
+        const rm = ROLE_META[u.role] || { cls: 'um-role-staff', label: u.role };
+        const inactiveMins = computeInactiveMins(u);
+        const totalActions = (u.activities || []).length;
 
-    openModal(`
+        openModal(`
       <div class="um-modal-header">
         <div><div class="um-modal-title">User Profile</div><div class="um-modal-sub">Full details · ${esc(u.name)}</div></div>
         <button class="um-modal-close" onclick="document.getElementById('um-modal-backdrop').remove()">✕</button>
@@ -501,16 +500,16 @@
         <button class="um-btn-primary" onclick="document.getElementById('um-modal-backdrop').remove(); openEditFromView(${u.id})">Edit User</button>
       </div>
     `, '640px');
-  }
+    }
 
-  window.openEditFromView = function(id) { openEditModal(id); };
+    window.openEditFromView = function (id) { openEditModal(id); };
 
-  /* ─────────────────────────────────────────
-     EDIT MODAL
-  ───────────────────────────────────────── */
-  function openEditModal(id) {
-    const u = users.find(x => x.id === id); if (!u) return;
-    openModal(`
+    /* ─────────────────────────────────────────
+       EDIT MODAL
+    ───────────────────────────────────────── */
+    function openEditModal(id) {
+        const u = users.find(x => x.id === id); if (!u) return;
+        openModal(`
       <div class="um-modal-header">
         <div><div class="um-modal-title">Edit User</div><div class="um-modal-sub">Modify account details · #${u.id}</div></div>
         <button class="um-modal-close" onclick="document.getElementById('um-modal-backdrop').remove()">✕</button>
@@ -537,8 +536,8 @@
             <label class="um-form-label">Role <span class="um-req">*</span></label>
             <select id="ue-role" class="um-form-select">
               <option value="pharmacist" ${u.role === 'pharmacist' ? 'selected' : ''}>Pharmacist</option>
-              <option value="staff"      ${u.role === 'staff'      ? 'selected' : ''}>Staff</option>
-              <option value="admin"      ${u.role === 'admin'      ? 'selected' : ''}>Admin</option>
+              <option value="staff"      ${u.role === 'staff' ? 'selected' : ''}>Staff</option>
+              <option value="admin"      ${u.role === 'admin' ? 'selected' : ''}>Admin</option>
             </select>
           </div>
           <div class="um-form-group">
@@ -565,39 +564,39 @@
       </div>
     `, '580px');
 
-    document.getElementById('ue-save').addEventListener('click', () => {
-      const name = document.getElementById('ue-name').value.trim();
-      const email = document.getElementById('ue-email').value.trim();
-      if (!name || !email) { showToast('Name and email are required.', '⚠'); return; }
-      const prevRole = u.role;
-      u.name       = name;
-      u.email      = email;
-      u.phone      = document.getElementById('ue-phone').value.trim() || u.phone;
-      u.department = document.getElementById('ue-dept').value.trim() || u.department;
-      u.role       = document.getElementById('ue-role').value;
-      u.active     = document.getElementById('ue-status').value === '1';
-      u.history.push({ time: new Date().toISOString(), change: `Updated by admin${prevRole !== u.role ? ` · role changed: ${prevRole} → ${u.role}` : ''}` });
-      closeModal();
-      buildTable(currentSearch(), currentRole(), currentStatus());
-      showToast(`${name} updated successfully`);
-    });
+        document.getElementById('ue-save').addEventListener('click', () => {
+            const name = document.getElementById('ue-name').value.trim();
+            const email = document.getElementById('ue-email').value.trim();
+            if (!name || !email) { showToast('Name and email are required.', '⚠'); return; }
+            const prevRole = u.role;
+            u.name = name;
+            u.email = email;
+            u.phone = document.getElementById('ue-phone').value.trim() || u.phone;
+            u.department = document.getElementById('ue-dept').value.trim() || u.department;
+            u.role = document.getElementById('ue-role').value;
+            u.active = document.getElementById('ue-status').value === '1';
+            u.history.push({ time: new Date().toISOString(), change: `Updated by admin${prevRole !== u.role ? ` · role changed: ${prevRole} → ${u.role}` : ''}` });
+            closeModal();
+            buildTable(currentSearch(), currentRole(), currentStatus());
+            showToast(`${name} updated successfully`);
+        });
 
-    document.getElementById('ue-delete').addEventListener('click', () => {
-      if (!confirm(`Are you sure you want to permanently delete ${u.name}? This cannot be undone.`)) return;
-      const idx = users.findIndex(x => x.id === id);
-      if (idx !== -1) users.splice(idx, 1);
-      closeModal();
-      buildTable(currentSearch(), currentRole(), currentStatus());
-      render(); // re-render stats
-      showToast(`${u.name} deleted`, '🗑');
-    });
-  }
+        document.getElementById('ue-delete').addEventListener('click', () => {
+            if (!confirm(`Are you sure you want to permanently delete ${u.name}? This cannot be undone.`)) return;
+            const idx = users.findIndex(x => x.id === id);
+            if (idx !== -1) users.splice(idx, 1);
+            closeModal();
+            buildTable(currentSearch(), currentRole(), currentStatus());
+            render(); // re-render stats
+            showToast(`${u.name} deleted`, '🗑');
+        });
+    }
 
-  /* ─────────────────────────────────────────
-     ADD USER MODAL
-  ───────────────────────────────────────── */
-  function openAddModal() {
-    openModal(`
+    /* ─────────────────────────────────────────
+       ADD USER MODAL
+    ───────────────────────────────────────── */
+    function openAddModal() {
+        openModal(`
       <div class="um-modal-header">
         <div><div class="um-modal-title">Add New User</div><div class="um-modal-sub">Create a new pharmacy system account</div></div>
         <button class="um-modal-close" onclick="document.getElementById('um-modal-backdrop').remove()">✕</button>
@@ -643,36 +642,36 @@
       </div>
     `, '580px');
 
-    document.getElementById('na-save').addEventListener('click', () => {
-      const name  = document.getElementById('na-name').value.trim();
-      const email = document.getElementById('na-email').value.trim();
-      if (!name || !email) { showToast('Name and email are required.', '⚠'); return; }
-      const newId = users.length ? Math.max(...users.map(u => u.id)) + 1 : 1;
-      users.unshift({
-        id: newId, name, email,
-        role:       document.getElementById('na-role').value,
-        department: document.getElementById('na-dept').value || 'General',
-        phone:      document.getElementById('na-phone').value || '—',
-        joined:     document.getElementById('na-joined').value || new Date().toISOString().slice(0, 10),
-        lastLogin:  new Date().toISOString(),
-        sessionMins: 0, active: true,
-        lastActive: new Date().toISOString(),
-        loginCount: 0, actionsToday: 0,
-        activities: [{ time: new Date().toISOString(), action: 'Account created by admin' }],
-        history:    [{ time: new Date().toISOString(), change: 'Account created by admin' }]
-      });
-      closeModal();
-      render();
-      showToast(`${name} added successfully`);
-    });
-  }
+        document.getElementById('na-save').addEventListener('click', () => {
+            const name = document.getElementById('na-name').value.trim();
+            const email = document.getElementById('na-email').value.trim();
+            if (!name || !email) { showToast('Name and email are required.', '⚠'); return; }
+            const newId = users.length ? Math.max(...users.map(u => u.id)) + 1 : 1;
+            users.unshift({
+                id: newId, name, email,
+                role: document.getElementById('na-role').value,
+                department: document.getElementById('na-dept').value || 'General',
+                phone: document.getElementById('na-phone').value || '—',
+                joined: document.getElementById('na-joined').value || new Date().toISOString().slice(0, 10),
+                lastLogin: new Date().toISOString(),
+                sessionMins: 0, active: true,
+                lastActive: new Date().toISOString(),
+                loginCount: 0, actionsToday: 0,
+                activities: [{ time: new Date().toISOString(), action: 'Account created by admin' }],
+                history: [{ time: new Date().toISOString(), change: 'Account created by admin' }]
+            });
+            closeModal();
+            render();
+            showToast(`${name} added successfully`);
+        });
+    }
 
-  /* ─────────────────────────────────────────
-     RESET PASSWORD
-  ───────────────────────────────────────── */
-  function resetPassword(id) {
-    const u = users.find(x => x.id === id); if (!u) return;
-    openModal(`
+    /* ─────────────────────────────────────────
+       RESET PASSWORD
+    ───────────────────────────────────────── */
+    function resetPassword(id) {
+        const u = users.find(x => x.id === id); if (!u) return;
+        openModal(`
       <div class="um-modal-header">
         <div><div class="um-modal-title">Reset Password</div><div class="um-modal-sub">${esc(u.name)} · #${u.id}</div></div>
         <button class="um-modal-close" onclick="document.getElementById('um-modal-backdrop').remove()">✕</button>
@@ -696,67 +695,67 @@
       </div>
     `, '460px');
 
-    document.getElementById('rp-confirm').addEventListener('click', () => {
-      const reason = document.getElementById('rp-reason').value.trim();
-      u.history.push({ time: new Date().toISOString(), change: `Password reset by admin${reason ? ' · ' + reason : ''}` });
-      closeModal();
-      buildTable(currentSearch(), currentRole(), currentStatus());
-      showToast(`Password reset for ${u.name}`, '🔑');
-    });
-  }
+        document.getElementById('rp-confirm').addEventListener('click', () => {
+            const reason = document.getElementById('rp-reason').value.trim();
+            u.history.push({ time: new Date().toISOString(), change: `Password reset by admin${reason ? ' · ' + reason : ''}` });
+            closeModal();
+            buildTable(currentSearch(), currentRole(), currentStatus());
+            showToast(`Password reset for ${u.name}`, '🔑');
+        });
+    }
 
-  /* ─────────────────────────────────────────
-     TOGGLE ACTIVE
-  ───────────────────────────────────────── */
-  function toggleActive(id) {
-    const u = users.find(x => x.id === id); if (!u) return;
-    u.active = !u.active;
-    u.history.push({ time: new Date().toISOString(), change: `Account ${u.active ? 'activated' : 'deactivated'} by admin` });
-    buildTable(currentSearch(), currentRole(), currentStatus());
-    showToast(`${u.name} ${u.active ? 'activated' : 'deactivated'}`, u.active ? '✅' : '🔒');
-  }
+    /* ─────────────────────────────────────────
+       TOGGLE ACTIVE
+    ───────────────────────────────────────── */
+    function toggleActive(id) {
+        const u = users.find(x => x.id === id); if (!u) return;
+        u.active = !u.active;
+        u.history.push({ time: new Date().toISOString(), change: `Account ${u.active ? 'activated' : 'deactivated'} by admin` });
+        buildTable(currentSearch(), currentRole(), currentStatus());
+        showToast(`${u.name} ${u.active ? 'activated' : 'deactivated'}`, u.active ? '✅' : '🔒');
+    }
 
-  /* ─────────────────────────────────────────
-     EXPORT CSV
-  ───────────────────────────────────────── */
-  function exportCSV() {
-    const rows = [['ID', 'Name', 'Email', 'Role', 'Department', 'Phone', 'Joined', 'Last Login', 'Session (min)', 'Login Count', 'Active']];
-    users.forEach(u => rows.push([u.id, u.name, u.email, u.role, u.department, u.phone, u.joined, u.lastLogin, u.sessionMins, u.loginCount, u.active]));
-    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
-    const a = Object.assign(document.createElement('a'), {
-      href: 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv),
-      download: `users_${new Date().toISOString().slice(0, 10)}.csv`
-    });
-    a.click();
-    showToast('CSV exported', '⬇');
-  }
+    /* ─────────────────────────────────────────
+       EXPORT CSV
+    ───────────────────────────────────────── */
+    function exportCSV() {
+        const rows = [['ID', 'Name', 'Email', 'Role', 'Department', 'Phone', 'Joined', 'Last Login', 'Session (min)', 'Login Count', 'Active']];
+        users.forEach(u => rows.push([u.id, u.name, u.email, u.role, u.department, u.phone, u.joined, u.lastLogin, u.sessionMins, u.loginCount, u.active]));
+        const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+        const a = Object.assign(document.createElement('a'), {
+            href: 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv),
+            download: `users_${new Date().toISOString().slice(0, 10)}.csv`
+        });
+        a.click();
+        showToast('CSV exported', '⬇');
+    }
 
-  /* ─────────────────────────────────────────
-     FILTER STATE HELPERS
-  ───────────────────────────────────────── */
-  function currentSearch() { return document.getElementById('um-search')?.value || ''; }
-  function currentRole()   { return document.getElementById('um-filter-role')?.value || 'all'; }
-  function currentStatus() { return document.getElementById('um-filter-status')?.value || 'all'; }
+    /* ─────────────────────────────────────────
+       FILTER STATE HELPERS
+    ───────────────────────────────────────── */
+    function currentSearch() { return document.getElementById('um-search')?.value || ''; }
+    function currentRole() { return document.getElementById('um-filter-role')?.value || 'all'; }
+    function currentStatus() { return document.getElementById('um-filter-status')?.value || 'all'; }
 
-  /* ─────────────────────────────────────────
-     RENDER
-  ───────────────────────────────────────── */
-  function render() {
-    const role      = getRole();
-    const container = document.getElementById('role-dashboard');
-    if (!container) return;
+    /* ─────────────────────────────────────────
+       RENDER
+    ───────────────────────────────────────── */
+    function render() {
+        const role = getRole();
+        const container = document.getElementById('role-dashboard');
+        if (!container) return;
 
-    if (!role.includes('admin')) {
-      container.innerHTML = `
+        if (!role.includes('admin')) {
+            container.innerHTML = `
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;gap:12px;color:var(--um-muted,#6b7280)">
           <div style="font-size:40px">🔒</div>
           <div style="font-size:15px;font-weight:700">Access Restricted</div>
           <div style="font-size:13px">User Management is visible to admins only.</div>
         </div>`;
-      return;
-    }
+            return;
+        }
 
-    container.innerHTML = `
+        container.innerHTML = `
       <div id="um-wrap">
         <div class="um-page-header">
           <div>
@@ -809,31 +808,31 @@
       </div>
     `;
 
-    buildTable();
+        buildTable();
 
-    document.getElementById('um-add-btn').addEventListener('click', openAddModal);
-    document.getElementById('um-export-btn').addEventListener('click', exportCSV);
-    document.getElementById('um-refresh-btn').addEventListener('click', () => {
-      buildTable(currentSearch(), currentRole(), currentStatus());
-      showToast('Refreshed', '↺');
-    });
-    document.getElementById('um-search').addEventListener('input', () => buildTable(currentSearch(), currentRole(), currentStatus()));
-    document.getElementById('um-filter-role').addEventListener('change', () => buildTable(currentSearch(), currentRole(), currentStatus()));
-    document.getElementById('um-filter-status').addEventListener('change', () => buildTable(currentSearch(), currentRole(), currentStatus()));
-  }
+        document.getElementById('um-add-btn').addEventListener('click', openAddModal);
+        document.getElementById('um-export-btn').addEventListener('click', exportCSV);
+        document.getElementById('um-refresh-btn').addEventListener('click', () => {
+            buildTable(currentSearch(), currentRole(), currentStatus());
+            showToast('Refreshed', '↺');
+        });
+        document.getElementById('um-search').addEventListener('input', () => buildTable(currentSearch(), currentRole(), currentStatus()));
+        document.getElementById('um-filter-role').addEventListener('change', () => buildTable(currentSearch(), currentRole(), currentStatus()));
+        document.getElementById('um-filter-status').addEventListener('change', () => buildTable(currentSearch(), currentRole(), currentStatus()));
+    }
 
-  /* ─────────────────────────────────────────
-     WIRE NAV
-  ───────────────────────────────────────── */
-  function wire() {
-    const nav = document.getElementById('nav-users');
-    if (!nav) return;
-    nav.addEventListener('click', e => {
-      e.preventDefault();
-      if (window.setActiveSidebar) window.setActiveSidebar('nav-users');
-      render();
-    });
-  }
+    /* ─────────────────────────────────────────
+       WIRE NAV
+    ───────────────────────────────────────── */
+    function wire() {
+        const nav = document.getElementById('nav-users');
+        if (!nav) return;
+        nav.addEventListener('click', e => {
+            e.preventDefault();
+            if (window.setActiveSidebar) window.setActiveSidebar('nav-users');
+            render();
+        });
+    }
 
-  document.addEventListener('DOMContentLoaded', wire);
+    document.addEventListener('DOMContentLoaded', wire);
 })();

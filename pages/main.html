@@ -13,7 +13,7 @@
   <link href="../src/output.css" rel="stylesheet">
   <script>
     tailwind.config = { darkMode: 'class' };
-  
+
   </script>
   <style>
     :root {
@@ -521,7 +521,7 @@
             </svg>
           </button>
 
-            <div id="analytics-submenu" class="pl-9 mt-1 space-y-1 hidden" data-open="false">
+          <div id="analytics-submenu" class="pl-9 mt-1 space-y-1 hidden" data-open="false">
             <a id="nav-sales" href="#" class="block text-sm text-gray-400 hover:text-gray-200 role-admin">Sales</a>
             <a id="nav-sales-trends" href="#" class="block text-sm text-gray-400 hover:text-gray-200 role-admin">Sales
               trends</a>
@@ -686,11 +686,10 @@
   <script src="../assets/scripts/dashboard.js" defer></script>
   <script>
     // Global helper to keep sidebar active state consistent across modules
-    // Global helper to keep sidebar active state consistent across modules
-    window.setActiveSidebar = function(idOrEl){
+    window.setActiveSidebar = function (idOrEl) {
       const links = document.querySelectorAll('#sidebar nav a');
       links.forEach(a => {
-        a.classList.remove('active-nav','bg-[#e53935]','text-white');
+        a.classList.remove('active-nav', 'bg-[#e53935]', 'text-white');
         a.classList.add('text-gray-300');
         a.style.background = '';
         a.style.color = '';
@@ -717,8 +716,6 @@
   <script src="../assets/scripts/cms-landing.js" defer></script>
   <script src="../assets/scripts/prescriptions.js" defer></script>
   <script src="../assets/scripts/users.js" defer></script>
-
-
 </body>
 
 </html>

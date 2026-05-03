@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const nav = document.getElementById('nav-history');
   const container = document.getElementById('role-dashboard');
   if (!nav || !container) return;
+  // ================================================ sample data (replace with API fetch later)
 
   const sampleRows = [
     { id: 'TXN-001', date: '2026-04-28 09:12', customer: 'Juan Dela Cruz', items: 'Paracetamol x2', total: '₱100.00', method: 'GCash' },
@@ -14,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const methodBadge = (method) => {
     const styles = {
       gcash: 'bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400',
-      cash:  'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
-      card:  'bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400',
+      cash: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
+      card: 'bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400',
     };
     const icons = { gcash: '📱', cash: '💵', card: '💳' };
     const key = method.toLowerCase();
@@ -27,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function setActiveNav(target) {
     if (window.setActiveSidebar) return window.setActiveSidebar(target);
     const links = document.querySelectorAll('#sidebar nav a');
-    links.forEach(a => a.classList.remove('active-nav','bg-[#e53935]', 'text-white'));
+    links.forEach(a => a.classList.remove('active-nav', 'bg-[#e53935]', 'text-white'));
     const el = (typeof target === 'string') ? document.getElementById(target) : target;
     if (el) el.classList.add('active-nav');
   }
@@ -85,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td class="py-3 px-4">
                       <div class="flex items-center gap-2">
                         <div class="w-6 h-6 rounded-lg bg-[#e53935]/10 text-[#e53935] dark:bg-[#e53935]/15 flex items-center justify-center text-[10px] font-bold flex-shrink-0">
-                          ${r.customer.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase()}
+                          ${r.customer.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
                         </div>
                         <span class="text-sm font-medium text-gray-700 dark:text-gray-200">${r.customer}</span>
                       </div>
@@ -203,9 +204,9 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    const searchEl  = document.getElementById('txn-search');
-    const filterEl  = document.getElementById('txn-filter-method');
-    const wrapper   = document.getElementById('txn-table-wrapper');
+    const searchEl = document.getElementById('txn-search');
+    const filterEl = document.getElementById('txn-filter-method');
+    const wrapper = document.getElementById('txn-table-wrapper');
     const modalRoot = document.getElementById('txn-modal');
     const modalPanel = document.getElementById('txn-modal-panel');
     const modalBody = document.getElementById('txn-modal-body');
@@ -402,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
       w.document.write(receiptHTML);
       w.document.close();
       w.focus();
-      setTimeout(() => { try { w.print(); } catch (e) {} }, 300);
+      setTimeout(() => { try { w.print(); } catch (e) { } }, 300);
     }
   }
 
